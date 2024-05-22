@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use File;
+use Illuminate\Http\RedirectResponse;
+
 class AdminAuthController extends Controller
 {
     public function adminLogin()
@@ -41,6 +43,18 @@ class AdminAuthController extends Controller
 
             return redirect()->route('admin.login')->with(['status' => 'Invalid email or password.']);
         }
+    }
+
+  
+    public function adminDestroy(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+        flash()->success('Logout Successfully');
+        return redirect()->route('admin.login');
     }
 
     public function updateProfile(Request $request)

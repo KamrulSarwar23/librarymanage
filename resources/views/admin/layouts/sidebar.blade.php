@@ -48,20 +48,36 @@
 
             </li>
 
+            
+            <li class="dropdown">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
+                        class="fas fa-tachometer-alt"></i><span>Category</span></a>
 
+            </li>
 
-    <li>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-        
-            <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                {{ __('Log Out') }}
-            </x-responsive-nav-link>
-        </form>
-    </li>
+            <li class="dropdown">
+                <a href="" class="nav-link"><i
+                        class="fas fa-tachometer-alt"></i><span>Authors</span></a>
 
+            </li>
+
+            <li class="dropdown">
+                <a href="" class="nav-link"><i
+                        class="fas fa-tachometer-alt"></i><span>Publishers</span></a>
+
+            </li>
+
+            <li class="dropdown">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
+                        class="fas fa-tachometer-alt"></i><span>Books</span></a>
+
+            </li>
+
+            <li class="dropdown">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
+                        class="fas fa-tachometer-alt"></i><span>User Management</span></a>
+
+            </li>
  
         </ul>
 

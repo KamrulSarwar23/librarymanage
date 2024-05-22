@@ -58,4 +58,5 @@ class AuthenticatedSessionController extends Controller
         flash()->success('Logout Successfully');
         return redirect()->route('login');
     }
+
 }
