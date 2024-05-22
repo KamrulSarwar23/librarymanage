@@ -31,22 +31,24 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a style="font-size: 22px; color:#5C8374" href="javascript:;"></a>
+            <a style="font-size: 22px; color:#5C8374" href="javascript:;">LMS</a>
         </div>
 
 
         <ul class="sidebar-menu">
 
-            <li class="menu-header">Ecommerce</li>
-            <li><a class="nav-link" href=""><i class="fa-solid fa-house"></i>
+            <li class="menu-header">Library Management</li>
+            <li class=""><a class="nav-link" href=""><i class="fa-solid fa-house"></i>
                     <span>Go To Home Page</span>
                 </a></li>
 
-            <li class="dropdown">
-                <a href="" class="nav-link"><i
+            <li class="dropdown {{ setActive(['admin.dashboard']) }}">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
                         class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
 
             </li>
+
+
 
     <li>
         <form method="POST" action="{{ route('logout') }}">

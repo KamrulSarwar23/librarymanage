@@ -50,29 +50,26 @@
 
 
 <style>
-    .fa-book-open{
+    .fa-book-open {
         color: green;
     }
-
-
 </style>
 
 
 @extends('auth.layout')
 
 @section('section')
-
     <div class="container-login100">
         <div class="wrap-login100">
             <form class="login100-form validate-form" method="POST" action="{{ route('admin-login.submit') }}">
                 @csrf
-        
+
                 <span class="login100-form-title p-b-26">
-                   Admin Login
+                    Admin Login
                 </span>
                 <span class="login100-form-title p-b-48">
                     <i class="fa-solid fa-book-open"></i>
-               
+
                 </span>
 
                 <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
@@ -89,7 +86,7 @@
                 </div>
 
                 @if (session('status'))
-                <h6 class="text-success mb-2 text-center">{{ session('status') }}</h6>
+                    <h6 class="text-success mb-2 text-center">{{ session('status') }}</h6>
                 @endif
 
                 <div class="container-login100-form-btn">

@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
              
                 $request->session()->regenerate();
              
-                toastr()->success('Login Successful');
+                flash()->success('Login Successfully');
           
                 return redirect()->route('user.dashboard');
             } else {
@@ -55,7 +55,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-        toastr()->success('Logout Successfully');
+        flash()->success('Logout Successfully');
         return redirect()->route('login');
     }
 }

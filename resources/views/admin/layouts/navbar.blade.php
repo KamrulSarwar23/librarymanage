@@ -2,7 +2,7 @@
     <form class="form-inline mr-auto">
         <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
-           
+
         </ul>
 
     </form>
@@ -10,18 +10,16 @@
 
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <img alt="image" src="" class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block"></div>
+                <img alt="image" src="{{ asset(auth()->user()->image) }}" class="rounded-circle mr-1">
+                <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->name }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
 
-                <a href="" class="mt-2 dropdown-item has-icon">
+                <a href="{{ route('admin.profile') }}" class="mt-2 dropdown-item has-icon">
                     <i class="far fa-user"></i> Profile
                 </a>
 
-                <a href="" class="dropdown-item has-icon">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
+
                 <div class="dropdown-divider"></div>
 
                 <form method="POST" action="{{ route('logout') }}">
