@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>BookKeeping &mdash; Website by Colorlib</title>
+    <title>Library Managment by Five Dev</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 

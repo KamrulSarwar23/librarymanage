@@ -58,12 +58,14 @@
 </style>
 
 
+
 @extends('auth.layout')
 
 @section('section')
 
     <div class="container-login100">
         <div class="wrap-login100">
+
             <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
                 @csrf
         
