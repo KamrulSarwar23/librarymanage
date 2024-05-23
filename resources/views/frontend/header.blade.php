@@ -64,28 +64,37 @@
                             class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
                                 class="icon-menu h3"></span></a>
                     </div>
+                    
                     @if (Route::has('login'))
-                        <nav class="-mx-3 flex flex-1 justify-end">
-                            @auth
-                                <a href="{{ route('user/dashboard') }}"
+                    <nav class="-mx-3 flex flex-1 justify-end">
+                        @auth
+                            @if (Auth::user()->role == 'admin')
+                                <a href="{{ route('admin.dashboard') }}"
                                     class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    Dashboard
+                                   {{ Auth::user()->name }}
                                 </a>
                             @else
-                                <a href="{{ route('login') }}"
+                                <a href="{{ route('user.dashboard') }}"
                                     class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    Log in
+                                    {{ Auth::user()->name }}
                                 </a>
-  
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}"
-                                        class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                        Register
-                                    </a>
-                                @endif
-                            @endauth
-                        </nav>
-                    @endif
+                            @endif
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                Log in
+                            </a>
+                
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}"
+                                    class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                    Register
+                                </a>
+                            @endif
+                        @endauth
+                    </nav>
+                @endif
+                
                 </div>
   
             </div>

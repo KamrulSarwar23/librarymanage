@@ -38,47 +38,47 @@
         <ul class="sidebar-menu">
 
             <li class="menu-header">Library Management</li>
-            <li class=""><a class="nav-link" href=""><i class="fa-solid fa-house"></i>
+            <li class=""><a class="nav-link" href="{{ route('home.page') }}"><i class="fa-solid fa-house"></i>
                     <span>Go To Home Page</span>
                 </a></li>
 
             <li class="dropdown {{ setActive(['admin.dashboard']) }}">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                    class="fa-solid fa-tags"></i><span>Dashboard</span></a>
 
             </li>
 
-            
-            <li class="dropdown">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>Category</span></a>
+            <li class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit']) }}">
+                <a href="{{ route('category.index') }}" class="nav-link"><i
+                    class="fa-solid fa-tags"></i><span>Categories</span></a>
 
             </li>
 
-            <li class="dropdown">
-                <a href="" class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>Authors</span></a>
+            <li class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit']) }}">
+                <a href="{{ route('author.index') }}" class="nav-link"><i
+                    class="fa-solid fa-tags"></i><span>Authors</span></a>
 
             </li>
 
-            <li class="dropdown">
-                <a href="" class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>Publishers</span></a>
+            <li class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit']) }}">
+                <a href="{{ route('publisher.index') }}" class="nav-link"><i
+                    class="fa-solid fa-tags"></i><span>Publishers</span></a>
 
             </li>
 
-            <li class="dropdown">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>Books</span></a>
+            <li class="dropdown {{ setActive(['book.index', 'book.create', 'book.edit']) }}">
+                <a href="{{ route('book.index') }}" class="nav-link"><i
+                    class="fa-solid fa-tags"></i><span>Books</span></a>
 
             </li>
 
-            <li class="dropdown">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
-                        class="fas fa-tachometer-alt"></i><span>User Management</span></a>
+            <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
+                <a href="{{ route('user-manage.index') }}" class="nav-link"><i
+                    class="fa-solid fa-tags"></i><span>User
+                        Management</span></a>
 
             </li>
- 
+
         </ul>
 
     </aside>

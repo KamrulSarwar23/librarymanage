@@ -50,11 +50,9 @@
 
 
 <style>
-    .fa-book-open{
+    .fa-book-open {
         color: green;
     }
-
-
 </style>
 
 
@@ -62,20 +60,19 @@
 @extends('auth.layout')
 
 @section('section')
-
     <div class="container-login100">
         <div class="wrap-login100">
 
             <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
                 @csrf
-        
+
 
                 <span class="login100-form-title p-b-26">
-                   Login
+                    Login
                 </span>
                 <span class="login100-form-title p-b-48">
                     <i class="fa-solid fa-book-open"></i>
-               
+
                 </span>
 
                 <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
@@ -90,9 +87,9 @@
                     <input class="input100" type="password" name="password">
                     <span class="focus-input100" data-placeholder="Password"></span>
                 </div>
-                
+
                 @if (session('status'))
-                <h6 class="text-success mb-2 text-center">{{ session('status') }}</h6>
+                    <h6 class="text-success mb-2 text-center">{{ session('status') }}</h6>
                 @endif
 
                 <div class="container-login100-form-btn">
@@ -106,12 +103,10 @@
 
                 <div class="text-center mt-3 ">
                     @if (Route::has('password.request'))
-                    <p class="text-danger">Forgot Your Password?  <a class="text-primary" href="{{ route('password.request') }}">Click Here</a></p>
-                   
-                    
+                        <p class="text-danger">Forgot Your Password? <a class="text-primary"
+                                href="{{ route('password.request') }}">Click Here</a></p>
                     @endif
-        
-        
+
                 </div>
 
                 <div class="text-center p-t-20">
