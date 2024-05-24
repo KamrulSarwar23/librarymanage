@@ -17,24 +17,17 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="" method="POST">
+                            <form action="{{ route('user-manage.update', $user->id) }}" method="POST">
                                 @csrf
-                                @method('PUT')
-
-    
-
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" name="name" value="">
-                                </div>
+                                @method('PATCH')
 
                                 <div class="form-group">
                                     <label for="inputState">Status</label>
                                     <select id="inputState" class="form-control" name="status">
-                                        <option value="">Active
+                                        <option {{ $user->status === 'active' ? 'selected' : '' }} value="active">Active
                                         </option>
-                                        <option value="">Inactive
-                                        </option>
+                                        <option {{ $user->status === 'inactive' ? 'selected' : '' }} value="inactive">
+                                            Inactive</option>
                                     </select>
                                 </div>
 

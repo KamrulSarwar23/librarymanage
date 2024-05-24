@@ -44,38 +44,41 @@
 
             <li class="dropdown {{ setActive(['admin.dashboard']) }}">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
-                    class="fa-solid fa-tags"></i><span>Dashboard</span></a>
+                        class="fa-solid fa-tags"></i><span>Dashboard</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit']) }}">
                 <a href="{{ route('category.index') }}" class="nav-link"><i
-                    class="fa-solid fa-tags"></i><span>Categories</span></a>
+                        class="fa-solid fa-tags"></i><span>Categories</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit']) }}">
                 <a href="{{ route('author.index') }}" class="nav-link"><i
-                    class="fa-solid fa-tags"></i><span>Authors</span></a>
+                        class="fa-solid fa-tags"></i><span>Authors</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit']) }}">
                 <a href="{{ route('publisher.index') }}" class="nav-link"><i
-                    class="fa-solid fa-tags"></i><span>Publishers</span></a>
+                        class="fa-solid fa-tags"></i><span>Publishers</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['book.index', 'book.create', 'book.edit']) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
-                    class="fa-solid fa-tags"></i><span>Books</span></a>
+                        class="fa-solid fa-tags"></i><span>Books</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
-                <a href="{{ route('user-manage.index') }}" class="nav-link"><i
-                    class="fa-solid fa-tags"></i><span>User
-                        Management</span></a>
+                <a href="{{ route('user-manage.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Users</span></a>
+
+            </li>
+
+            <li class="dropdown {{ setActive(['message.index']) }}">
+                <a href="{{ route('message.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Messages</span></a>
 
             </li>
 

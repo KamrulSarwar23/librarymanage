@@ -24,23 +24,35 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+
+
+        $request->authenticate();
+        $request->session()->regenerate();
+
+        if (Auth::user()->status === 'inactive') {
+            Auth::guard('web')->logout();
+            flash()->success('Your Account Has Been Banned');
+            return redirect('login')->with(['status' => 'Your Account Has Been Banned']);
+        }
+
+
         if (Auth::attempt($request->only('email', 'password'))) {
 
             if (Auth::user()->role === 'user') {
-             
+
                 $request->session()->regenerate();
-             
+
                 flash()->success('Login Successfully');
-          
+
                 return redirect()->route('user.dashboard');
             } else {
-         
+
                 Auth::guard('web')->logout();
-        
+
                 return redirect()->route('login')->with(['status' => 'You cannot log in as an user! Please log in with your specific role.']);
             }
         } else {
-     
+
             return redirect()->route('login')->with(['status' => 'Invalid email or password.']);
         }
     }
@@ -58,5 +70,4 @@ class AuthenticatedSessionController extends Controller
         flash()->success('Logout Successfully');
         return redirect()->route('home.page');
     }
-
 }

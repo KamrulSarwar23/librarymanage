@@ -122,13 +122,11 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+    
             $('body').on('click', '.delete-item', function(event) {
-
                 event.preventDefault();
-
                 let deleteUrl = $(this).attr('href');
-
+    
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -139,11 +137,9 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-
                         $.ajax({
                             type: 'DELETE',
                             url: deleteUrl,
-
                             success: function(data) {
                                 if (data.status == 'success') {
                                     Swal.fire(
@@ -151,32 +147,30 @@
                                         data.message,
                                         'success'
                                     )
-
                                     window.location.reload();
-
                                 } else if (data.status == 'error') {
                                     Swal.fire(
-                                        'Cant Delete',
+                                        'Error!',
                                         data.message,
                                         'error'
                                     )
                                 }
-
                             },
-
                             error: function(xhr, status, error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while deleting the item.',
+                                    'error'
+                                );
                                 console.log(error);
                             }
-                        })
-
-
+                        });
                     }
-
-                })
-            })
-
-        })
+                });
+            });
+        });
     </script>
+    
 
     @stack('scripts')
 

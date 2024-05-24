@@ -9,7 +9,7 @@
       <div class="col-md-7 mx-auto text-center" data-aos="fade-up">
         <div class="intro">
         <h1>Blog</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, nihil.</p>
+  
         <p><a href="#" class="btn btn-primary">Get Started</a></p>
         </div>
       </div>

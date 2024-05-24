@@ -19,19 +19,37 @@
                             </div>
                         </div>
                         <div class="card-body">
-                          <table class="table table-striped">
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <th>Id</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
 
-                            <tr>
-                                <td>1</td>
-                                <td>Kamrul Hasan</td>
-                                <td><a class="btn btn-primary" href="{{ route('book.edit', 1) }}">Edit</a></td>
-                                <td><a class="btn btn-danger" href="">Delete</a></td>
-                            </tr>
-                          </table>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td><img width="100px" class="py-2" src="" alt=""> </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                        <td><a class="btn btn-primary" href="">Edit</a>
+                                        </td>
+
+                                        <td>
+
+                                            <a class="delete-item btn btn-danger" href="">Delete</a>
+
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+                            </div>
                         </div>
                     </div>
 

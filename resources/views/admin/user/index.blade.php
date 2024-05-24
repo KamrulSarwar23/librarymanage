@@ -19,19 +19,44 @@
                             </div>
                         </div>
                         <div class="card-body">
-                          <table class="table table-striped">
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                          <div class="table-responsive">
+                            <table class="table table-striped">
+                                <th>Id</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>User Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
 
-                            <tr>
-                                <td>1</td>
-                                <td>Kamrul Hasan</td>
-                                <td><a class="btn btn-primary" href="{{ route('user-manage.edit', 1) }}">Edit</a></td>
-                                <td><a class="btn btn-danger" href="">Delete</a></td>
-                            </tr>
-                          </table>
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <td>1</td>
+                                        <td><img width="100px" class="py-2" src="{{ asset($user->image) }}"
+                                                alt=""> </td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ @$user->username }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>@if ($user->status == 'active')
+                                            <span class="btn btn-success">{{ $user->status }}</span>
+                                            @else
+                                            <span class="btn btn-info">{{ $user->status }}</span>
+                                        @endif 
+                                        </td>
+                                        <td><a class="btn btn-primary" href="{{ route('user-manage.edit', $user->id) }}">Edit</a>
+                                        </td>
+
+                                        <td>
+
+                                            <a class="delete-item btn btn-danger" href="{{ route('user-manage.destroy', $user->id) }}">Delete</a>
+                                        
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </table>
+                          </div>
                         </div>
                     </div>
 
@@ -40,4 +65,3 @@
         </div>
     </section>
 @endsection
-
