@@ -17,20 +17,46 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="" method="">
-                                
+                            <form action="{{ route('author.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <input type="file" class="form-control" name="image" value="{{ old('image') }}">
+                                </div>
 
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="name">
+                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                                 </div>
 
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" class="form-control" name="address" value="{{ old('address') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Biography</label>
+                                    <textarea class="form-control summernote" name="biography" id="" cols="30" rows="15">
+                                        {{ old('biography') }}
+                                    </textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input type="date" class="form-control" name="date_of_birth" value="{{ old('date_of_birth') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Date of Death</label>
+                                    <input type="date" class="form-control" name="date_of_death" value="{{ old('date_of_death') }}">
+                                </div>
 
                                 <div class="form-group">
                                     <label for="inputState">Status</label>
                                     <select id="inputState" class="form-control" name="status">
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
                                     </select>
                                 </div>
 

@@ -24,31 +24,47 @@
                                     <th>Id</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>User Name</th>
                                     <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
 
 
-                                    <tr>
-                                        <td>1</td>
-                                        <td><img width="100px" class="py-2" src="" alt=""> </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                    @foreach ($publishers as $publisher)
+                                        <tr>
+                                            <td>{{ $publisher->id }}</td>
+                                            <td><img width="80px" height="80px" class="py-2"
+                                                    src="{{ asset('storage/publisher/' . $publisher->image) }}"
+                                                    alt=""> </td>
+                                            <td>{{ $publisher->name }}</td>
+                                            <td>{{ $publisher->email }}</td>
+                                            <td>{{ $publisher->phone }}</td>
+                                            <td>{{ $publisher->address }}</td>
+                                            <td>
+                                                @if ($publisher->status == 'active')
+                                                    <span class="btn btn-success">{{ $publisher->status }}</span>
+                                                @else
+                                                    <span class="btn btn-info">{{ $publisher->status }}</span>
+                                                @endif
+                                            </td>
+                                            <td><a class="btn btn-primary"
+                                                    href="{{ route('publisher.edit', $publisher->id) }}">Edit</a>
+                                            </td>
 
-                                        <td><a class="btn btn-primary" href="">Edit</a>
-                                        </td>
+                                            <td>
+                                                <a class="delete-item btn btn-danger"
+                                                    href="{{ route('publisher.destroy', $publisher->id) }}">Delete</a>
 
-                                        <td>
-
-                                            <a class="delete-item btn btn-danger" href="">Delete</a>
-
-                                        </td>
-
-                                    </tr>
-
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </table>
+
+                                <div class="pagination">
+                                    {{ $publishers->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,4 +74,3 @@
         </div>
     </section>
 @endsection
-

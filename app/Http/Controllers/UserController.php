@@ -106,7 +106,7 @@ class UserController extends Controller
         $user->save();
 
         flash()->success('Profile Updated Succesfully');
-        return redirect()->back()->with('profile', 'Profile Updated Successfully');;
+        return redirect()->back()->with('profile', 'Profile Updated Successfully');
     }
 
     /** Update Password **/

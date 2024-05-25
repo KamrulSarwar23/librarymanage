@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PublisherController extends Controller
 {
@@ -11,7 +13,8 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        return view('admin.publisher.index');
+        $publishers = Publisher::paginate(10);
+        return view('admin.publisher.index', compact('publishers'));
     }
 
     /**
@@ -27,8 +30,30 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'image' => 'nullable|image',
+            'email' => 'nullable|email',
+            'phone' => 'nullable',
+            'address' => 'nullable',
+            'status' => 'required'
+        ]);
+
+        $data = $request->only(['name', 'email', 'phone', 'address', 'status']);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
+            $image->storeAs('public/publisher', $imageName);
+            $data['image'] = $imageName;
+        }
+
+        Publisher::create($data);
+
+        flash()->success('Publisher Created Successfully');
+        return redirect()->route('publisher.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -43,7 +68,8 @@ class PublisherController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.publisher.edit');
+        $publisher = Publisher::findOrFail($id);
+        return view('admin.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -51,7 +77,41 @@ class PublisherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'image' => 'nullable|image',
+            'email' => 'nullable|email',
+            'phone' => 'nullable',
+            'address' => 'nullable',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        $publisher = Publisher::findOrFail($id);
+
+
+        if ($request->hasFile('image')) {
+
+            if ($publisher->image && Storage::exists('public/publisher/' . $publisher->image)) {
+                Storage::delete('public/publisher/' . $publisher->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
+            $image->storeAs('public/publisher', $imageName);
+
+            $publisher->image = $imageName;
+        }
+
+        $publisher->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'status' => $request->status,
+        ]);
+
+        flash()->success('Publisher Created Successfully');
+        return redirect()->route('publisher.index');
     }
 
     /**
@@ -59,6 +119,8 @@ class PublisherController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $publishers = Publisher::findOrFail($id);
+        $publishers->delete();
+        return response()->json(['status' => 'success', 'message' => 'Publisher Deleted Successfully']);
     }
 }

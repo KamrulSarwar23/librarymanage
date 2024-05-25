@@ -51,7 +51,7 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
@@ -59,6 +59,6 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }

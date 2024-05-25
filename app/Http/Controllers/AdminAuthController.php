@@ -54,7 +54,7 @@ class AdminAuthController extends Controller
 
         $request->session()->regenerateToken();
         flash()->success('Logout Successfully');
-        return redirect()->route('admin.login');
+        return redirect()->route('home.page');
     }
 
     public function updateProfile(Request $request)

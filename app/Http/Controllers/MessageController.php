@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -19,4 +21,5 @@ class MessageController extends Controller
         $messages->delete();
         return response()->json(['status' => 'success', 'message' => 'Message deleted successfully.']);
     }
+
 }

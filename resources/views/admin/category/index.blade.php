@@ -24,29 +24,39 @@
                                     <th>Id</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
+                                    <th>Status</th>
+
                                     <th>Edit</th>
                                     <th>Delete</th>
 
 
-                                    <tr>
-                                        <td>1</td>
-                                        <td><img width="100px" class="py-2" src="" alt=""> </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                    @foreach ($categories as $category)
+                                        <tr>
+                                            <td>{{ $category->id }}</td>
+                                            <td><img width="80px" height="80px" class="py-2"
+                                                    src="{{ asset('storage/category/' . $category->image) }}"
+                                                    alt=""> </td>
+                                            <td>{{ $category->name }}</td>
+                                            <td>@if ($category->status == 'active')
+                                                <span class="btn btn-success">{{ $category->status }}</span>
+                                                @else
+                                                <span class="btn btn-info">{{ $category->status }}</span>
+                                            @endif 
+                                            </td>
 
-                                        <td><a class="btn btn-primary" href="">Edit</a>
-                                        </td>
+                                            <td><a class="btn btn-primary"
+                                                    href="{{ route('category.edit', $category->id) }}">Edit</a>
+                                            </td>
 
-                                        <td>
+                                            <td>
 
-                                            <a class="delete-item btn btn-danger" href="">Delete</a>
+                                                <a class="delete-item btn btn-danger" href="{{ route('category.destroy', $category->id) }}">Delete</a>
 
-                                        </td>
+                                            </td>
 
-                                    </tr>
+                                        </tr>
+                                    @endforeach
+
 
                                 </table>
                             </div>
@@ -58,4 +68,3 @@
         </div>
     </section>
 @endsection
-

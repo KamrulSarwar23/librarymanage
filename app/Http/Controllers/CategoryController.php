@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Constraint\FileExists;
 
 class CategoryController extends Controller
 {
@@ -11,7 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category.index');
+
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -27,15 +32,34 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'image' => 'required',
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
+            $image->storeAs('public/category', $imageName);
+
+            Category::create([
+                'name' => $request->name,
+                'status' => $request->status,
+                'image' => $imageName
+            ]);
+        }
+
+        flash()->success('Category Created Successfully');
+        return redirect()->route('category.index');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        
     }
 
     /**
@@ -43,15 +67,45 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.category.edit');
+        $category = Category::findOrFail($id);
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
+
+
     public function update(Request $request, string $id)
     {
-        //
+
+        $request->validate([
+            'image' => 'nullable|image',
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        $category = Category::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+
+            if ($category->image && Storage::exists('public/category/' . $category->image)) {
+                Storage::delete('public/category/' . $category->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
+            $image->storeAs('public/category', $imageName);
+
+            $category->image = $imageName;
+        }
+
+        $category->name = $request->name;
+        $category->status = $request->status;
+        $category->save();
+
+        flash()->success('Category Updated Successfully');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -59,6 +113,8 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return response()->json(['status' => 'success', 'message' => 'Category Deleted Successfully']);
     }
 }

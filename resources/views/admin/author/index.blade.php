@@ -24,31 +24,60 @@
                                     <th>Id</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Biography</th>
+                                    <th>Date of Birth</th>
+                                    <th>Date of Death</th>
+                                    <th>Status</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
 
 
-                                    <tr>
-                                        <td>1</td>
-                                        <td><img width="100px" class="py-2" src="" alt=""> </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                    @foreach ($authors as $author)
+                                        <tr>
+                                            <td>{{ $author->id }}</td>
+                                            <td><img width="80px" height="80px" class="mb-3"
+                                                    src="{{ asset('storage/author/' . $author->image) }}" alt="">
+                                            </td>
+                                            <td>{{ $author->name }}</td>
+                                            <td>{{ $author->address }}</td>
+                                            <td>{{ limitText($author->biography, 40) }}</td>
+                                            <td>{{ $author->date_of_birth }}</td>
+                                            <td>
+                                                @if ($author->date_of_death == null)
+                                                    Alive
+                                                @else
+                                                    {{ $author->date_of_death }}
+                                                @endif
 
-                                        <td><a class="btn btn-primary" href="">Edit</a>
-                                        </td>
+                                            </td>
+                                            <td>@if ($author->status == 'active')
+                                                <span class="btn btn-success">{{ $author->status }}</span>
+                                                @else
+                                                <span class="btn btn-info">{{ $author->status }}</span>
+                                            @endif 
+                                            </td>
 
-                                        <td>
+                                            <td><a class="btn btn-primary"
+                                                    href="{{ route('author.edit', $author->id) }}">Edit</a>
+                                            </td>
 
-                                            <a class="delete-item btn btn-danger" href="">Delete</a>
+                                            <td>
 
-                                        </td>
+                                                <a class="delete-item btn btn-danger"
+                                                    href="{{ route('author.destroy', $author->id) }}">Delete</a>
 
-                                    </tr>
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
 
                                 </table>
+
+                                <div class="pagination">
+                                    {{ $authors->links() }}
+                                </div>
+
                             </div>
                         </div>
                     </div>

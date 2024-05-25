@@ -12,19 +12,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
+                        {{-- <div class="card-header">
                             <h4>Create User</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('user-manage.create') }}" class="btn btn-primary">Create New</a>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="card-body">
                           <div class="table-responsive">
                             <table class="table table-striped">
                                 <th>Id</th>
                                 <th>Image</th>
                                 <th>Name</th>
-                                <th>User Name</th>
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Edit</th>
@@ -32,11 +31,10 @@
 
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td>1</td>
-                                        <td><img width="100px" class="py-2" src="{{ asset($user->image) }}"
+                                        <td>{{ $user->id }}</td>
+                                        <td><img width="80px" height="100px" class="my-2" src="{{ asset($user->image) }}"
                                                 alt=""> </td>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ @$user->username }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>@if ($user->status == 'active')
                                             <span class="btn btn-success">{{ $user->status }}</span>

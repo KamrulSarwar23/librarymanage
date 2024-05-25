@@ -13,12 +13,17 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Create Categories</h4>
+                            <h4>Create Category</h4>
                         </div>
                         <div class="card-body">
 
-                            <form action="" method="">
-                                
+                            <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <input type="file" class="form-control" name="image">
+                                </div>
 
                                 <div class="form-group">
                                     <label>Name</label>
@@ -29,8 +34,8 @@
                                 <div class="form-group">
                                     <label for="inputState">Status</label>
                                     <select id="inputState" class="form-control" name="status">
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
                                     </select>
                                 </div>
 
