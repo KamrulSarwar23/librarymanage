@@ -41,6 +41,10 @@
                                 @endforeach
 
                             </table>
+
+                            <div class="pagination">
+                                {{ $messages->links() }}
+                            </div>
                           </div>
                         </div>
                     </div>

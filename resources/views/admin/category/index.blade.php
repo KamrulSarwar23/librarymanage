@@ -19,6 +19,7 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <th>Id</th>
@@ -59,6 +60,10 @@
 
 
                                 </table>
+
+                                <div class="pagination">
+                                    {{ $categories->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

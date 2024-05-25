@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Category;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -11,7 +15,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('admin.book.index');
+        $books = Book::paginate(10);
+        return view('admin.book.index', compact('books'));
     }
 
     /**
@@ -19,7 +24,10 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('admin.book.create');
+        $categories = Category::where('status', 'active')->get();
+        $authors = Author::where('status', 'active')->get();
+        $publishers = Publisher::where('status', 'active')->get();
+        return view('admin.book.create', compact('categories', 'authors', 'publishers'));
     }
 
     /**
@@ -27,7 +35,43 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'category' => 'required',
+            'publisher' => 'required',
+            'isbn' => 'required',
+            'publication_date' => 'required',
+            'number_of_pages' => 'required',
+            'summary' => 'required',
+            'cover_image' => 'required',
+            'status' => 'required',
+        ]);
+
+        $imageName = '';
+
+        if ($request->hasFile('cover_image')) {
+            $image = $request->file('cover_image');
+            $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
+            $image->storeAs('public/book', $imageName);
+          
+        }
+
+        Book::create([
+            'title' => $request->title,
+            'author_id' => $request->author,
+            'category_id' => $request->category,
+            'publisher_id' => $request->publisher,
+            'isbn' => $request->isbn,
+            'publication_date' => $request->publication_date,
+            'number_of_pages' => $request->number_of_pages,
+            'summary' => $request->summary,
+            'status' => $request->status,
+            'cover_image' => $imageName,
+        ]);
+
+        flash()->success('Book Created Successfully');
+        return redirect()->route('book.index');
     }
 
     /**
@@ -43,7 +87,10 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.book.edit');
+        $categories = Category::where('status', 'active')->get();
+        $authors = Author::where('status', 'active')->get();
+        $publishers = Publisher::where('status', 'active')->get();
+        return view('admin.book.edit', compact('categories', 'authors', 'publishers'));
     }
 
     /**
@@ -51,7 +98,6 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
     }
 
     /**
@@ -59,6 +105,8 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        
+        $book = Book::findOrFail($id);
+        $book->delete();
+        return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
     }
 }

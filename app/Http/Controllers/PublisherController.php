@@ -13,7 +13,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        $publishers = Publisher::paginate(10);
+        $publishers = Publisher::paginate(5);
         return view('admin.publisher.index', compact('publishers'));
     }
 
@@ -120,6 +120,11 @@ class PublisherController extends Controller
     public function destroy(string $id)
     {
         $publishers = Publisher::findOrFail($id);
+
+        if (count($publishers->books) > 0) {
+            return response()->json(['status' => 'error', 'message' => 'You Cant delete this! It has Books']);
+        }
+
         $publishers->delete();
         return response()->json(['status' => 'success', 'message' => 'Publisher Deleted Successfully']);
     }

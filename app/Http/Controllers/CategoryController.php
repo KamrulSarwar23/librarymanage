@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::all();
+        $categories = Category::paginate(5);
         return view('admin.category.index', compact('categories'));
     }
 
@@ -114,6 +114,12 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
+
+        if (count($category->books) > 0) {
+            return response()->json(['status' => 'error', 'message' => 'You Cant delete this! It has Books']);
+        }
+
+
         $category->delete();
         return response()->json(['status' => 'success', 'message' => 'Category Deleted Successfully']);
     }

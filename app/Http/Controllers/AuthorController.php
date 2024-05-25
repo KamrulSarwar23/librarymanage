@@ -13,7 +13,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::paginate(10);
+        $authors = Author::paginate(5);
         return view('admin.author.index', compact('authors'));
     }
 
@@ -122,6 +122,11 @@ class AuthorController extends Controller
     public function destroy(string $id)
     {
         $author = Author::findOrFail( $id);
+
+        if (count($author->books) > 0) {
+            return response()->json(['status' => 'error', 'message' => 'You Cant delete this! It has Books']);
+        }
+
         $author->delete();
         return response()->json(['status' => 'success', 'message' => 'Author Deleted Successfully']);
     }

@@ -22,33 +22,41 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <th>Id</th>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
+                                    <th>Cover Image</th>
+                                    <th>Title</th>
+                                    <th>Category Name</th>
+                                    <th>Publisher Name</th>
+                                    <th>Author Name</th>
+                                    <th>Status</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
 
 
-                                    <tr>
-                                        <td>1</td>
-                                        <td><img width="100px" class="py-2" src="" alt=""> </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                    @foreach ($books as $book)
+                                        <tr>
+                                            <td>{{ $book->id }}</td>
+                                            <td><img width="80px" height="80px" class="py-2" src="{{ asset('storage/book/'. $book->cover_image) }}" alt=""> </td>
+                                            <td>{{ $book->title }}</td>
+                                            <td>{{ $book->category->name }}</td>
+                                            <td>{{ $book->publisher->name }}</td>
+                                            <td>{{ $book->author->name }}</td>
+                                            <td>{{ $book->status }}</td>
+                                            <td><a class="btn btn-primary" href="{{ route('book.edit', $book->id) }}">Edit</a>
+                                            </td>
 
-                                        <td><a class="btn btn-primary" href="">Edit</a>
-                                        </td>
+                                            <td>
 
-                                        <td>
+                                                <a class="delete-item btn btn-danger" href="{{ route('book.destroy', $book->id) }}">Delete</a>
 
-                                            <a class="delete-item btn btn-danger" href="">Delete</a>
+                                            </td>
 
-                                        </td>
-
-                                    </tr>
-
+                                        </tr>
+                                    @endforeach
                                 </table>
+
+                                <div class="pagination">
+                                    {{ $books->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,4 +66,3 @@
         </div>
     </section>
 @endsection
-
