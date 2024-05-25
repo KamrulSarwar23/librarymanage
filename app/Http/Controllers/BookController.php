@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -54,7 +55,6 @@ class BookController extends Controller
             $image = $request->file('cover_image');
             $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
             $image->storeAs('public/book', $imageName);
-          
         }
 
         Book::create([
@@ -87,7 +87,7 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        $book =Book::findOrFail($id);
+        $book = Book::findOrFail($id);
         $categories = Category::where('status', 'active')->get();
         $authors = Author::where('status', 'active')->get();
         $publishers = Publisher::where('status', 'active')->get();
@@ -108,20 +108,24 @@ class BookController extends Controller
             'publication_date' => 'required',
             'number_of_pages' => 'required',
             'summary' => 'required',
-            'cover_image' => 'required',
+            'cover_image' => 'nullable|image',
             'status' => 'required',
         ]);
-
-        $imageName = '';
-
+    
+        $book = Book::findOrFail($id);
+    
         if ($request->hasFile('cover_image')) {
+            if ($book->cover_image && Storage::exists('public/book/' . $book->cover_image)) {
+                Storage::delete('public/book/' . $book->cover_image);
+            }
+    
             $image = $request->file('cover_image');
             $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
             $image->storeAs('public/book', $imageName);
-          
+            $book->cover_image = $imageName;
         }
-
-        Book::create([
+    
+        $book->update([
             'title' => $request->title,
             'author_id' => $request->author,
             'category_id' => $request->category,
@@ -131,12 +135,12 @@ class BookController extends Controller
             'number_of_pages' => $request->number_of_pages,
             'summary' => $request->summary,
             'status' => $request->status,
-            'cover_image' => $imageName,
         ]);
-
-        flash()->success('Book Created Successfully');
+    
+        flash()->success('Book Updated Successfully');
         return redirect()->route('book.index');
     }
+    
 
     /**
      * Remove the specified resource from storage.

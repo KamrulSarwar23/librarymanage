@@ -40,7 +40,7 @@
                                             <td>{{ $book->category->name }}</td>
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
-                                            <td>{{ $book->status }}</td>
+                                       
                                             <td>@if ($book->status == 'reserved')
                                                 <span class="btn btn-success">Reserved</span>
                                                 @elseif ($book->status == 'checked_out')
