@@ -87,10 +87,11 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
+        $book =Book::findOrFail($id);
         $categories = Category::where('status', 'active')->get();
         $authors = Author::where('status', 'active')->get();
         $publishers = Publisher::where('status', 'active')->get();
-        return view('admin.book.edit', compact('categories', 'authors', 'publishers'));
+        return view('admin.book.edit', compact('categories', 'authors', 'publishers', 'book'));
     }
 
     /**
@@ -98,6 +99,43 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'category' => 'required',
+            'publisher' => 'required',
+            'isbn' => 'required',
+            'publication_date' => 'required',
+            'number_of_pages' => 'required',
+            'summary' => 'required',
+            'cover_image' => 'required',
+            'status' => 'required',
+        ]);
+
+        $imageName = '';
+
+        if ($request->hasFile('cover_image')) {
+            $image = $request->file('cover_image');
+            $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
+            $image->storeAs('public/book', $imageName);
+          
+        }
+
+        Book::create([
+            'title' => $request->title,
+            'author_id' => $request->author,
+            'category_id' => $request->category,
+            'publisher_id' => $request->publisher,
+            'isbn' => $request->isbn,
+            'publication_date' => $request->publication_date,
+            'number_of_pages' => $request->number_of_pages,
+            'summary' => $request->summary,
+            'status' => $request->status,
+            'cover_image' => $imageName,
+        ]);
+
+        flash()->success('Book Created Successfully');
+        return redirect()->route('book.index');
     }
 
     /**

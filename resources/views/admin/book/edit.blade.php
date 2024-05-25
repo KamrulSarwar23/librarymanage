@@ -21,6 +21,8 @@
                                 @csrf
                                 @method('PUT')
 
+                                <img width="80px" height="80px" src="{{ asset('storage/book/'. $book->cover_image) }}" alt="">
+
                                 <div class="form-group">
                                     <label>Cover Image</label>
                                     <input type="file" class="form-control" name="cover_image">
@@ -28,29 +30,17 @@
 
                                 <div class="form-group">
                                     <label>Title</label>
-                                    <input type="text" class="form-control" name="title">
+                                    <input type="text" class="form-control" name="title" value="{{ $book->title }}">
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Author</label>
-                                            <select name="author" id="" class="form-control">
-                                                @foreach ($authors as $author)
-                                                    <option value="{{ $author->id }}">{{ $author->name }}</option>
-                                                @endforeach
-
-                                            </select>
-
-                                        </div>
-                                    </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Category</label>
                                             <select name="category" id="" class="form-control">
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option {{$book->category_id ==  $category->id ?'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
 
                                             </select>
@@ -64,43 +54,62 @@
                                             <select name="publisher" id="" class="form-control">
 
                                                 @foreach ($publishers as $publisher)
-                                                    <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
+                                                    <option {{$book->publisher_id ==  $publisher->id ?'selected' : '' }} value="{{ $publisher->id }}">{{ $publisher->name }}</option>
                                                 @endforeach
 
                                             </select>
 
                                         </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Author</label>
+                                            <select name="author" id="" class="form-control">
+                                                @foreach ($authors as $author)
+                                                    <option {{ $book->author_id == $author->id ? 'selected' : '' }} value="{{ $author->id }}">{{ $author->name }}</option>
+                                                @endforeach
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                         
+
+                    
                                 </div>
 
 
                                 <div class="form-group">
                                     <label>ISBN</label>
-                                    <input type="text" class="form-control" name="isbn">
+                                    <input type="text" class="form-control" name="isbn" value="{{ $book->isbn }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Publication Date</label>
-                                    <input type="date" class="form-control" name="publication_date">
+                                    <input type="date" class="form-control" name="publication_date" value="{{ $book->publication_date }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Number Of Pages</label>
-                                    <input type="text" class="form-control" name="number_of_pages">
+                                    <input type="text" class="form-control" name="number_of_pages" value="{{ $book->number_of_pages }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Summary</label>
-                                    <textarea class="form-control summernote" name="summary" id="" cols="30" rows="10"></textarea>
+                                    <textarea class="form-control summernote" name="summary" id="" cols="30" rows="10">
+                                        value="{{ $book->summary }}"
+                                    </textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputState">Status</label>
                                     <select id="inputState" class="form-control" name="status">
-                                        <option value="available">Available</option>
-                                        <option value="checked_out">Checked Out</option>
-                                        <option value="reserved">Reserved</option>
-                                        <option value="lost">Lost</option>
+                                        <option {{ $book->status == 'available' ? 'selected' : '' }} value="available">Available</option>
+                                        <option {{ $book->status == 'checked_out' ? 'selected' : '' }} value="checked_out">Checked Out</option>
+                                        <option {{ $book->status == 'reserved' ? 'selected' : '' }} value="reserved">Reserved</option>
+                                        <option {{ $book->status == 'lost' ? 'selected' : '' }} value="lost">Lost</option>
                                     </select>
                                 </div>
 

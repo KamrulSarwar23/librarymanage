@@ -41,6 +41,17 @@
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
                                             <td>{{ $book->status }}</td>
+                                            <td>@if ($book->status == 'reserved')
+                                                <span class="btn btn-success">Reserved</span>
+                                                @elseif ($book->status == 'checked_out')
+                                                <span class="btn btn-info">Checked Out</span>
+                                                @elseif ($book->status == 'available')
+                                                <span class="btn btn-primary">Available</span>
+                                                @else
+                                                <span class="btn btn-secondary">Lost</span>
+                                                @endif 
+                                            </td>
+
                                             <td><a class="btn btn-primary" href="{{ route('book.edit', $book->id) }}">Edit</a>
                                             </td>
 

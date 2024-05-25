@@ -30,19 +30,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Author</label>
-                                            <select name="author" id="" class="form-control">
-                                                @foreach ($authors as $author)
-                                                    <option value="{{ $author->id }}">{{ $author->name }}</option>
-                                                @endforeach
-
-                                            </select>
-
-                                        </div>
-                                    </div>
-
+                              
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Category</label>
@@ -69,6 +57,20 @@
 
                                         </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Author</label>
+                                            <select name="author" id="" class="form-control">
+                                                @foreach ($authors as $author)
+                                                    <option value="{{ $author->id }}">{{ $author->name }}</option>
+                                                @endforeach
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
                                 </div>
 
 
