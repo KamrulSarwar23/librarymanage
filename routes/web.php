@@ -15,19 +15,14 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('home.page');
-
+Route::get('/', [PageController::class, 'index'])->name('home.page');
 
 Route::get('/admin/login', [AdminAuthController::class, 'adminLogin'])->name('admin.login');
 
 Route::post('/admin/login', [AdminAuthController::class, 'adminLoginSubmit'])->name('admin-login.submit');
 
-Route::get('/about', [PageController::class, 'about'])->name('about.page');
-Route::get('/blog', [PageController::class, 'blog'])->name('blog.page');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact.page');
-Route::get('/services', [PageController::class, 'services'])->name('services.page');
+
 
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
