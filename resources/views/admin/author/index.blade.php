@@ -51,11 +51,24 @@
                                                 @endif
 
                                             </td>
-                                            <td>@if ($author->status == 'active')
-                                                <span class="btn btn-success">{{ $author->status }}</span>
+                                            <td>
+                                                @if ($author->status == 'active')
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox" checked name="custom-switch-checkbox"
+                                                            data-id="{{ $author->id }}"
+                                                            id="flexSwitchCheckDefault{{ $author->id }}"
+                                                            class="custom-switch-input change-status">
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
                                                 @else
-                                                <span class="btn btn-info">{{ $author->status }}</span>
-                                            @endif 
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox" name="custom-switch-checkbox"
+                                                            data-id="{{ $author->id }}"
+                                                            id="flexSwitchCheckDefault{{ $author->id }}"
+                                                            class="custom-switch-input change-status">
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
+                                                @endif
                                             </td>
 
                                             <td><a class="btn btn-primary"
@@ -87,3 +100,31 @@
         </div>
     </section>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', '.change-status', function() {
+
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('author.status') }}",
+                    method: 'PUT',
+                    data: {
+                        status: isChecked,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

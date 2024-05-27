@@ -151,4 +151,13 @@ class BookController extends Controller
         $book->delete();
         return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
     }
+
+    public function changeStatus(Request $request){
+        $book = Book::findOrFail($request->id);
+        $book->status = $request->status;
+        $book->save();
+    
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
+    
 }

@@ -130,4 +130,12 @@ class AuthorController extends Controller
         $author->delete();
         return response()->json(['status' => 'success', 'message' => 'Author Deleted Successfully']);
     }
+
+    public function changeStatus(Request $request){
+        $category = Author::findOrFail($request->id);
+        $category->status = $request->status == 'true' ? 'active' : 'inactive';
+        $category->save();
+
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
 }

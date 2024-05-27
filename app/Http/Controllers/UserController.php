@@ -130,4 +130,14 @@ class UserController extends Controller
         flash()->success('Password Updated Succesfully');
         return redirect()->back()->with('success', 'Password Updated Successfully');
     }
+
+
+    
+    public function changeStatus(Request $request){
+        $category = User::findOrFail($request->id);
+        $category->status = $request->status == 'true' ? 'active' : 'inactive';
+        $category->save();
+
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
 }

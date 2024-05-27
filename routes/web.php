@@ -36,19 +36,23 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/profile', [AdminAuthController::class, 'updatePassword'])->name('admin.password.update');
 
     // Category Routes
+    Route::put('/category/status', [CategoryController::class, 'changeStatus'])->name('category.status');
     Route::resource('category', CategoryController::class);
 
     // Publisher Routes
+    Route::put('/publisher/status', [PublisherController::class, 'changeStatus'])->name('publisher.status');
     Route::resource('publisher', PublisherController::class);
 
     // Author Routes
+    Route::put('/author/status', [AuthorController::class, 'changeStatus'])->name('author.status');
     Route::resource('author', AuthorController::class);
 
     // Book Routes
+    Route::put('/book/status', [BookController::class, 'changeStatus'])->name('book.status');
     Route::resource('book', BookController::class);
 
     // User Routes
-    
+    Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);
     Route::delete('/user/destroy/{id}', [MessageController::class, 'destroy'])->name('user.destroy');
 
@@ -58,9 +62,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->name('user.dashboard');
-        // Profile Routes
-        Route::put('profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
-        Route::post('profile', [UserController::class, 'updatePassword'])->name('user.password.update');
+    // Profile Routes
+    Route::put('profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::post('profile', [UserController::class, 'updatePassword'])->name('user.password.update');
 });
 
 Route::post('/submit-form', [ContactController::class, 'submitForm'])->name('submit.form');

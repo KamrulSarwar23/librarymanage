@@ -128,4 +128,12 @@ class PublisherController extends Controller
         $publishers->delete();
         return response()->json(['status' => 'success', 'message' => 'Publisher Deleted Successfully']);
     }
+
+    public function changeStatus(Request $request){
+        $category = Publisher::findOrFail($request->id);
+        $category->status = $request->status == 'true' ? 'active' : 'inactive';
+        $category->save();
+
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
 }

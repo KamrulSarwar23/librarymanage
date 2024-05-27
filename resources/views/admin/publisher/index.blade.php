@@ -42,13 +42,28 @@
                                             <td>{{ $publisher->email }}</td>
                                             <td>{{ $publisher->phone }}</td>
                                             <td>{{ $publisher->address }}</td>
-                                            <td>
+
+                                     		<td>
                                                 @if ($publisher->status == 'active')
-                                                    <span class="btn btn-success">{{ $publisher->status }}</span>
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox" checked name="custom-switch-checkbox"
+                                                            data-id="{{ $publisher->id }}"
+                                                            id="flexSwitchCheckDefault{{ $publisher->id }}"
+                                                            class="custom-switch-input change-status">
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
                                                 @else
-                                                    <span class="btn btn-info">{{ $publisher->status }}</span>
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox" name="custom-switch-checkbox"
+                                                            data-id="{{ $publisher->id }}"
+                                                            id="flexSwitchCheckDefault{{ $publisher->id }}"
+                                                            class="custom-switch-input change-status">
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
                                                 @endif
                                             </td>
+
+
                                             <td><a class="btn btn-primary"
                                                     href="{{ route('publisher.edit', $publisher->id) }}">Edit</a>
                                             </td>
@@ -74,3 +89,31 @@
         </div>
     </section>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', '.change-status', function() {
+
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('publisher.status') }}",
+                    method: 'PUT',
+                    data: {
+                        status: isChecked,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

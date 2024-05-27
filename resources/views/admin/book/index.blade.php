@@ -1,6 +1,29 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
+<style>
+    .form-select {
+        width: 100%;
+        padding: .375rem 1.75rem .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #ffffff;
+        background-color: #6abed8;
+        background-clip: padding-box;
+        border: 1px solid #dad3ce;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .form-select:focus {
+        border-color: #5096e0;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    .form-select option {
+        padding: 10px;
+    }
+</style>
     <section class="section">
         <div class="section-header">
             <h1>Book</h1>
@@ -41,16 +64,16 @@
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
                                        
-                                            <td>@if ($book->status == 'reserved')
-                                                <span class="btn btn-success">Reserved</span>
-                                                @elseif ($book->status == 'checked_out')
-                                                <span class="btn btn-info">Checked Out</span>
-                                                @elseif ($book->status == 'available')
-                                                <span class="btn btn-primary">Available</span>
-                                                @else
-                                                <span class="btn btn-secondary">Lost</span>
-                                                @endif 
+                                            <td>
+                                                <select class="form-select status-select" data-id="{{ $book->id }}">
+                                                    <option value="reserved" {{ $book->status == 'reserved' ? 'selected' : '' }}>Reserved</option>
+                                                    <option value="checked_out" {{ $book->status == 'checked_out' ? 'selected' : '' }}>Checked Out</option>
+                                                    <option value="available" {{ $book->status == 'available' ? 'selected' : '' }}>Available</option>
+                                                    <option value="lost" {{ $book->status == 'lost' ? 'selected' : '' }}>Lost</option>
+                                                </select>
                                             </td>
+                                            
+                                            
 
                                             <td><a class="btn btn-primary" href="{{ route('book.edit', $book->id) }}">Edit</a>
                                             </td>
@@ -77,3 +100,30 @@
         </div>
     </section>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('body').on('change', '.status-select', function() {
+                let status = $(this).val();
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('book.status') }}",
+                    method: 'PUT',
+                    data: {
+                        status: status,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
