@@ -55,7 +55,7 @@
                         <div class="col-md-12 pt-2">
                             <hr>
                         </div>
-                        
+
                         <div class="row pb-5">
                             <div class="col-md-12  mt-4">
                                 <div class="d-flex justify-content-between">
@@ -192,12 +192,17 @@
                 </div>
 
                 <div class="row mt-5">
+
+                    @if (count($enjoyedbook) > 0)
                     <div class="col-md-12">
                         <h2 class="h3 mb-4">Readers also enjoyed</h2>
                     </div>
+                    @endif
+
+                
 
                     @foreach ($enjoyedbook as $item)
-                        <div class="col-md-4 col-lg-4 mb-4 enjoyedbook">
+                        <div class="col-md-3 col-lg-3 mb-4 enjoyedbook">
                             <a href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"

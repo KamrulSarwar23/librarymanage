@@ -83,7 +83,7 @@ class PageController extends Controller
 
         $booksdetails = Book::findOrFail($id);
 
-        $enjoyedbook = Book::where('category_id', $booksdetails->category_id)->where('id', '!=', $id)->take(3)->get();
+        $enjoyedbook = Book::where('category_id', $booksdetails->category_id)->where('id', '!=', $id)->take(4)->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook','category', 'author', 'publisher'));
     }

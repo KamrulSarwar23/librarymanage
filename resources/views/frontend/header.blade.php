@@ -1,10 +1,9 @@
-<div class="container-fluid shadow-lg header">
+<div class="container-fluid shadow-lg header bg-primary">
     <div class="container">
         <div class="d-flex justify-content-between">
-            <h1 class="text-center"><a href="{{ route('home.page') }}"
-                    class="h3 text-white text-decoration-none">LMS by Five
+            <h1 class="text-center"><a href="{{ route('home.page') }}" class="h3 text-white text-decoration-none">LMS by
+                    Five
                     Dev</a></h1>
-
 
             <div class="custom-nav">
                 <ul class="nav">
@@ -17,7 +16,9 @@
                             </button>
                             <ul class="dropdown-menu">
                                 @foreach ($category as $item)
-                                    <li><a class="dropdown-item" href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -31,7 +32,8 @@
                             </button>
                             <ul class="dropdown-menu">
                                 @foreach ($author as $item)
-                                    <li><a class="dropdown-item" href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -45,7 +47,9 @@
                             </button>
                             <ul class="dropdown-menu">
                                 @foreach ($publisher as $item)
-                                    <li><a class="dropdown-item" href="{{ route('book.by-publisher', $item->id) }}">{{ $item->name }}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('book.by-publisher', $item->id) }}">{{ $item->name }}</a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>

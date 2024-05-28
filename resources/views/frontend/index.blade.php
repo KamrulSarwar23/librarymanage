@@ -50,7 +50,7 @@
                                 <div class="input-group w-100">
                                     <input name="search_query" type="text" value="{{ old('search_query') }}"
                                         class="form-control form-control-lg search-input"
-                                        placeholder="Search by title, category, author, or publisher">
+                                        placeholder="Search by book name, category, author, or publisher">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary btn-lg search-button">
                                             <i class="fa-solid fa-magnifying-glass search-icon"></i> Search
