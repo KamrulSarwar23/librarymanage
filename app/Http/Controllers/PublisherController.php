@@ -13,7 +13,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        $publishers = Publisher::paginate(5);
+        $publishers = Publisher::paginate(10);
         return view('admin.publisher.index', compact('publishers'));
     }
 

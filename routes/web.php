@@ -67,6 +67,15 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::post('profile', [UserController::class, 'updatePassword'])->name('user.password.update');
 });
 
+
 Route::post('/submit-form', [ContactController::class, 'submitForm'])->name('submit.form');
+Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name('book.details');
+Route::post('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
+
+Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'])->name('book.by-category');
+
+Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');
+
+Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
 
 require __DIR__ . '/auth.php';

@@ -1,41 +1,109 @@
 @extends('frontend.master')
 
 @section('section')
+    <style>
+        .search-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .search-input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .search-icon {
+            margin-right: 5px;
+        }
+
+        @media (max-width: 576px) {
+            .search-input {
+                border-radius: 0;
+            }
+
+            .search-button {
+                border-radius: 0;
+            }
+        }
+    </style>
+
     <div class="container mt-3 pb-5">
         <div class="row justify-content-center d-flex mt-5">
             <div class="col-md-12">
                 <div class="d-flex justify-content-between">
                     <h2 class="mb-3">Books</h2>
-                    <div class="mt-2">
-                        <a href="#" class="text-dark">Clear</a>
-                    </div>
+
                 </div>
 
-                <div class="card shadow-lg border-0">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-11 col-md-11">
-                                <input type="text" class="form-control form-control-lg" placeholder="Search by title">
-                            </div>
-                            <div class="col-lg-1 col-md-1">
-                                <button class="btn btn-primary btn-lg w-100"><i
-                                        class="fa-solid fa-magnifying-glass"></i></button>
-                            </div>
+                <div class="container mt-5 mb-3">
+                    <div class="card search-card shadow-lg border-0">
+                        <div class="card-body">
+                            <form action="{{ route('book.search') }}" method="POST" class="form-inline">
+                                @csrf
+                                <div class="input-group w-100">
+                                    <input name="search_query" type="text" value="{{ old('search_query') }}"
+                                        class="form-control form-control-lg search-input"
+                                        placeholder="Search by title, category, author, or publisher">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary btn-lg search-button">
+                                            <i class="fa-solid fa-magnifying-glass search-icon"></i> Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
+
+                @if (isset($searchQuery) && !empty($searchQuery))
+                    <div class="text-success search-query">
+                        Search results for: "{{ $searchQuery }}"
+                    </div>
+                @endif
+
+
+                @if (isset($categoryName))
+                <div class="text-success search-query">
+                    Search results for: "{{ $categoryName->name }}"
+                </div>
+                @endif
+
+                @if (isset($authorName))
+                <div class="text-success search-query">
+                    Search results for: "{{ $authorName->name }}"
+                </div>
+                @endif
+
+                @if (isset($publisherName))
+                <div class="text-success search-query">
+                    Search results for: "{{ $publisherName->name }}"
+                </div>
+                @endif
+
+             @if (session('status'))
+             <h6 class="text-success mb-2 text-center">{{ session('status') }}</h6>
+            @endif
 
                 <div class="row mt-4">
 
                     @foreach ($books as $book)
                         <div class="col-md-4 col-lg-3 mb-4">
                             <div class="card border-0 shadow-lg">
-                                <a href="detail.html"><img height="300px"
+                                <a href="{{ route('book.details', $book->id) }}"><img height="300px"
                                         src="{{ asset('storage/book/' . $book->cover_image) }}" alt=""
                                         class="card-img-top"></a>
                                 <div class="card-body">
                                     <h3 class="h4 heading"><a href="#">{{ $book->title }}</a></h3>
-                                    <p>by {{ $book->author->name }}</p>
+                                    <p>Author: {{ $book->author->name }}</p>
+                                    <p>Category: {{ $book->category->name }}</p>
+                                    <p>Publisher: {{ $book->publisher->name }}</p>
                                     <div class="star-rating d-inline-flex ml-2" title="">
                                         <span class="rating-text theme-font theme-yellow">5.0</span>
                                         <div class="star-rating d-inline-flex mx-2" title="">
