@@ -11,9 +11,10 @@
                     <li>
                         <div class="dropdown m-2">
                             <button class="btn btn-success">
-                               <a style="text-decoration: none; color:white" href="{{ route('home.page') }}">Home Page</a>
+                                <a style="text-decoration: none; color:white" href="{{ route('home.page') }}">Home
+                                    Page</a>
                             </button>
-                    
+
                         </div>
                     </li>
 
@@ -67,9 +68,10 @@
                     <li>
                         <div class="dropdown m-2">
                             <button class="btn btn-success">
-                               <a style="text-decoration: none; color:white" href="{{ route('contact.page') }}">Contact Us</a>
+                                <a style="text-decoration: none; color:white" href="{{ route('contact.page') }}">Contact
+                                    Us</a>
                             </button>
-                    
+
                         </div>
                     </li>
                 </ul>
@@ -89,7 +91,8 @@
                                     class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                     {{ Auth::user()->name }}
                                     <img style="border-radius: 50%" width="45px" height="45px"
-                                        src="{{ asset(auth()->user()->image) }}" alt="">
+                                        src="{{ asset(auth()->user()->image ?? 'frontend/images/default-profile-image.jpg') }}"
+                                        alt="">
                                 </a>
                             @endif
                         @else

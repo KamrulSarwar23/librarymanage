@@ -52,17 +52,19 @@
 </x-guest-layout> --}}
 
 <style>
-    .fa-book-open{
+    .fa-book-open {
         color: green;
     }
 </style>
 
 @extends('auth.layout')
 
+@section('title', 'Register')
+
 @section('section')
     <div class="container-login100">
         <div class="wrap-login100">
-    
+
             <form class="login100-form validate-form" method="POST" action="{{ route('register') }}">
                 @csrf
                 <span class="login100-form-title p-b-26">

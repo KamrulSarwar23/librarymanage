@@ -59,6 +59,8 @@
 
 @extends('auth.layout')
 
+@section('title', 'Login')
+
 @section('section')
     <div class="container-login100">
         <div class="wrap-login100">

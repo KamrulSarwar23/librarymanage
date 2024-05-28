@@ -16,12 +16,13 @@ class PageController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-        
+
         return view('frontend.index', compact('books', 'category', 'author', 'publisher'));
     }
 
-    public function filterByCategory($id) {
-        
+    public function filterByCategory($id)
+    {
+
         $categoryName = Category::findOrFail($id);
 
         $category = Category::where('status', 'active')->get();
@@ -37,8 +38,9 @@ class PageController extends Controller
         return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'categoryName'));
     }
 
-    public function filterByAuthor($id) {
-        
+    public function filterByAuthor($id)
+    {
+
         $authorName = Author::findOrFail($id);
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -51,7 +53,8 @@ class PageController extends Controller
         return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'authorName'));
     }
 
-    public function filterByPublisher($id) {
+    public function filterByPublisher($id)
+    {
 
         $publisherName = Publisher::findOrFail($id);
         $category = Category::where('status', 'active')->get();
@@ -88,7 +91,7 @@ class PageController extends Controller
 
         $enjoyedbook = Book::where('category_id', $booksdetails->category_id)->where('id', '!=', $id)->take(4)->get();
 
-        return view('frontend.book-details', compact('booksdetails', 'enjoyedbook','category', 'author', 'publisher'));
+        return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher'));
     }
 
     public function bookSearch(Request $request)
@@ -102,7 +105,7 @@ class PageController extends Controller
 
         $query = Book::query();
 
-     
+
 
         if (!empty($searchQuery)) {
             $query->where('title', 'like', '%' . $searchQuery . '%')
@@ -125,7 +128,7 @@ class PageController extends Controller
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
-        
-        return view('frontend.index', compact('books','category', 'author', 'publisher', 'searchQuery'));
+
+        return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'searchQuery'));
     }
 }

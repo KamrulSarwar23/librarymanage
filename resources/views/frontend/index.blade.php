@@ -88,10 +88,9 @@
                 @endif
 
                 @if ($books->isEmpty())
-                <div class="alert alert-danger mt-5" role="alert">
-                    No data found.
-                </div>
-
+                    <div class="alert alert-danger mt-5" role="alert">
+                        No data found.
+                    </div>
                 @endif
 
 

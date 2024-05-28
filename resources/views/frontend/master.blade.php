@@ -13,14 +13,21 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 </head>
 
+
 <body>
+    <div class="wrapper">
+        <header>
+            @include('frontend.header')
+        </header>
 
+        <main>
+            @yield('section')
+        </main>
 
-    @include('frontend.header')
-
-    @yield('section')
-
-    @include('frontend.footer')
+        <footer>
+            @include('frontend.footer')
+        </footer>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
