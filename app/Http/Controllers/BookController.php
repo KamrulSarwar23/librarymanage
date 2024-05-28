@@ -16,8 +16,58 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::paginate(10);
-        return view('admin.book.index', compact('books'));
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+        $books = Book::orderBy('created_at', 'DESC')->paginate(10);
+        return view('admin.book.index', compact('books','category', 'author', 'publisher'));
+    }
+
+    public function filterByCategory($id) {
+        
+        $categoryName = Category::findOrFail($id);
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::where('category_id', $id)->paginate(12);
+
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'categoryName'));
+    }
+
+    public function filterByAuthor($id) {
+        
+        $authorName = Author::findOrFail($id);
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::Where('author_id', $id)->paginate(12);
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'authorName'));
+    }
+
+    public function filterByPublisher($id) {
+
+        $publisherName = Publisher::findOrFail($id);
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::Where('publisher_id', $id)->paginate(12);
+
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'publisherName'));
     }
 
     /**

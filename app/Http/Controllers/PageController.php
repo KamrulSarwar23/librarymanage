@@ -71,7 +71,10 @@ class PageController extends Controller
 
     public function contact()
     {
-        return view('frontend.contact');
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+        return view('frontend.contact', compact('category', 'author', 'publisher'));
     }
 
     public function bookDetails(string $id)
@@ -99,6 +102,8 @@ class PageController extends Controller
 
         $query = Book::query();
 
+     
+
         if (!empty($searchQuery)) {
             $query->where('title', 'like', '%' . $searchQuery . '%')
 
@@ -117,6 +122,10 @@ class PageController extends Controller
 
         $books = $query->paginate(12);
 
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+        
         return view('frontend.index', compact('books','category', 'author', 'publisher', 'searchQuery'));
     }
 }

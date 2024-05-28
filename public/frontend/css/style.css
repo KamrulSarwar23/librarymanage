@@ -16,9 +16,9 @@ body{
     font-family: var(--body-font-family);
 }
 
-.header{
+/* .header{
     background-color: var(--btn-bg-primary);
-}
+} */
 
 .star-rating {
     display: flex;

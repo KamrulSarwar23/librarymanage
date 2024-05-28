@@ -63,36 +63,40 @@
                 </div>
 
                 @if (isset($searchQuery) && !empty($searchQuery))
-                    <div class="text-success search-query">
-                        Search results for: "{{ $searchQuery }}"
+                    <div class="text-success">
+                        <h5>Search results for: "{{ $searchQuery }}"</h5>
+                    </div>
+                @endif
+
+                @if (isset($categoryName))
+                    <div class="text-success">
+                        <h5>Search results for: "{{ $categoryName->name }}"</h5>
                     </div>
                 @endif
 
 
-                @if (isset($categoryName))
-                <div class="text-success search-query">
-                    Search results for: "{{ $categoryName->name }}"
-                </div>
-                @endif
-
                 @if (isset($authorName))
-                <div class="text-success search-query">
-                    Search results for: "{{ $authorName->name }}"
-                </div>
+                    <div class="text-success mt-3">
+                        <h5>Search results for: "{{ $authorName->name }}"</h5>
+                    </div>
                 @endif
 
                 @if (isset($publisherName))
-                <div class="text-success search-query">
-                    Search results for: "{{ $publisherName->name }}"
-                </div>
+                    <div class="text-success">
+                        <h5>Search results for: "{{ $publisherName->name }}"</h5>
+                    </div>
                 @endif
 
-             @if (session('status'))
-             <h6 class="text-success mb-2 text-center">{{ session('status') }}</h6>
-            @endif
+                @if ($books->isEmpty())
+                <div class="alert alert-danger mt-5" role="alert">
+                    No data found.
+                </div>
+
+                @endif
+
+
 
                 <div class="row mt-4">
-
                     @foreach ($books as $book)
                         <div class="col-md-4 col-lg-3 mb-4">
                             <div class="card border-0 shadow-lg">

@@ -9,6 +9,15 @@
                 <ul class="nav">
 
                     <li>
+                        <div class="dropdown m-2">
+                            <button class="btn btn-success">
+                               <a style="text-decoration: none; color:white" href="{{ route('home.page') }}">Home Page</a>
+                            </button>
+                    
+                        </div>
+                    </li>
+
+                    <li>
                         <div class="dropdown mt-2 m-2">
                             <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -54,6 +63,15 @@
                             </ul>
                         </div>
                     </li>
+
+                    <li>
+                        <div class="dropdown m-2">
+                            <button class="btn btn-success">
+                               <a style="text-decoration: none; color:white" href="{{ route('contact.page') }}">Contact Us</a>
+                            </button>
+                    
+                        </div>
+                    </li>
                 </ul>
             </div>
 
@@ -89,6 +107,7 @@
                         @endauth
                     </nav>
                 @endif
+
             </div>
         </div>
     </div>

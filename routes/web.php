@@ -56,8 +56,15 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('user-manage', UserController::class);
     Route::delete('/user/destroy/{id}', [MessageController::class, 'destroy'])->name('user.destroy');
 
+
     Route::get('/messages', [MessageController::class, 'index'])->name('message.index');
     Route::delete('/messages/destroy/{id}', [MessageController::class, 'destroy'])->name('message.destroy');
+
+    Route::get('/books/by-category/{id}', [BookController::class, 'filterByCategory'])->name('admin.book-by-category');
+
+    Route::get('/books/by-author/{id}', [BookController::class, 'filterByAuthor'])->name('admin.book-by-author');
+
+    Route::get('/books/by-publisher/{id}', [BookController::class, 'filterByPublisher'])->name('admin.book-by-publisher');
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {

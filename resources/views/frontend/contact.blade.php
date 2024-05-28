@@ -12,13 +12,13 @@
 
     <body>
 
-        <div class="intro-section small" style="background-image: url('{{ asset('frontend/images/hero_2.jpg') }}');">
-            <div class="container">
+        <div class="intro-section small" style="background-image: url('{{ asset('frontend/images/hero_2.jpg') }}')">
+            <div class="container py-5">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-7 mx-auto text-center" data-aos="fade-up">
                         <div class="intro">
                             <h1>Contact us</h1>
-                            <p><a href="#" class="btn btn-primary">Get Started</a></p>
+                            <p><a href="javascript:;" class="btn btn-primary">Get Started</a></p>
                         </div>
                     </div>
                 </div>
@@ -26,14 +26,14 @@
         </div>
 
 
-        <div class="site-section">
+        <div class="site-section mt-5">
             <div class="container">
                 <div id="form-messages">
 
                 </div>
                 <form id="contactForm">
                     <div class="row">
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 form-group mb-4">
                             <label for="firstName">First Name</label>
                             <input type="text" id="firstName" name="firstName" class="form-control form-control-lg">
                         </div>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 form-group mb-4">
                             <label for="email">Email</label>
                             <input type="text" id="email" name="email" class="form-control form-control-lg">
                         </div>
@@ -52,7 +52,7 @@
                             <input type="text" id="phone" name="phone" class="form-control form-control-lg">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-md-12 form-group">
                             <label for="message">Message</label>
                             <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>

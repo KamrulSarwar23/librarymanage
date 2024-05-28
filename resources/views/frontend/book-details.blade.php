@@ -194,12 +194,12 @@
                 <div class="row mt-5">
 
                     @if (count($enjoyedbook) > 0)
-                    <div class="col-md-12">
-                        <h2 class="h3 mb-4">Readers also enjoyed</h2>
-                    </div>
+                        <div class="col-md-12">
+                            <h2 class="h3 mb-4">Readers also enjoyed</h2>
+                        </div>
                     @endif
 
-                
+
 
                     @foreach ($enjoyedbook as $item)
                         <div class="col-md-3 col-lg-3 mb-4 enjoyedbook">
