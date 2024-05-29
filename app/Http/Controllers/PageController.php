@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -86,12 +87,18 @@ class PageController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-
+    
         $booksdetails = Book::findOrFail($id);
+
+        $booksReview = Review::where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
+
+        $totalReviews = Review::where('book_id', $id)->count();
+
+        $averageRating = $totalReviews > 0 ? $booksReview->avg('rating') : 0;
 
         $enjoyedbook = Book::where('category_id', $booksdetails->category_id)->where('id', '!=', $id)->take(4)->get();
 
-        return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher'));
+        return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
 
     public function bookSearch(Request $request)

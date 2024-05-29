@@ -28,36 +28,50 @@
 
         <div class="site-section mt-5">
             <div class="container">
-                <div id="form-messages">
-
-                </div>
-                <form id="contactForm">
+                <form action="{{ route('send.message') }}" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6 form-group mb-4">
                             <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" class="form-control form-control-lg">
+                            <input type="text" name="firstName" class="form-control form-control-lg" value="{{ old('firstName') }}">
+                            @error('firstName')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="col-md-6 form-group">
                             <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" class="form-control form-control-lg">
+                            <input type="text" name="lastName" class="form-control form-control-lg" value="{{ old('lastName') }}">
+                            @error('lastName')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 form-group mb-4">
                             <label for="email">Email</label>
-                            <input type="text" id="email" name="email" class="form-control form-control-lg">
+                            <input type="text" name="email" class="form-control form-control-lg" value="{{ old('email') }}">
+                            @error('email')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="col-md-6 form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="text" id="phone" name="phone" class="form-control form-control-lg">
+                            <input type="text" name="phone" class="form-control form-control-lg" value="{{ old('phone') }}">
+                            @error('phone')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12 form-group">
                             <label for="message">Message</label>
-                            <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
+                            <textarea name="message" cols="30" rows="10" class="form-control">{{ old('message') }}</textarea>
+                            @error('message')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col-12">
                             <input type="submit" value="Send Message" class="btn btn-primary btn-lg px-5">
@@ -67,8 +81,9 @@
             </div>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script>
+        {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
+
+        {{-- <script>
             $(document).ready(function() {
                 $('#contactForm').on('submit', function(e) {
                     e.preventDefault();
@@ -98,7 +113,7 @@
                     });
                 });
             });
-        </script>
+        </script> --}}
     </body>
 
     </html>

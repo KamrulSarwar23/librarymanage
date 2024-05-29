@@ -9,8 +9,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,10 +72,13 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     // Profile Routes
     Route::put('profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
     Route::post('profile', [UserController::class, 'updatePassword'])->name('user.password.update');
+
+    Route::post('/send-review', [ReviewController::class, 'sendReview'])->name('send.review');
 });
 
 
-Route::post('/submit-form', [ContactController::class, 'submitForm'])->name('submit.form');
+Route::post('/send-message', [ContactController::class, 'sendMessage'])->name('send.message');
+
 Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name('book.details');
 Route::post('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
 

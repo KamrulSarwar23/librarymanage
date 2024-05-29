@@ -5,6 +5,55 @@
         .enjoyedbook a {
             text-decoration: none;
         }
+        .rating {
+        direction: rtl;
+        unicode-bidi: bidi-override;
+        color: #ddd; /* Personal choice */
+        font-size: 8px;
+        margin-left: -15px;
+    }
+    .rating input {
+        display: none;
+    }
+    .rating label:hover,
+    .rating label:hover ~ label,
+    .rating input:checked + label,
+    .rating input:checked + label ~ label {
+        color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
+        font-size: 8px;
+    }
+    
+    
+    .front-stars, .back-stars, .star-rating {
+        display: flex;
+      }
+      
+      .star-rating {
+        align-items: left;
+        font-size: 15px;
+        justify-content: left;
+        margin-left: -5px;
+      }
+      
+      .back-stars {
+        color: #CCC;
+        position: relative;
+      }
+      
+      .front-stars {
+        color: #FFBC0B;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        transition: all 0.5s;
+      }
+    
+      
+      .percent {
+        color: #bb5252;
+        font-size: 1.5em;
+      }
+
     </style>
 
     <div class="container mt-3 ">
@@ -24,26 +73,22 @@
                         <h3 class="h2 mb-3">{{ $booksdetails->title }}</h3>
                         <div class="h4 text-muted">{{ $booksdetails->author->name }}</div>
                         <div class="star-rating d-inline-flex ml-2" title="">
-                            <span class="rating-text theme-font theme-yellow">5.0</span>
                             <div class="star-rating d-inline-flex mx-2" title="">
-                                <div class="back-stars ">
-                                    <i class="fa fa-star " aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                <div class="back-stars">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    @endfor
 
-                                    <div class="front-stars" style="width: 100%">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    <div class="front-stars" style="width: {{ $averageRating * 20 }}%">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        @endfor
                                     </div>
                                 </div>
                             </div>
-                            <span class="theme-font text-muted">(0 Review)</span>
+                            <span class="theme-font text-muted">({{ $totalReviews }} Reviews)</span>
                         </div>
+
 
                         <div class="content mt-3">
                             <p>
@@ -69,122 +114,43 @@
                                     </div>
                                 </div>
 
-                                <div class="card border-0 shadow-lg my-4">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-3">John Doe</h4>
-                                                <span class="text-muted">8 Apr, 2024</span>
-                                        </div>
+                                @foreach ($booksReview as $item)
+                                    <div class="card border-0 shadow-lg my-4">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="mb-3">{{ $item->user->name }}</h4>
+                                                    <span
+                                                        class="text-muted">{{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y, g:i a') }}</span>
+                                            </div>
 
-                                        <div class="mb-3">
-                                            <div class="star-rating d-inline-flex" title="">
-                                                <div class="star-rating d-inline-flex " title="">
-                                                    <div class="back-stars ">
-                                                        <i class="fa fa-star " aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                            <div class="mb-3">
+                                                <div class="star-rating d-inline-flex" title="Rating: {{ $item->rating }}">
+                                                    <div class="back-stars">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @endfor
 
-                                                        <div class="front-stars" style="width: 70%">
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <div class="front-stars" style="width: {{ $item->rating * 20 }}%">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @endfor
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                        </div>
-                                        <div class="content">
-                                            <p>This book does a great job of laying down the framework of how habits are
-                                                formed, and shares insightful strategies for building good habits and
-                                                breaking bad ones. Even though I was already familiar with research behind
-                                                habit formation, reading through this book helped me approach habits I’m
-                                                trying to adopt or break in my own life from different angles.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border-0 shadow-lg my-4">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-3">John Doe</h4>
-                                                <span class="text-muted">8 Apr, 2024</span>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <div class="star-rating d-inline-flex" title="">
-                                                <div class="star-rating d-inline-flex " title="">
-                                                    <div class="back-stars ">
-                                                        <i class="fa fa-star " aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                        <div class="front-stars" style="width: 70%">
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="content">
+                                                <p>{{ $item->comment }}</p>
                                             </div>
-
-                                        </div>
-                                        <div class="content">
-                                            <p>This book does a great job of laying down the framework of how habits are
-                                                formed, and shares insightful strategies for building good habits and
-                                                breaking bad ones. Even though I was already familiar with research behind
-                                                habit formation, reading through this book helped me approach habits I’m
-                                                trying to adopt or break in my own life from different angles.</p>
                                         </div>
                                     </div>
+                                @endforeach
+
+                                <div>
+                                    {{ $booksReview->links() }}
                                 </div>
 
-                                <div class="card border-0 shadow-lg my-4">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-3">John Doe</h4>
-                                                <span class="text-muted">8 Apr, 2024</span>
-                                        </div>
 
-                                        <div class="mb-3">
-                                            <div class="star-rating d-inline-flex" title="">
-                                                <div class="star-rating d-inline-flex " title="">
-                                                    <div class="back-stars ">
-                                                        <i class="fa fa-star " aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                        <div class="front-stars" style="width: 70%">
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="content">
-                                            <p>This book does a great job of laying down the framework of how habits are
-                                                formed, and shares insightful strategies for building good habits and
-                                                breaking bad ones. Even though I was already familiar with research behind
-                                                habit formation, reading through this book helped me approach habits I’m
-                                                trying to adopt or break in my own life from different angles.</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -208,7 +174,7 @@
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
-                                        <h3 class="h4 heading">{{ $item->title }}</h3>
+                                        <h3 class="h4 heading">{{ limitText($item->title, 25) }}</h3>
                                         <p>{{ $item->author->name }}</p>
                                         <div class="star-rating d-inline-flex ml-2" title="">
                                             <span class="rating-text theme-font theme-yellow">0.0</span>
@@ -247,7 +213,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -257,28 +223,65 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form action="{{ route('send.review') }}" method="POST" id="reviewForm">
+                        @csrf
                         <div class="mb-3">
-                            <label for="" class="form-label">Review</label>
-                            <textarea name="review" id="review" class="form-control" cols="5" rows="5" placeholder="Review"></textarea>
+                            <label for="review" class="form-label">Review</label>
+                            <textarea name="comment" id="review" class="form-control" cols="5" rows="5" placeholder="Review"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Rating</label>
-                            <select name="rating" id="rating" class="form-control">
-                                <option value="1">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                            </select>
+                        <div class="rating mb-3" style="width: 10rem">
+
+                            <input id="rating-5" type="radio" name="rating" value="5"/><label for="rating-5"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-4" type="radio" name="rating" value="4"  /><label for="rating-4"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-3" type="radio" name="rating" value="3"/><label for="rating-3"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-2" type="radio" name="rating" value="2"/><label for="rating-2"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-1" type="radio" name="rating" value="1"/><label for="rating-1"><i class="fas fa-3x fa-star"></i></label>
+                           
+                           </div>
+
+
+                        <input type="hidden" name="book_id" value="{{ $booksdetails->id }}">
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
+
             </div>
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Submit the form data using fetch or other AJAX methods
+            fetch(this.action, {
+                    method: this.method,
+                    body: new FormData(this)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Close the modal if the form submission is successful
+                        var modal = document.querySelector('.modal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+
+                        // Optionally, you can perform other actions after successful submission
+                    } else {
+                        // Handle errors or display error messages
+                        console.error('Form submission failed:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting form:', error);
+                });
+        });
+    </script>
+@endpush

@@ -44,17 +44,7 @@
                         </div>
                         <div class="custom-nav">
                             <ul class="nav">
-                                <li>
-                                    <div class="dropdown m-2">
-                                        <button class="btn btn-success">
-                                            <a style="text-decoration: none; color:white"
-                                                href="{{ route('book.index') }}">All Books</a>
-                                        </button>
-
-                                    </div>
-                                </li>
-
-                                <li>
+                                 <li>
                                     <div class="dropdown mt-2 m-2">
                                         <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                                             aria-expanded="false">
@@ -101,7 +91,15 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <li>
+                                    <div class="dropdown m-2">
+                                        <button class="btn btn-danger">
+                                            <a style="text-decoration: none; color:white"
+                                                href="{{ route('book.index') }}">Clear</a>
+                                        </button>
 
+                                    </div>
+                                </li>
 
                             </ul>
                         </div>
@@ -126,8 +124,8 @@
                             </div>
                         @endif
 
-                   
-        
+
+
 
                         <div class="card-body">
                             <div class="table-responsive">
@@ -186,12 +184,11 @@
                                         </tr>
                                     @endforeach
                                     @if ($books->isEmpty())
-                                    <div class="alert alert-danger mt-5" role="alert">
-                                        No data found.
-                                    </div>
-                    
+                                        <div class="alert alert-danger mt-5" role="alert">
+                                            No data found.
+                                        </div>
                                     @endif
-                                 
+
                                 </table>
 
                                 <div class="pagination">

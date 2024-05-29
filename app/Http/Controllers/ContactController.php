@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function submitForm(Request $request)
+    public function sendMessage(Request $request)
     {
         // Validate the request data
         $request->validate([
@@ -26,6 +26,7 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
         
-        return response()->json(['success' => 'Form submitted successfully!']);
+        flash()->success('Message Send Successfully');
+        return redirect()->back();
     }
 }
