@@ -13,7 +13,10 @@ class PageController extends Controller
 {
     public function index()
     {
-        $books = Book::with('rating')->paginate(12);
+        $books = Book::with(['rating' => function($query) {
+            $query->where('status', 'active');
+        }])->paginate(12);
+
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
@@ -90,9 +93,9 @@ class PageController extends Controller
     
         $booksdetails = Book::findOrFail($id);
 
-        $booksReview = Review::where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
+        $booksReview = Review::where('status', 'active')->where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
 
-        $totalReviews = Review::where('book_id', $id)->count();
+        $totalReviews = Review::where('status', 'active')->where('book_id', $id)->count();
 
         $averageRating = round($totalReviews > 0 ? $booksReview->avg('rating') : 0, 1);
 

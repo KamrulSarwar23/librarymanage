@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    
-    public function sendReview(Request $request){
+
+    public function sendReview(Request $request)
+    {
         $request->validate([
             'comment' => 'required',
             'rating' => 'required'
@@ -21,9 +22,35 @@ class ReviewController extends Controller
             'book_id' => $request->book_id,
             'comment' => $request->comment,
             'rating' => $request->rating,
+            'status' => $request->status ?? 'inactive',
         ]);
 
         flash()->success('Review Send Successfully');
         return redirect()->back();
+    }
+
+
+    public function bookReview()
+    {
+        $reviews = Review::orderBy('created_at', 'DESC')->paginate(10);
+        return view('admin.review.index', compact('reviews'));
+    }
+
+
+    public function bookReviewStatus(Request $request)
+    {
+        $reviews = Review::findOrFail($request->id);
+        $reviews->status = $request->status == 'true' ? 'active' : 'inactive';
+        $reviews->save();
+
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
+
+    public function destroy(string $id)
+    {
+        $reviews = Review::findOrFail($id);
+        $reviews->delete();
+   
+        return response()->json(['status' => 'success', 'message' => 'Review Deleted Successfully']);
     }
 }

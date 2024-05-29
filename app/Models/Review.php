@@ -14,9 +14,15 @@ class Review extends Model
         'book_id',
         'comment',
         'rating',
+        'status'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+
+    public function book(){
+        return $this->belongsTo(Book::class);
     }
 }

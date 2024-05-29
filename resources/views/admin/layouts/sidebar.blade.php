@@ -72,13 +72,20 @@
 
             </li>
 
-            <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
-                <a href="{{ route('user-manage.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Users</span></a>
+           
+            <li class="dropdown {{ setActive(['admin.book-review']) }}">
+                <a href="{{ route('admin.book-review') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Reviews</span></a>
 
             </li>
 
+
             <li class="dropdown {{ setActive(['message.index']) }}">
                 <a href="{{ route('message.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Messages</span></a>
+
+            </li>
+
+            <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
+                <a href="{{ route('user-manage.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Users</span></a>
 
             </li>
 

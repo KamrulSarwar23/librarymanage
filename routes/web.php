@@ -65,6 +65,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/books/by-author/{id}', [BookController::class, 'filterByAuthor'])->name('admin.book-by-author');
 
     Route::get('/books/by-publisher/{id}', [BookController::class, 'filterByPublisher'])->name('admin.book-by-publisher');
+
+    Route::get('/book-reviews', [ReviewController::class, 'bookReview'])->name('admin.book-review');
+    Route::put('/book-reviews/status', [ReviewController::class, 'bookReviewStatus'])->name('book-reviews.status');
+    Route::delete('/book-reviews/delete/{id}', [ReviewController::class, 'destroy'])->name('book-reviews.delete');
+
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
