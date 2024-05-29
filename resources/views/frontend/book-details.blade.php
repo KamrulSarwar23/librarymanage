@@ -5,55 +5,59 @@
         .enjoyedbook a {
             text-decoration: none;
         }
-        .rating {
-        direction: rtl;
-        unicode-bidi: bidi-override;
-        color: #ddd; /* Personal choice */
-        font-size: 8px;
-        margin-left: -15px;
-    }
-    .rating input {
-        display: none;
-    }
-    .rating label:hover,
-    .rating label:hover ~ label,
-    .rating input:checked + label,
-    .rating input:checked + label ~ label {
-        color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
-        font-size: 8px;
-    }
-    
-    
-    .front-stars, .back-stars, .star-rating {
-        display: flex;
-      }
-      
-      .star-rating {
-        align-items: left;
-        font-size: 15px;
-        justify-content: left;
-        margin-left: -5px;
-      }
-      
-      .back-stars {
-        color: #CCC;
-        position: relative;
-      }
-      
-      .front-stars {
-        color: #FFBC0B;
-        overflow: hidden;
-        position: absolute;
-        top: 0;
-        transition: all 0.5s;
-      }
-    
-      
-      .percent {
-        color: #bb5252;
-        font-size: 1.5em;
-      }
 
+        .rating {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+            color: #ddd;
+            /* Personal choice */
+            font-size: 7px;
+            margin-left: -15px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label:hover,
+        .rating label:hover~label,
+        .rating input:checked+label,
+        .rating input:checked+label~label {
+            color: #3a92f7;
+            font-size: 7px;
+        }
+
+        .front-stars,
+        .back-stars,
+        .star-rating {
+            display: flex;
+        }
+
+        .star-rating {
+            align-items: left;
+            font-size: 15px;
+            justify-content: left;
+            margin-left: -5px;
+        }
+
+        .back-stars {
+            color: #CCC;
+            position: relative;
+        }
+
+        .front-stars {
+            color: #3a92f7;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            transition: all 0.5s;
+        }
+
+
+        .percent {
+            color: #bb5252;
+            font-size: 1.5em;
+        }
     </style>
 
     <div class="container mt-3 ">
@@ -74,7 +78,9 @@
                         <div class="h4 text-muted">{{ $booksdetails->author->name }}</div>
                         <div class="star-rating d-inline-flex ml-2" title="">
                             <div class="star-rating d-inline-flex mx-2" title="">
+                                <span class="rating-text theme-font theme-yellow mx-1">({{ round($booksdetails->rating->avg('rating'), 1) }}) </span>
                                 <div class="back-stars">
+
                                     @for ($i = 1; $i <= 5; $i++)
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     @endfor
@@ -84,11 +90,12 @@
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                         @endfor
                                     </div>
+
                                 </div>
+
                             </div>
                             <span class="theme-font text-muted">({{ $totalReviews }} Reviews)</span>
                         </div>
-
 
                         <div class="content mt-3">
                             <p>
@@ -103,6 +110,7 @@
 
                         <div class="row pb-5">
                             <div class="col-md-12  mt-4">
+
                                 <div class="d-flex justify-content-between">
                                     <h3>Reviews</h3>
                                     <div>
@@ -169,7 +177,7 @@
 
                     @foreach ($enjoyedbook as $item)
                         <div class="col-md-3 col-lg-3 mb-4 enjoyedbook">
-                            <a href="{{ route('book.details', $item->id) }}">
+                            <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
@@ -177,27 +185,25 @@
                                         <h3 class="h4 heading">{{ limitText($item->title, 25) }}</h3>
                                         <p>{{ $item->author->name }}</p>
                                         <div class="star-rating d-inline-flex ml-2" title="">
-                                            <span class="rating-text theme-font theme-yellow">0.0</span>
+                                            <span class="rating-text theme-font theme-yellow">({{ round($item->rating->avg('rating'), 1) }})</span>
                                             <div class="star-rating d-inline-flex mx-2" title="">
-                                                <div class="back-stars ">
-
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <div class="front-stars" style="width: 70%">
+                                                <div class="back-stars">
+                                                    @for ($i = 1; $i <= 5; $i++)
                                                         <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    @endfor
+                                                    <div class="front-stars"
+                                                        style="width: {{ ($item->rating->avg('rating') / 5) * 100 }}%">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= $item->rating->avg('rating') * 20)
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @else
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            @endif
+                                                        @endfor
                                                     </div>
-
                                                 </div>
                                             </div>
-                                            <span class="theme-font text-muted">(0)</span>
+                                            <span class="theme-font text-muted">({{ $item->rating->count('rating') }} Reviews)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -231,13 +237,18 @@
                         </div>
                         <div class="rating mb-3" style="width: 10rem">
 
-                            <input id="rating-5" type="radio" name="rating" value="5"/><label for="rating-5"><i class="fas fa-3x fa-star"></i></label>
-                            <input id="rating-4" type="radio" name="rating" value="4"  /><label for="rating-4"><i class="fas fa-3x fa-star"></i></label>
-                            <input id="rating-3" type="radio" name="rating" value="3"/><label for="rating-3"><i class="fas fa-3x fa-star"></i></label>
-                            <input id="rating-2" type="radio" name="rating" value="2"/><label for="rating-2"><i class="fas fa-3x fa-star"></i></label>
-                            <input id="rating-1" type="radio" name="rating" value="1"/><label for="rating-1"><i class="fas fa-3x fa-star"></i></label>
-                           
-                           </div>
+                            <input id="rating-5" type="radio" name="rating" value="5" /><label
+                                for="rating-5"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-4" type="radio" name="rating" value="4" /><label
+                                for="rating-4"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-3" type="radio" name="rating" value="3" /><label
+                                for="rating-3"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-2" type="radio" name="rating" value="2" /><label
+                                for="rating-2"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-1" type="radio" name="rating" value="1" /><label
+                                for="rating-1"><i class="fas fa-3x fa-star"></i></label>
+
+                        </div>
 
 
                         <input type="hidden" name="book_id" value="{{ $booksdetails->id }}">
@@ -259,23 +270,20 @@
 @push('scripts')
     <script>
         document.getElementById('reviewForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+            event.preventDefault();
 
-            // Submit the form data using fetch or other AJAX methods
             fetch(this.action, {
                     method: this.method,
                     body: new FormData(this)
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Close the modal if the form submission is successful
+
                         var modal = document.querySelector('.modal');
                         var modalInstance = bootstrap.Modal.getInstance(modal);
                         modalInstance.hide();
 
-                        // Optionally, you can perform other actions after successful submission
                     } else {
-                        // Handle errors or display error messages
                         console.error('Form submission failed:', response.statusText);
                     }
                 })

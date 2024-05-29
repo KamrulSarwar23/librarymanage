@@ -105,34 +105,38 @@
                                 <div class="card-body">
                                     <h3 class="h4 heading"><a href="#">{{ $book->title }}</a></h3>
                                     <p>Author: {{ $book->author->name }}</p>
-                                    <p>Category: {{ $book->category->name }}</p>
-                                    <p>Publisher: {{ $book->publisher->name }}</p>
+                                    {{-- <p>Category: {{ $book->category->name }}</p>
+                                    <p>Publisher: {{ $book->publisher->name }}</p> --}}
                                     <div class="star-rating d-inline-flex ml-2" title="">
-                                        <span class="rating-text theme-font theme-yellow">5.0</span>
-                                        <div class="star-rating d-inline-flex mx-2" title="">
-                                            <div class="back-stars ">
-                                                <i class="fa fa-star " aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
 
-                                                <div class="front-stars" style="width: 100%">
+                                        <div class="star-rating d-inline-flex" title="">
+
+                                            <span
+                                                class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})
+                                            </span>
+
+                                            <div class="back-stars">
+                                                @for ($i = 1; $i <= 5; $i++)
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                @endfor
+                                                <div class="front-stars"
+                                                    style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $book->rating->avg('rating') * 20)
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @else
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        @endif
+                                                    @endfor
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="theme-font text-muted">(2 Reviews)</span>
+                                        <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-
                 </div>
 
                 <div>
