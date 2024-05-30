@@ -1,6 +1,16 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
+<style>
+      td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
+</style>
     <section class="section">
         <div class="section-header">
             <h1>Messages</h1>
@@ -34,7 +44,7 @@
                                         <td>{{ \Carbon\Carbon::parse($message->created_at)->format('F j, Y, g:i a') }}</td>
                                         <td>
 
-                                            <a class="delete-item btn btn-danger" href="{{ route('message.destroy', $message->id) }}">Delete</a>
+                                            <a class="delete-item btn btn-danger" href="{{ route('message.destroy', $message->id) }}"><i class="fas fa-trash"></i></a>
                                         
                                         </td>
                                     </tr>

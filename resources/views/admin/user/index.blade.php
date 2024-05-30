@@ -1,6 +1,17 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
+<style>
+      td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
+</style>
+
     <section class="section">
         <div class="section-header">
             <h1>User</h1>
@@ -57,13 +68,14 @@
                                             </td>
 
                                             <td><a class="btn btn-primary"
-                                                    href="{{ route('user-manage.edit', $user->id) }}">Edit</a>
+                                                    href="{{ route('user-manage.edit', $user->id) }}"><i class="fas fa-edit"></i>
+                                                </a>
                                             </td>
 
                                             <td>
 
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('user-manage.destroy', $user->id) }}">Delete</a>
+                                                    href="{{ route('user-manage.destroy', $user->id) }}"><i class="fas fa-trash"></i></a>
 
                                             </td>
 

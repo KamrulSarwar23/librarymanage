@@ -9,7 +9,7 @@
         <div class="row">
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('category.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -28,14 +28,14 @@
 
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('active.category') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Active Books</h4>
+                                <h4>Active Category</h4>
                             </div>
                             <div class="card-body">
                                 {{ $activeCategory }}
@@ -46,7 +46,25 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('pending.category') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Pending Category</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $pendingCategory }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('author.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -64,7 +82,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('active.author') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -81,13 +99,28 @@
                 </a>
             </div>
 
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('pending.author') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Pending Authors</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $pendingAuthor }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
-        </div>
 
-        <div class="row">
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('publisher.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -106,7 +139,7 @@
 
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('active.publisher') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -124,14 +157,51 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('pending.publisher') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Avaiable Book</h4>
+                                <h4>Pending Publishers</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $pendingPublishers }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('book.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Book</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $allBook }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('books.filterByStatus', ['status' => 'available']) }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Available Book</h4>
                             </div>
                             <div class="card-body">
                                 {{ $availableBook }}
@@ -142,7 +212,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -158,12 +228,10 @@
                     </div>
                 </a>
             </div>
-        </div>
 
-        <div class="row">
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('books.filterByStatus', ['status' => 'lost']) }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -182,7 +250,7 @@
 
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -200,7 +268,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('admin.book-review') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -218,7 +286,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('active.review') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -236,7 +304,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('pending.review') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -254,7 +322,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('user-manage.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -280,7 +348,7 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Pending User</h4>
+                                <h4>Active User</h4>
                             </div>
                             <div class="card-body">
                                 {{ $activeUser }}
@@ -302,6 +370,24 @@
                             </div>
                             <div class="card-body">
                                 {{ $pendingUser }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('message.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Message</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $allMessage }}
                             </div>
                         </div>
                     </div>

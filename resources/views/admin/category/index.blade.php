@@ -4,6 +4,15 @@
     li{
         list-style: none;
     }
+
+    td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
+        
 </style>
 
 @section('content')
@@ -18,7 +27,7 @@
                 <div class="dropdown mt-2 mb-3">
                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Category
+                        Filter Category
                     </button>
 
                     <ul class="dropdown-menu">
@@ -77,14 +86,15 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-primary"
-                                                    href="{{ route('category.edit', $category->id) }}">Edit</a>
+                                            <td><a class="btn btn-primary py-2"
+                                                    href="{{ route('category.edit', $category->id) }}"><i class="fas fa-edit"></i>
+                                                </a>
                                             </td>
 
                                             <td>
 
-                                                <a class="delete-item btn btn-danger"
-                                                    href="{{ route('category.destroy', $category->id) }}">Delete</a>
+                                                <a class="delete-item btn btn-danger py-2"
+                                                    href="{{ route('category.destroy', $category->id) }}"><i class="fas fa-trash"></i></a>
 
                                             </td>
 
@@ -109,28 +119,33 @@
 
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('body').on('click', '.change-status', function() {
+<script>
+    $(document).ready(function() {
+        $('body').on('click', '.change-status', function() {
 
-                let isChecked = $(this).is(':checked');
-                let id = $(this).data('id');
+            let isChecked = $(this).is(':checked');
+            let id = $(this).data('id');
 
-                $.ajax({
-                    url: "{{ route('category.status') }}",
-                    method: 'PUT',
-                    data: {
-                        status: isChecked,
-                        id: id
-                    },
-                    success: function(data) {
-                        toastr.success(data.message);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
+            $.ajax({
+                url: "{{ route('category.status') }}",
+                method: 'PUT',
+                data: {
+                    status: isChecked,
+                    id: id
+                },
+                success: function(data) {
+                    toastr.success(data.message);
+                },
+                error: function(xhr, status, error) {
+                    let errorMessage = 'An error occurred';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
                     }
-                });
+                    toastr.error(errorMessage);
+                }
             });
         });
-    </script>
+    });
+</script>
+
 @endpush

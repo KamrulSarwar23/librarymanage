@@ -6,6 +6,14 @@
     li{
             list-style-type: none
         }
+
+        td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
 </style>
 
     <section class="section">
@@ -19,7 +27,7 @@
                 <div class="dropdown mt-2 mb-3">
                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Publishers
+                        Filter Publishers
                     </button>
 
                     <ul class="dropdown-menu">
@@ -86,12 +94,13 @@
 
 
                                             <td><a class="btn btn-primary"
-                                                    href="{{ route('publisher.edit', $publisher->id) }}">Edit</a>
+                                                    href="{{ route('publisher.edit', $publisher->id) }}"><i class="fas fa-edit"></i>
+                                                </a>
                                             </td>
 
                                             <td>
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('publisher.destroy', $publisher->id) }}">Delete</a>
+                                                    href="{{ route('publisher.destroy', $publisher->id) }}"><i class="fas fa-trash"></i></a>
 
                                             </td>
                                         </tr>

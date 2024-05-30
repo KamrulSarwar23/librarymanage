@@ -1,12 +1,20 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
-<style>
-    li{
+    <style>
+        li {
             list-style-type: none
         }
-</style>
+
+
+        td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
+    </style>
 
     <section class="section">
         <div class="section-header">
@@ -17,15 +25,14 @@
         <div class="section-body">
             <li>
                 <div class="dropdown mt-2 mb-3">
-                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Authors
+                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filter Authors
                     </button>
 
                     <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" href="{{ route('author.index') }}">All</a></li>
-                            <li><a class="dropdown-item" href="{{ route('active.author') }}">Active</a></li>
-                            <li><a class="dropdown-item" href="{{ route('pending.author') }}">Pending</a></li>
+                        <li><a class="dropdown-item" href="{{ route('author.index') }}">All</a></li>
+                        <li><a class="dropdown-item" href="{{ route('active.author') }}">Active</a></li>
+                        <li><a class="dropdown-item" href="{{ route('pending.author') }}">Pending</a></li>
                     </ul>
                 </div>
             </li>
@@ -40,8 +47,8 @@
                             </div>
                         </div>
 
-                        
-      
+
+
 
                         <div class="card-body">
                             <div class="table-responsive">
@@ -97,13 +104,16 @@
                                             </td>
 
                                             <td><a class="btn btn-primary"
-                                                    href="{{ route('author.edit', $author->id) }}">Edit</a>
+                                                    href="{{ route('author.edit', $author->id) }}"><i
+                                                        class="fas fa-edit"></i>
+                                                </a>
                                             </td>
 
                                             <td>
 
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('author.destroy', $author->id) }}">Delete</a>
+                                                    href="{{ route('author.destroy', $author->id) }}"><i
+                                                        class="fas fa-trash"></i></a>
 
                                             </td>
 

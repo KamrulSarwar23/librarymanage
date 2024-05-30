@@ -62,6 +62,13 @@
         li{
             list-style-type: none
         }
+        td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
     </style>
 
 
@@ -77,7 +84,7 @@
                 <div class="dropdown mt-2 mb-3">
                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Reviews
+                        Filter Reviews
                     </button>
 
                     <ul class="dropdown-menu">
@@ -154,7 +161,7 @@
                                             <td>
 
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('book-reviews.delete', $review->id) }}">Delete</a>
+                                                    href="{{ route('book-reviews.delete', $review->id) }}"><i class="fas fa-trash"></i></a>
 
                                             </td>
                                         </tr>

@@ -24,6 +24,18 @@
         .form-select option {
             padding: 10px;
         }
+
+        td {
+            white-space: nowrap;
+        }
+
+        th {
+            white-space: nowrap;
+        }
+
+       form{
+        margin-top: -10px;
+       }
     </style>
     <section class="section">
         <div class="section-header">
@@ -42,17 +54,18 @@
                                 <a href="{{ route('book.create') }}" class="btn btn-primary">Create New</a>
                             </div>
                         </div>
+                        
                         <div class="custom-nav">
                             <ul class="nav">
-                                 <li>
+                                <li>
                                     <div class="dropdown mt-2 m-2">
-                                        <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             Category
                                         </button>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                                             @foreach ($category as $item)
-                                                <li><a class="dropdown-item"
+                                                <li><a class="dropdown-item btn-info"
                                                         href="{{ route('admin.book-by-category', $item->id) }}">{{ $item->name }}</a>
                                                 </li>
                                             @endforeach
@@ -60,15 +73,16 @@
                                     </div>
                                 </li>
 
+
                                 <li>
                                     <div class="dropdown mt-2 m-2">
-                                        <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                                        <button class="btn btn-info dropdown-toggle  py-2" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             Author
                                         </button>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                                             @foreach ($author as $item)
-                                                <li><a class="dropdown-item"
+                                                <li><a class="dropdown-item btn-info"
                                                         href="{{ route('admin.book-by-author', $item->id) }}">{{ $item->name }}</a>
                                                 </li>
                                             @endforeach
@@ -77,14 +91,14 @@
                                 </li>
 
                                 <li>
-                                    <div class="dropdown mt-2 m-2">
-                                        <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                                    <div class="dropdown m-2">
+                                        <button class="btn btn-info dropdown-toggle  py-2" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             Publishers
                                         </button>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                                             @foreach ($publisher as $item)
-                                                <li><a class="dropdown-item"
+                                                <li><a class="dropdown-item btn-info"
                                                         href="{{ route('admin.book-by-publisher', $item->id) }}">{{ $item->name }}</a>
                                                 </li>
                                             @endforeach
@@ -93,38 +107,50 @@
                                 </li>
 
                                 <li>
-                                    <div class="dropdown mt-2 mb-3">
-                                        <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="dropdown mt-2 mb-3 ml-2">
+                                        <button class="btn btn-info dropdown-toggle  py-2" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
                                             Status
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'available']) }}">Available</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'lost']) }}">Lost</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">Reserved</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">Checked Out</a></li>
+                                            <li><a class="dropdown-item btn-info"
+                                                    href="{{ route('books.filterByStatus', ['status' => 'available']) }}">Available</a>
+                                            </li>
+                                            <li><a class="dropdown-item btn-info"
+                                                    href="{{ route('books.filterByStatus', ['status' => 'lost']) }}">Lost</a>
+                                            </li>
+                                            <li><a class="dropdown-item btn-info"
+                                                    href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">Reserved</a>
+                                            </li>
+                                            <li><a class="dropdown-item btn-info"
+                                                    href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">Checked
+                                                    Out</a></li>
                                         </ul>
                                     </div>
                                 </li>
-                                
-                                <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
-                                    <div class="form-group mx-sm-1 mb-2">
-                                        <label for="start_date" class="sr-only">Start Date</label>
-                                        <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" class="form-control" placeholder="Start Date">
-                                    </div>
-                                    
-                                    <div class="form-group mx-sm-2 mb-2">
-                                        <label for="end_date" class="sr-only">End Date</label>
-                                        <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"class="form-control" placeholder="End Date">
-                                    </div>
-                                    
-                                    <button type="submit" class="btn btn-success mb-2"><i class="fas fa-search"></i></button>
-                                </form>
-                                
 
-                                
+                                <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
+                                    <div class="form-group mx-sm-1">
+                                        <label for="start_date" class="sr-only">Start Date</label>
+                                        <input type="date" name="start_date" id="start_date"
+                                            value="{{ old('start_date') }}" class="form-control" placeholder="Start Date">
+                                    </div>
+
+                                    <div class="form-group mx-sm-2">
+                                        <label for="end_date" class="sr-only">End Date</label>
+                                        <input type="date" name="end_date" id="end_date"
+                                            value="{{ old('end_date') }}"class="form-control" placeholder="End Date">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success py-2"><i
+                                            class="fas fa-search"></i></button>
+                                </form>
+
+
+
 
                                 <li>
-                                    <div class="dropdown m-2">
+                                    <div class="dropdown ml-2 mt-2">
                                         <button class="btn btn-danger">
                                             <a style="text-decoration: none; color:white"
                                                 href="{{ route('book.index') }}">Clear</a>
@@ -140,6 +166,21 @@
                         @if (isset($categoryName))
                             <div class="text-success">
                                 <h6>Search results for: "{{ $categoryName->name }}"</h6>
+                            </div>
+                        @endif
+
+                        @if (isset($status))
+                            <div class="text-success">
+                                <h6>Search results for: '{{ $status }}'</h6>
+                            </div>
+                        @endif
+
+                        @if (isset($dateRange))
+                            <div class="text-success">
+                                @foreach ($dateRange as $item)
+                                    <h6>Search results for: '{{ $item }}'</h6>
+                                @endforeach
+
                             </div>
                         @endif
 
@@ -184,7 +225,8 @@
                                             <td>{{ $book->category->name }}</td>
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
-                                            <td>{{ $book->created_at}}</td>
+                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
+                                            </td>
                                             <td>
                                                 <select class="form-select status-select" data-id="{{ $book->id }}">
                                                     <option value="reserved"
@@ -203,14 +245,15 @@
 
 
 
-                                            <td><a class="btn btn-primary"
-                                                    href="{{ route('book.edit', $book->id) }}">Edit</a>
+                                            <td><a class="btn btn-primary" href="{{ route('book.edit', $book->id) }}"><i
+                                                        class="fas fa-edit"></i></a>
                                             </td>
 
                                             <td>
 
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('book.destroy', $book->id) }}">Delete</a>
+                                                    href="{{ route('book.destroy', $book->id) }}"><i
+                                                        class="fas fa-trash"></i></a>
 
                                             </td>
 

@@ -6,7 +6,6 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
-use App\Models\Review;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -33,19 +32,21 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::where('status', $status)->paginate(10);
+        $books = Book::where('status', $status)->orderBy('created_at', 'DESC')->paginate(10);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
 
-        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'status'));
     }
 
     public function filterByDate(Request $request)
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+
+        $dateRange = $request->all();
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -63,13 +64,13 @@ class BookController extends Controller
             $query->whereDate('created_at', $endDate);
         }
 
-        $books = $query->paginate(10);
+        $books = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
 
-        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher' , 'dateRange', 'startDate', 'endDate'));
     }
 
 

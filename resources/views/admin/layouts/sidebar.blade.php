@@ -66,7 +66,7 @@
 
             </li>
 
-            <li class="dropdown {{ setActive(['book.index', 'book.create', 'book.edit', 'admin.book-by-category', 'admin.book-by-author', 'admin.book-by-publisher']) }}">
+            <li class="dropdown {{ setActive(['book.index', 'book.create', 'book.edit', 'admin.book-by-category', 'admin.book-by-author', 'admin.book-by-publisher', 'books.filterByStatus', 'books.filterByDate']) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
 

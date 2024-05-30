@@ -126,6 +126,15 @@ class CategoryController extends Controller
 
     public function changeStatus(Request $request){
         $category = Category::findOrFail($request->id);
+
+
+        if ($category->status == 'active') {
+            if (count($category->books) > 0) {
+                return response()->json(['message' => 'It Has Book; Cant Deactivate That'], 400);
+            }
+        }
+
+
         $category->status = $request->status == 'true' ? 'active' : 'inactive';
         $category->save();
 
