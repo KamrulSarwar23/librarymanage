@@ -1,9 +1,8 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
-<style>
-    li{
+    <style>
+        li {
             list-style-type: none
         }
 
@@ -14,7 +13,7 @@
         th {
             white-space: nowrap;
         }
-</style>
+    </style>
 
     <section class="section">
         <div class="section-header">
@@ -25,15 +24,17 @@
         <div class="section-body">
             <li>
                 <div class="dropdown mt-2 mb-3">
-                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Filter Publishers
                     </button>
 
                     <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" href="{{ route('publisher.index') }}">All</a></li>
-                            <li><a class="dropdown-item" href="{{ route('active.publisher') }}">Active</a></li>
-                            <li><a class="dropdown-item" href="{{ route('pending.publisher') }}">Pending</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('publisher.index') ? 'active' : '' }}"
+                                href="{{ route('publisher.index') }}">All</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('active.publisher') ? 'active' : '' }}"
+                                href="{{ route('active.publisher') }}">Active</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.publisher') ? 'active' : '' }}"
+                                href="{{ route('pending.publisher') }}">Pending</a></li>
                     </ul>
                 </div>
             </li>
@@ -44,7 +45,7 @@
                         <div class="card-header">
                             <h4>Create Publisher</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('publisher.create') }}" class="btn btn-primary">Create New</a>
+                                <a href="{{ route('publisher.create') }}" class="btn btn-info">Create New</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -72,7 +73,7 @@
                                             <td>{{ $publisher->phone }}</td>
                                             <td>{{ $publisher->address }}</td>
 
-                                     		<td>
+                                            <td>
                                                 @if ($publisher->status == 'active')
                                                     <label class="custom-switch">
                                                         <input type="checkbox" checked name="custom-switch-checkbox"
@@ -93,14 +94,16 @@
                                             </td>
 
 
-                                            <td><a class="btn btn-primary"
-                                                    href="{{ route('publisher.edit', $publisher->id) }}"><i class="fas fa-edit"></i>
+                                            <td><a class="btn btn-info"
+                                                    href="{{ route('publisher.edit', $publisher->id) }}"><i
+                                                        class="fas fa-edit"></i>
                                                 </a>
                                             </td>
 
                                             <td>
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('publisher.destroy', $publisher->id) }}"><i class="fas fa-trash"></i></a>
+                                                    href="{{ route('publisher.destroy', $publisher->id) }}"><i
+                                                        class="fas fa-trash"></i></a>
 
                                             </td>
                                         </tr>
@@ -140,7 +143,11 @@
                         toastr.success(data.message);
                     },
                     error: function(xhr, status, error) {
-                        console.log(error);
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        toastr.error(errorMessage);
                     }
                 });
             });

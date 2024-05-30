@@ -14,9 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-
         $categories = Category::orderBy('created_at', 'DESC')->paginate(10);
+
         return view('admin.category.index', compact('categories'));
+        
     }
 
     /**
@@ -144,11 +145,21 @@ class CategoryController extends Controller
 
     public function activeCategory(){
         $categories = Category::where('status', 'active')->paginate(10);
+
+        if (count($categories) == null) {
+            flash()->error('No Data Found');
+        }
+
         return view('admin.category.index', compact('categories'));
     }
 
     public function pendingCategory(){
         $categories = Category::where('status', 'inactive')->paginate(10);
+
+        if (count($categories) == null) {
+            flash()->error('No Data Found');
+        }
+
         return view('admin.category.index', compact('categories'));
     }
 }

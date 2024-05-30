@@ -12,7 +12,7 @@
         th {
             white-space: nowrap;
         }
-        
+
 </style>
 
 @section('content')
@@ -25,15 +25,15 @@
         <div class="section-body">
             <li>
                 <div class="dropdown mt-2 mb-3">
-                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                    <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Filter Category
                     </button>
 
                     <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('category.index') }}">All</a></li>
-                            <li><a class="dropdown-item" href="{{ route('active.category') }}">Active</a></li>
-                            <li><a class="dropdown-item" href="{{ route('pending.category') }}">Pending</a></li>
+                            <li><a class="dropdown-item btn-info {{ request()->routeIs('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}">All</a></li>
+                            <li><a class="dropdown-item btn-info {{ request()->routeIs('active.category') ? 'active' : '' }}" href="{{ route('active.category') }}">Active</a></li>
+                            <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.category') ? 'active' : '' }}" href="{{ route('pending.category') }}">Pending</a></li>
                     </ul>
                 </div>
             </li>
@@ -43,7 +43,7 @@
                         <div class="card-header">
                             <h4>Create Category</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('category.create') }}" class="btn btn-primary">Create New</a>
+                                <a href="{{ route('category.create') }}" class="btn btn-info">Create New</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -67,6 +67,7 @@
                                                     alt=""> </td>
                                             <td>{{ $category->name }}</td>
                                             <td>
+                                                
                                                 @if ($category->status == 'active')
                                                     <label class="custom-switch">
                                                         <input type="checkbox" checked name="custom-switch-checkbox"
@@ -86,7 +87,7 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-primary py-2"
+                                            <td><a class="btn btn-info py-2"
                                                     href="{{ route('category.edit', $category->id) }}"><i class="fas fa-edit"></i>
                                                 </a>
                                             </td>

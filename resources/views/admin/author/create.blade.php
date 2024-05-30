@@ -60,7 +60,7 @@
                                     </select>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="submit" class="btn btn-info">Create</button>
                             </form>
 
                         </div>

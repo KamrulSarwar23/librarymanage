@@ -17,13 +17,25 @@ class PublisherController extends Controller
         return view('admin.publisher.index', compact('publishers'));
     }
 
-    public function activePublisher(){
+    public function activePublisher()
+    {
         $publishers = Publisher::where('status', 'active')->paginate(10);
+
+        if (count($publishers) == null) {
+            flash()->error('No Data Found');
+        }
+
         return view('admin.publisher.index', compact('publishers'));
     }
 
-    public function pendingPublisher(){
+    public function pendingPublisher()
+    {
         $publishers = Publisher::where('status', 'inactive')->paginate(10);
+
+        if (count($publishers) == null) {
+            flash()->error('No Data Found');
+        }
+
         return view('admin.publisher.index', compact('publishers'));
     }
 
@@ -139,10 +151,18 @@ class PublisherController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Publisher Deleted Successfully']);
     }
 
-    public function changeStatus(Request $request){
-        $category = Publisher::findOrFail($request->id);
-        $category->status = $request->status == 'true' ? 'active' : 'inactive';
-        $category->save();
+    public function changeStatus(Request $request)
+    {
+        $publishers = Publisher::findOrFail($request->id);
+
+        if ($publishers->status == 'active') {
+            if (count($publishers->books) > 0) {
+                return response()->json(['message' => 'It Has Book; Cant Deactivate That'], 400);
+            }
+        }
+
+        $publishers->status = $request->status == 'true' ? 'active' : 'inactive';
+        $publishers->save();
 
         return response()->json(['message' => 'Status has been Updated!']);
     }

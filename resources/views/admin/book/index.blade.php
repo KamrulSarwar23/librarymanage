@@ -33,14 +33,13 @@
             white-space: nowrap;
         }
 
-       form{
-        margin-top: -10px;
-       }
+        form {
+            margin-top: -10px;
+        }
     </style>
     <section class="section">
         <div class="section-header">
             <h1>Book</h1>
-
         </div>
 
         <div class="section-body">
@@ -51,10 +50,10 @@
                         <div class="card-header">
                             <h4>Create Book</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('book.create') }}" class="btn btn-primary">Create New</a>
+                                <a href="{{ route('book.create') }}" class="btn btn-info">Create New</a>
                             </div>
                         </div>
-                        
+
                         <div class="custom-nav">
                             <ul class="nav">
                                 <li>
@@ -142,8 +141,7 @@
                                             value="{{ old('end_date') }}"class="form-control" placeholder="End Date">
                                     </div>
 
-                                    <button type="submit" class="btn btn-success py-2"><i
-                                            class="fas fa-search"></i></button>
+                                    <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
                                 </form>
 
 
@@ -151,7 +149,7 @@
 
                                 <li>
                                     <div class="dropdown ml-2 mt-2">
-                                        <button class="btn btn-danger">
+                                        <button class="btn btn-danger py-2">
                                             <a style="text-decoration: none; color:white"
                                                 href="{{ route('book.index') }}">Clear</a>
                                         </button>
@@ -164,19 +162,19 @@
 
 
                         @if (isset($categoryName))
-                            <div class="text-success">
+                            <div class="ml-3 mt-3 text-success">
                                 <h6>Search results for: "{{ $categoryName->name }}"</h6>
                             </div>
                         @endif
 
                         @if (isset($status))
-                            <div class="text-success">
+                            <div class="ml-3 mt-3 text-success">
                                 <h6>Search results for: '{{ $status }}'</h6>
                             </div>
                         @endif
 
                         @if (isset($dateRange))
-                            <div class="text-success">
+                            <div class="ml-3 mt-3 text-success">
                                 @foreach ($dateRange as $item)
                                     <h6>Search results for: '{{ $item }}'</h6>
                                 @endforeach
@@ -186,13 +184,13 @@
 
 
                         @if (isset($authorName))
-                            <div class="text-success mt-3">
+                            <div class="text-success mt-3 ml-3">
                                 <h6>Search results for: "{{ $authorName->name }}"</h6>
                             </div>
                         @endif
 
                         @if (isset($publisherName))
-                            <div class="text-success">
+                            <div class="text-success mt-3 ml-3">
                                 <h6>Search results for: "{{ $publisherName->name }}"</h6>
                             </div>
                         @endif
@@ -245,7 +243,7 @@
 
 
 
-                                            <td><a class="btn btn-primary" href="{{ route('book.edit', $book->id) }}"><i
+                                            <td><a class="btn btn-info" href="{{ route('book.edit', $book->id) }}"><i
                                                         class="fas fa-edit"></i></a>
                                             </td>
 

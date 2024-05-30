@@ -56,11 +56,21 @@ class ReviewController extends Controller
 
     public function activeReview(){
         $reviews = Review::where('status', 'active')->paginate(10);
+
+        if (count($reviews) == null) {
+            flash()->error('No Data Found');
+        }
+        
         return view('admin.review.index', compact('reviews'));
     }
 
     public function pendingReview(){
         $reviews = Review::where('status', 'inactive')->paginate(10);
+
+        if (count($reviews) == null) {
+            flash()->error('No Data Found');
+        }
+        
         return view('admin.review.index', compact('reviews'));
     }
 }

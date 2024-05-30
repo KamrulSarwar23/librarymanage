@@ -26,7 +26,7 @@
                         {{-- <div class="card-header">
                             <h4>Create User</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('user-manage.create') }}" class="btn btn-primary">Create New</a>
+                                <a href="{{ route('user-manage.create') }}" class="btn btn-info">Create New</a>
                             </div>
                         </div> --}}
                         <div class="card-body">
@@ -67,7 +67,7 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-primary"
+                                            <td><a class="btn btn-info"
                                                     href="{{ route('user-manage.edit', $user->id) }}"><i class="fas fa-edit"></i>
                                                 </a>
                                             </td>

@@ -85,15 +85,13 @@
                                 </span>
                                 
                                 <div class="back-stars">
-
+                                    @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                @endfor
+                                <div class="front-stars" style="width: {{ ($averageRating / 5) * 100 }}%">
                                     @for ($i = 1; $i <= 5; $i++)
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     @endfor
-
-                                    <div class="front-stars" style="width: {{ $averageRating * 20 }}%">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                        @endfor
                                     </div>
 
                                 </div>

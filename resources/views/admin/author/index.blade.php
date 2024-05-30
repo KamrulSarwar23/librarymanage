@@ -25,14 +25,14 @@
         <div class="section-body">
             <li>
                 <div class="dropdown mt-2 mb-3">
-                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Filter Authors
                     </button>
 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('author.index') }}">All</a></li>
-                        <li><a class="dropdown-item" href="{{ route('active.author') }}">Active</a></li>
-                        <li><a class="dropdown-item" href="{{ route('pending.author') }}">Pending</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('author.index') ? 'active' : '' }}" href="{{ route('author.index') }}">All</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('active.author') ? 'active' : '' }}" href="{{ route('active.author') }}">Active</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.author') ? 'active' : '' }}" href="{{ route('pending.author') }}">Pending</a></li>
                     </ul>
                 </div>
             </li>
@@ -43,7 +43,7 @@
                         <div class="card-header">
                             <h4>Create Author</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('author.create') }}" class="btn btn-primary">Create New</a>
+                                <a href="{{ route('author.create') }}" class="btn btn-info">Create New</a>
                             </div>
                         </div>
 
@@ -103,7 +103,7 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-primary"
+                                            <td><a class="btn btn-info"
                                                     href="{{ route('author.edit', $author->id) }}"><i
                                                         class="fas fa-edit"></i>
                                                 </a>
@@ -156,8 +156,12 @@
                         toastr.success(data.message);
                     },
                     error: function(xhr, status, error) {
-                        console.log(error);
+                    let errorMessage = 'An error occurred';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
                     }
+                    toastr.error(errorMessage);
+                }
                 });
             });
         });

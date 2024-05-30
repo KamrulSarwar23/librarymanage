@@ -34,7 +34,7 @@
                             </div>
                             <div class="card-body">
 
-                                <div class="form-group col-12">
+                                <div class="form-group col-12 mb-3">
 
                                     <div class="mb-3">
                                         <img width="100px" src="{{ asset(Auth::user()->image) }}" alt="">
@@ -46,7 +46,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-md-6 col-12">
+                                    <div class="form-group col-md-6 col-12 mb-3">
                                         <label>Name</label>
                                         <input type="text" name="name" class="form-control"
                                             value="{{ Auth::user()->name }}">
@@ -92,7 +92,7 @@
 
                                 <div class="row">
 
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-12 mb-3">
                                         <label>Current Password</label>
                                         <input type="text" name="current_password" class="form-control">
 
@@ -102,7 +102,7 @@
 
                                     </div>
 
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-12 mb-3">
                                         <label>New Password</label>
                                         <input type="text" name="password" class="form-control">
 
@@ -112,7 +112,7 @@
 
                                     </div>
 
-                                    <div class="form-group col-12">
+                                    <div class="form-group col-12 mb-3">
                                         <label>Confirm Password</label>
                                         <input type="text" name="password_confirmation" class="form-control">
                                         @error('password_confirmation')

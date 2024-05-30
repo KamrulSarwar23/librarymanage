@@ -19,11 +19,21 @@ class AuthorController extends Controller
 
     public function activeAuthor(){
         $authors = Author::where('status', 'active')->paginate(10);
+
+        if (count($authors) == null) {
+            flash()->error('No Data Found');
+        }
+
         return view('admin.author.index', compact('authors'));
     }
 
     public function pendingAuthor(){
         $authors = Author::where('status', 'inactive')->paginate(10);
+
+        if (count($authors) == null) {
+            flash()->error('No Data Found');
+        }
+        
         return view('admin.author.index', compact('authors'));
     }
 
@@ -141,10 +151,19 @@ class AuthorController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Author Deleted Successfully']);
     }
 
+
     public function changeStatus(Request $request){
-        $category = Author::findOrFail($request->id);
-        $category->status = $request->status == 'true' ? 'active' : 'inactive';
-        $category->save();
+        
+        $author = Author::findOrFail($request->id);
+
+        if ($author->status == 'active') {
+            if (count($author->books) > 0) {
+                return response()->json(['message' => 'It Has Book; Cant Deactivate That'], 400);
+            }
+        }
+
+        $author->status = $request->status == 'true' ? 'active' : 'inactive';
+        $author->save();
 
         return response()->json(['message' => 'Status has been Updated!']);
     }
