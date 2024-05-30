@@ -64,7 +64,7 @@
                                         </button>
                                         <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                                             @foreach ($category as $item)
-                                                <li><a class="dropdown-item btn-info"
+                                                <li><a class="dropdown-item btn-info {{ request()->routeIs('admin.book-by-category') && request()->route('id') == $item->id ? 'active' : '' }}"
                                                         href="{{ route('admin.book-by-category', $item->id) }}">{{ $item->name }}</a>
                                                 </li>
                                             @endforeach
@@ -81,7 +81,7 @@
                                         </button>
                                         <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                                             @foreach ($author as $item)
-                                                <li><a class="dropdown-item btn-info"
+                                                <li><a class="dropdown-item btn-info {{ request()->routeIs('admin.book-by-author') && request()->route('id') == $item->id ? 'active' : '' }}"
                                                         href="{{ route('admin.book-by-author', $item->id) }}">{{ $item->name }}</a>
                                                 </li>
                                             @endforeach
@@ -91,40 +91,47 @@
 
                                 <li>
                                     <div class="dropdown m-2">
-                                        <button class="btn btn-info dropdown-toggle  py-2" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
+                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown" aria-expanded="false">
                                             Publishers
                                         </button>
                                         <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                                             @foreach ($publisher as $item)
-                                                <li><a class="dropdown-item btn-info"
+                                                <li>
+                                                    <a class="dropdown-item btn-info {{ request()->routeIs('admin.book-by-publisher') && request()->route('id') == $item->id ? 'active' : '' }}"
                                                         href="{{ route('admin.book-by-publisher', $item->id) }}">{{ $item->name }}</a>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </li>
+                                
 
                                 <li>
                                     <div class="dropdown mt-2 mb-3 ml-2">
-                                        <button class="btn btn-info dropdown-toggle  py-2" data-bs-toggle="dropdown"
+                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             Status
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item btn-info"
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'available' ? 'active' : '' }}"
                                                     href="{{ route('books.filterByStatus', ['status' => 'available']) }}">Available</a>
                                             </li>
-                                            <li><a class="dropdown-item btn-info"
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'lost' ? 'active' : '' }}"
                                                     href="{{ route('books.filterByStatus', ['status' => 'lost']) }}">Lost</a>
                                             </li>
-                                            <li><a class="dropdown-item btn-info"
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'reserved' ? 'active' : '' }}"
                                                     href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">Reserved</a>
                                             </li>
-                                            <li><a class="dropdown-item btn-info"
-                                                    href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">Checked
-                                                    Out</a></li>
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'checked_out' ? 'active' : '' }}"
+                                                    href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">Checked Out</a>
+                                            </li>
                                         </ul>
+                                        
+                                        
                                     </div>
                                 </li>
 
