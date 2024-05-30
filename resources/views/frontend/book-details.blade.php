@@ -69,16 +69,21 @@
                 <div class="row mt-4">
 
                     <div class="col-md-4">
-                        <img height="550px" src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt=""
+                        <img height="450px" src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt=""
                             class="card-img-top">
                     </div>
 
                     <div class="col-md-8">
                         <h3 class="h2 mb-3">{{ $booksdetails->title }}</h3>
-                        <div class="h4 text-muted">{{ $booksdetails->author->name }}</div>
+                        <p class="h4 text-muted">Author: {{ $booksdetails->author->name }}</p>
+                        <p>Category: {{ $booksdetails->category->name }}</p>
+                        <p>Publisher: {{ $booksdetails->publisher->name }}</p>
                         <div class="star-rating d-inline-flex ml-2" title="">
                             <div class="star-rating d-inline-flex mx-2" title="">
-                                <span class="rating-text theme-font theme-yellow mx-1">({{ round($booksdetails->rating->avg('rating'), 1) }}) </span>
+                                <span
+                                    class="rating-text theme-font theme-yellow mx-1">({{ round($booksdetails->rating->avg('rating'), 1) }})
+                                </span>
+                                
                                 <div class="back-stars">
 
                                     @for ($i = 1; $i <= 5; $i++)
@@ -183,9 +188,10 @@
                                         alt="" class="card-img-top">
                                     <div class="card-body">
                                         <h3 class="h4 heading">{{ limitText($item->title, 25) }}</h3>
-                                        <p>{{ $item->author->name }}</p>
+                                        {{-- <p>{{ $item->author->name }}</p> --}}
                                         <div class="star-rating d-inline-flex ml-2" title="">
-                                            <span class="rating-text theme-font theme-yellow">({{ round($item->rating->avg('rating'), 1) }})</span>
+                                            <span
+                                                class="rating-text theme-font theme-yellow">({{ round($item->rating->avg('rating'), 1) }})</span>
                                             <div class="star-rating d-inline-flex mx-2" title="">
                                                 <div class="back-stars">
                                                     @for ($i = 1; $i <= 5; $i++)
@@ -203,7 +209,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span class="theme-font text-muted">({{ $item->rating->count('rating') }} Reviews)</span>
+                                            <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
+                                                Reviews)</span>
                                         </div>
                                     </div>
                                 </div>

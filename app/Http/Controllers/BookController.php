@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
 use App\Models\Review;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,11 +22,61 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
         $books = Book::orderBy('created_at', 'DESC')->paginate(10);
-        return view('admin.book.index', compact('books','category', 'author', 'publisher'));
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
     }
 
-    public function filterByCategory($id) {
-        
+    public function filterByStatus(Request $request)
+    {
+        $status = $request->input('status');
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::where('status', $status)->paginate(10);
+
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+    }
+
+    public function filterByDate(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $query = Book::query();
+
+        if ($startDate && $endDate) {
+            $endDate = Carbon::parse($endDate)->addDay();
+
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $query->whereDate('created_at', $startDate);
+        } elseif ($endDate) {
+            $query->whereDate('created_at', $endDate);
+        }
+
+        $books = $query->paginate(10);
+
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+    }
+
+
+
+    public function filterByCategory($id)
+    {
+
         $categoryName = Category::findOrFail($id);
 
         $category = Category::where('status', 'active')->get();
@@ -41,8 +92,9 @@ class BookController extends Controller
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'categoryName'));
     }
 
-    public function filterByAuthor($id) {
-        
+    public function filterByAuthor($id)
+    {
+
         $authorName = Author::findOrFail($id);
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -55,7 +107,8 @@ class BookController extends Controller
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'authorName'));
     }
 
-    public function filterByPublisher($id) {
+    public function filterByPublisher($id)
+    {
 
         $publisherName = Publisher::findOrFail($id);
         $category = Category::where('status', 'active')->get();
@@ -162,20 +215,20 @@ class BookController extends Controller
             'cover_image' => 'nullable|image',
             'status' => 'required',
         ]);
-    
+
         $book = Book::findOrFail($id);
-    
+
         if ($request->hasFile('cover_image')) {
             if ($book->cover_image && Storage::exists('public/book/' . $book->cover_image)) {
                 Storage::delete('public/book/' . $book->cover_image);
             }
-    
+
             $image = $request->file('cover_image');
             $imageName = uniqid() . "_" . time() . "." . $image->getClientOriginalExtension();
             $image->storeAs('public/book', $imageName);
             $book->cover_image = $imageName;
         }
-    
+
         $book->update([
             'title' => $request->title,
             'author_id' => $request->author,
@@ -187,11 +240,11 @@ class BookController extends Controller
             'summary' => $request->summary,
             'status' => $request->status,
         ]);
-    
+
         flash()->success('Book Updated Successfully');
         return redirect()->route('book.index');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -203,12 +256,12 @@ class BookController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
     }
 
-    public function changeStatus(Request $request){
+    public function changeStatus(Request $request)
+    {
         $book = Book::findOrFail($request->id);
         $book->status = $request->status;
         $book->save();
-    
+
         return response()->json(['message' => 'Status has been Updated!']);
     }
-    
 }

@@ -1,5 +1,11 @@
 @extends('admin.layouts.master')
 
+<style>
+    li{
+        list-style: none;
+    }
+</style>
+
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -8,7 +14,20 @@
         </div>
 
         <div class="section-body">
+            <li>
+                <div class="dropdown mt-2 mb-3">
+                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Category
+                    </button>
 
+                    <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('category.index') }}">All</a></li>
+                            <li><a class="dropdown-item" href="{{ route('active.category') }}">Active</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pending.category') }}">Pending</a></li>
+                    </ul>
+                </div>
+            </li>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">

@@ -1,6 +1,13 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
+<style>
+    li{
+            list-style-type: none
+        }
+</style>
+
     <section class="section">
         <div class="section-header">
             <h1>Publisher</h1>
@@ -8,6 +15,20 @@
         </div>
 
         <div class="section-body">
+            <li>
+                <div class="dropdown mt-2 mb-3">
+                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Publishers
+                    </button>
+
+                    <ul class="dropdown-menu">
+                         <li><a class="dropdown-item" href="{{ route('publisher.index') }}">All</a></li>
+                            <li><a class="dropdown-item" href="{{ route('active.publisher') }}">Active</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pending.publisher') }}">Pending</a></li>
+                    </ul>
+                </div>
+            </li>
 
             <div class="row">
                 <div class="col-md-12">

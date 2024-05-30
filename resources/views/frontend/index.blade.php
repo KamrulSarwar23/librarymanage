@@ -104,8 +104,8 @@
                                         class="card-img-top"></a>
                                 <div class="card-body">
                                     <h3 class="h4 heading"><a href="#">{{ $book->title }}</a></h3>
-                                    <p>Author: {{ $book->author->name }}</p>
-                                    {{-- <p>Category: {{ $book->category->name }}</p>
+                                    {{-- <p>Author: {{ $book->author->name }}</p>
+                                    <p>Category: {{ $book->category->name }}</p>
                                     <p>Publisher: {{ $book->publisher->name }}</p> --}}
                                     <div class="star-rating d-inline-flex ml-2" title="">
 

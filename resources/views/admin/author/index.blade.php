@@ -1,6 +1,13 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
+<style>
+    li{
+            list-style-type: none
+        }
+</style>
+
     <section class="section">
         <div class="section-header">
             <h1>Author</h1>
@@ -8,6 +15,20 @@
         </div>
 
         <div class="section-body">
+            <li>
+                <div class="dropdown mt-2 mb-3">
+                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Authors
+                    </button>
+
+                    <ul class="dropdown-menu">
+                         <li><a class="dropdown-item" href="{{ route('author.index') }}">All</a></li>
+                            <li><a class="dropdown-item" href="{{ route('active.author') }}">Active</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pending.author') }}">Pending</a></li>
+                    </ul>
+                </div>
+            </li>
 
             <div class="row">
                 <div class="col-md-12">
@@ -18,6 +39,10 @@
                                 <a href="{{ route('author.create') }}" class="btn btn-primary">Create New</a>
                             </div>
                         </div>
+
+                        
+      
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">

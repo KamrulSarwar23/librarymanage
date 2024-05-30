@@ -58,6 +58,10 @@
             color: #bb5252;
             font-size: 1.5em;
         }
+
+        li{
+            list-style-type: none
+        }
     </style>
 
 
@@ -68,6 +72,21 @@
         </div>
 
         <div class="section-body">
+
+            <li>
+                <div class="dropdown mt-2 mb-3">
+                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Reviews
+                    </button>
+
+                    <ul class="dropdown-menu">
+                         <li><a class="dropdown-item" href="{{ route('admin.book-review') }}">All</a></li>
+                            <li><a class="dropdown-item" href="{{ route('active.review') }}">Active</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pending.review') }}">Pending</a></li>
+                    </ul>
+                </div>
+            </li>
 
             <div class="row">
                 <div class="col-md-12">

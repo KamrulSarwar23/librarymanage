@@ -13,7 +13,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        $books = Book::with(['rating' => function($query) {
+        $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->paginate(12);
 
@@ -33,7 +33,9 @@ class PageController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::where('category_id', $id)->paginate(12);
+        $books = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('category_id', $id)->paginate(12);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -50,7 +52,10 @@ class PageController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::Where('author_id', $id)->paginate(12);
+        $books = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('author_id', $id)->paginate(12);
+
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
@@ -65,7 +70,9 @@ class PageController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::Where('publisher_id', $id)->paginate(12);
+        $books = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('publisher_id', $id)->paginate(12);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -73,7 +80,6 @@ class PageController extends Controller
 
         return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'publisherName'));
     }
-
 
 
     public function contact()
@@ -90,8 +96,10 @@ class PageController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-    
-        $booksdetails = Book::findOrFail($id);
+
+        $booksdetails = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->findOrFail($id);
 
         $booksReview = Review::where('status', 'active')->where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
 
@@ -106,7 +114,6 @@ class PageController extends Controller
 
     public function bookSearch(Request $request)
     {
-
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
@@ -116,9 +123,10 @@ class PageController extends Controller
         $query = Book::query();
 
 
-
         if (!empty($searchQuery)) {
-            $query->where('title', 'like', '%' . $searchQuery . '%')
+            $query->with(['rating' => function ($query) {
+                $query->where('status', 'active');
+            }])->where('title', 'like', '%' . $searchQuery . '%')
 
                 ->orWhereHas('category', function ($q) use ($searchQuery) {
                     $q->where('name', 'like', '%' . $searchQuery . '%');

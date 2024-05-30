@@ -17,6 +17,16 @@ class AuthorController extends Controller
         return view('admin.author.index', compact('authors'));
     }
 
+    public function activeAuthor(){
+        $authors = Author::where('status', 'active')->paginate(10);
+        return view('admin.author.index', compact('authors'));
+    }
+
+    public function pendingAuthor(){
+        $authors = Author::where('status', 'inactive')->paginate(10);
+        return view('admin.author.index', compact('authors'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

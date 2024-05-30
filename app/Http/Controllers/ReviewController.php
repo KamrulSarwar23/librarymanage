@@ -53,4 +53,14 @@ class ReviewController extends Controller
    
         return response()->json(['status' => 'success', 'message' => 'Review Deleted Successfully']);
     }
+
+    public function activeReview(){
+        $reviews = Review::where('status', 'active')->paginate(10);
+        return view('admin.review.index', compact('reviews'));
+    }
+
+    public function pendingReview(){
+        $reviews = Review::where('status', 'inactive')->paginate(10);
+        return view('admin.review.index', compact('reviews'));
+    }
 }

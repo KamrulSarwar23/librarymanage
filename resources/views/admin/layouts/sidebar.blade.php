@@ -19,7 +19,7 @@
     .fa-comment,
     .fa-tachometer-alt,
     .fa-paperclip {
-        color: #5C8374;
+        color: #43b1cc;
         font-size: 15px;
     }
 
@@ -48,19 +48,19 @@
 
             </li>
 
-            <li class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit']) }}">
+            <li class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit', 'active.category', 'pending.category']) }}">
                 <a href="{{ route('category.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Categories</span></a>
 
             </li>
 
-            <li class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit']) }}">
+            <li class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit', 'active.author', 'pending.author']) }}">
                 <a href="{{ route('author.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Authors</span></a>
 
             </li>
 
-            <li class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit']) }}">
+            <li class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit', 'active.publisher', 'pending.publisher']) }}">
                 <a href="{{ route('publisher.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Publishers</span></a>
 
@@ -73,7 +73,7 @@
             </li>
 
            
-            <li class="dropdown {{ setActive(['admin.book-review']) }}">
+            <li class="dropdown {{ setActive(['admin.book-review', 'active.review', 'pending.review']) }}">
                 <a href="{{ route('admin.book-review') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Reviews</span></a>
 
             </li>

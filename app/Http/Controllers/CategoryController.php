@@ -131,4 +131,15 @@ class CategoryController extends Controller
 
         return response()->json(['message' => 'Status has been Updated!']);
     }
+
+
+    public function activeCategory(){
+        $categories = Category::where('status', 'active')->paginate(10);
+        return view('admin.category.index', compact('categories'));
+    }
+
+    public function pendingCategory(){
+        $categories = Category::where('status', 'inactive')->paginate(10);
+        return view('admin.category.index', compact('categories'));
+    }
 }

@@ -77,7 +77,7 @@
                                 </li>
 
                                 <li>
-                                    <div class="dropdown mt-2">
+                                    <div class="dropdown mt-2 m-2">
                                         <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             Publishers
@@ -91,6 +91,38 @@
                                         </ul>
                                     </div>
                                 </li>
+
+                                <li>
+                                    <div class="dropdown mt-2 mb-3">
+                                        <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Status
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'available']) }}">Available</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'lost']) }}">Lost</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">Reserved</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">Checked Out</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                
+                                <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
+                                    <div class="form-group mx-sm-1 mb-2">
+                                        <label for="start_date" class="sr-only">Start Date</label>
+                                        <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" class="form-control" placeholder="Start Date">
+                                    </div>
+                                    
+                                    <div class="form-group mx-sm-2 mb-2">
+                                        <label for="end_date" class="sr-only">End Date</label>
+                                        <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"class="form-control" placeholder="End Date">
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-success mb-2"><i class="fas fa-search"></i></button>
+                                </form>
+                                
+
+                                
+
                                 <li>
                                     <div class="dropdown m-2">
                                         <button class="btn btn-danger">
@@ -136,6 +168,7 @@
                                     <th>Category Name</th>
                                     <th>Publisher Name</th>
                                     <th>Author Name</th>
+                                    <th>Date</th>
                                     <th>Status</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
@@ -151,7 +184,7 @@
                                             <td>{{ $book->category->name }}</td>
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
-
+                                            <td>{{ $book->created_at}}</td>
                                             <td>
                                                 <select class="form-select status-select" data-id="{{ $book->id }}">
                                                     <option value="reserved"

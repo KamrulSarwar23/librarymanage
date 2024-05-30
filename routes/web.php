@@ -36,18 +36,31 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/profile', [AdminAuthController::class, 'updatePassword'])->name('admin.password.update');
 
     // Category Routes
+    Route::get('/active-category', [CategoryController::class, 'activeCategory'])->name('active.category');
+    Route::get('/pending-category', [CategoryController::class, 'pendingCategory'])->name('pending.category');
+
     Route::put('/category/status', [CategoryController::class, 'changeStatus'])->name('category.status');
     Route::resource('category', CategoryController::class);
 
     // Publisher Routes
+    Route::get('/active-publishers', [PublisherController::class, 'activePublisher'])->name('active.publisher');
+    Route::get('/pending-publishers', [PublisherController::class, 'pendingPublisher'])->name('pending.publisher');
+
     Route::put('/publisher/status', [PublisherController::class, 'changeStatus'])->name('publisher.status');
     Route::resource('publisher', PublisherController::class);
 
     // Author Routes
+    Route::get('/active-author', [AuthorController::class, 'activeAuthor'])->name('active.author');
+    Route::get('/pending-author', [AuthorController::class, 'pendingAuthor'])->name('pending.author');
+
     Route::put('/author/status', [AuthorController::class, 'changeStatus'])->name('author.status');
     Route::resource('author', AuthorController::class);
 
     // Book Routes
+    Route::get('/books/filterByStatus', [BookController::class, 'filterByStatus'])->name('books.filterByStatus');
+
+    Route::get('/books/filterByDate', [BookController::class, 'filterByDate'])->name('books.filterByDate');
+
     Route::put('/book/status', [BookController::class, 'changeStatus'])->name('book.status');
     Route::resource('book', BookController::class);
 
@@ -69,8 +82,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/book-reviews', [ReviewController::class, 'bookReview'])->name('admin.book-review');
     Route::put('/book-reviews/status', [ReviewController::class, 'bookReviewStatus'])->name('book-reviews.status');
     Route::delete('/book-reviews/delete/{id}', [ReviewController::class, 'destroy'])->name('book-reviews.delete');
-
+    Route::get('/active-review', [ReviewController::class, 'activeReview'])->name('active.review');
+    Route::get('/pending-review', [ReviewController::class, 'pendingReview'])->name('pending.review');
 });
+
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->name('user.dashboard');

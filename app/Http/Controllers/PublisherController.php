@@ -17,6 +17,16 @@ class PublisherController extends Controller
         return view('admin.publisher.index', compact('publishers'));
     }
 
+    public function activePublisher(){
+        $publishers = Publisher::where('status', 'active')->paginate(10);
+        return view('admin.publisher.index', compact('publishers'));
+    }
+
+    public function pendingPublisher(){
+        $publishers = Publisher::where('status', 'inactive')->paginate(10);
+        return view('admin.publisher.index', compact('publishers'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
