@@ -15,7 +15,7 @@ class PageController extends Controller
     {
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->paginate(12);
+        }])->where('preview', 'active')->paginate(12);
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -35,7 +35,7 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('category_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -54,7 +54,7 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('author_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('author_id', $id)->paginate(12);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -72,7 +72,7 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('publisher_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('publisher_id', $id)->paginate(12);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -110,15 +110,15 @@ class PageController extends Controller
         $averageRating = round($totalReviews > 0 ? $allReview->avg('rating') : 0, 1);
 
         $enjoyedbook = Book::where('id', '!=', $id)
-        ->where(function($query) use ($booksdetails) {
-            $query->where('category_id', $booksdetails->category_id)
-                  ->orWhere('author_id', $booksdetails->author_id)
-                  ->orWhere('publisher_id', $booksdetails->publisher_id);
-        })
-        ->inRandomOrder()
-        ->take(4)
-        ->get();
-    
+            ->where(function ($query) use ($booksdetails) {
+                $query->where('category_id', $booksdetails->category_id)
+                    ->orWhere('author_id', $booksdetails->author_id)
+                    ->orWhere('publisher_id', $booksdetails->publisher_id);
+            })
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
+
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
 
@@ -133,26 +133,27 @@ class PageController extends Controller
 
         $query = Book::query();
 
-
         if (!empty($searchQuery)) {
-            $query->with(['rating' => function ($query) {
-                $query->where('status', 'active');
-            }])->where('title', 'like', '%' . $searchQuery . '%')
-
-                ->orWhereHas('category', function ($q) use ($searchQuery) {
-                    $q->where('name', 'like', '%' . $searchQuery . '%');
+            $query->where('preview', 'active')
+                ->where(function ($query) use ($searchQuery) {
+                    $query->where('title', 'like', '%' . $searchQuery . '%')
+                        ->orWhereHas('category', function ($q) use ($searchQuery) {
+                            $q->where('name', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhereHas('author', function ($q) use ($searchQuery) {
+                            $q->where('name', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhereHas('publisher', function ($q) use ($searchQuery) {
+                            $q->where('name', 'like', '%' . $searchQuery . '%');
+                        });
                 })
-
-                ->orWhereHas('author', function ($q) use ($searchQuery) {
-                    $q->where('name', 'like', '%' . $searchQuery . '%');
-                })
-
-                ->orWhereHas('publisher', function ($q) use ($searchQuery) {
-                    $q->where('name', 'like', '%' . $searchQuery . '%');
-                });
+                ->with(['rating' => function ($query) {
+                    $query->where('status', 'active');
+                }]);
         }
 
         $books = $query->paginate(12);
+
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
