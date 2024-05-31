@@ -124,12 +124,61 @@
                                                     href="{{ route('books.filterByStatus', ['status' => 'not_available']) }}">Not
                                                     Available</a>
                                             </li>
-
                                         </ul>
-
 
                                     </div>
                                 </li>
+
+                                <li>
+                                    <div class="dropdown ml-3 mt-2 mb-3">
+                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            Preview
+                                        </button>
+
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item btn-info {{ request()->routeIs('active.book') ? 'active' : '' }}"
+                                                    href="{{ route('active.book') }}">Active</a></li>
+                                            <li><a class="dropdown-item btn-info {{ request()->routeIs('inactive.book') ? 'active' : '' }}"
+                                                    href="{{ route('inactive.book') }}">Inactive</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="dropdown mt-2 mb-3 ml-3">
+                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            Type
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByType') && request('type') === 'popular' ? 'active' : '' }}"
+                                                    href="{{ route('books.filterByType', ['type' => 'popular']) }}">Popular</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByType') && request('type') === 'recent' ? 'active' : '' }}"
+                                                    href="{{ route('books.filterByType', ['type' => 'recent']) }}">Recent</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByType') && request('type') === 'featured' ? 'active' : '' }}"
+                                                    href="{{ route('books.filterByType', ['type' => 'featured']) }}">Featured</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByType') && request('type') === 'recommended' ? 'active' : '' }}"
+                                                    href="{{ route('books.filterByType', ['type' => 'recommended']) }}">Recommended</a>
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+                                </li>
+
+
 
                                 <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
                                     <div class="form-group mx-sm-1">
@@ -173,6 +222,12 @@
                         @if (isset($status))
                             <div class="ml-3 mt-3 text-success">
                                 <h6>Search results for: '{{ $status }}'</h6>
+                            </div>
+                        @endif
+
+                        @if (isset($type))
+                            <div class="ml-3 mt-3 text-success">
+                                <h6>Search results for: '{{ $type }}'</h6>
                             </div>
                         @endif
 
@@ -220,7 +275,8 @@
                                         <tr>
                                             <td>{{ $book->id }}</td>
                                             <td><img width="80px" height="80px" class="py-2"
-                                                    src="{{ asset('storage/book/' . $book->cover_image) }}" alt="">
+                                                    src="{{ asset('storage/book/' . $book->cover_image) }}"
+                                                    alt="">
                                             </td>
                                             <td><a href="{{ route('book.details', $book->id) }}">{{ $book->title }}</a>
                                             </td>
@@ -250,7 +306,8 @@
                                                         {{ $book->type == 'popular' ? 'selected' : '' }}>Popular
                                                     </option>
 
-                                                    <option value="recent" {{ $book->type == 'recent' ? 'selected' : '' }}>
+                                                    <option value="recent"
+                                                        {{ $book->type == 'recent' ? 'selected' : '' }}>
                                                         Recent
                                                     </option>
 

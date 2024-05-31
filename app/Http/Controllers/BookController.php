@@ -26,7 +26,7 @@ class BookController extends Controller
 
     public function filterByStatus(Request $request)
     {
-        $status = $request->input('status');
+        $status = $request->query('status');
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -40,6 +40,54 @@ class BookController extends Controller
 
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'status'));
     }
+
+    public function filterByType(Request $request)
+    {
+        $type = $request->query('type');
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::where('type', $type)->orderBy('created_at', 'DESC')->paginate(10);
+
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'type'));
+    }
+
+    public function activeBook(){
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::where('preview', 'active')->orderBy('created_at', 'DESC')->paginate(10);
+
+        if (count($books) == null) {
+            flash()->error('No Data Found');
+        }
+
+        return view('admin.book.index', compact('books','category', 'author', 'publisher'));
+    }
+
+    public function inactiveBook(){
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $books = Book::where('preview', 'inactive')->paginate(10);
+
+        if (count($books) == null) {
+            flash()->error('No Data Found');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+    }
+
 
     public function filterByDate(Request $request)
     {
