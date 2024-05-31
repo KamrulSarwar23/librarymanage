@@ -123,6 +123,45 @@ class BookController extends Controller
 
 
 
+    public function bookSearch(Request $request){
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+        $searchQuery = $request->input('search_query');
+
+
+        if (empty($searchQuery)) {
+            flash()->error('Need Value');
+        }
+
+        $query = Book::query();
+
+        if (!empty($searchQuery)) {
+            $query->where(function ($query) use ($searchQuery) {
+                $query->where('title', 'like', '%' . $searchQuery . '%')
+                    ->orWhereHas('category', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', '%' . $searchQuery . '%');
+                    })
+                    ->orWhereHas('author', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', '%' . $searchQuery . '%');
+                    })
+                    ->orWhereHas('publisher', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', '%' . $searchQuery . '%');
+                    });
+            });
+        }
+
+        $books = $query->paginate(12);
+
+
+        if ($books->isEmpty()) {
+            flash()->error('No data found.');
+        }
+
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+    }
+
     public function filterByCategory($id)
     {
 

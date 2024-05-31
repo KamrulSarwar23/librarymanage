@@ -36,6 +36,7 @@
         form {
             margin-top: -10px;
         }
+
     </style>
     <section class="section">
         <div class="section-header">
@@ -197,17 +198,24 @@
                                 </form>
 
 
-
-
                                 <li>
                                     <div class="dropdown ml-2 mt-2">
                                         <button class="btn btn-danger py-2">
                                             <a style="text-decoration: none; color:white"
-                                                href="{{ route('book.index') }}">Clear</a>
+                                                href="{{ route('book.index') }}">Clear All Filter</a>
                                         </button>
 
                                     </div>
                                 </li>
+                                
+                                <li class="d-flex align-items-center ml-auto mr-5">
+                                    <form action="{{ route('books.search-by-query') }}" method="GET" class="d-flex">
+                                        <input class="form-control me-2 mr-2" type="text" placeholder="Search" name="search_query">
+                                        <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
+                                    </form>
+                                </li>
+                                
+
 
                             </ul>
                         </div>

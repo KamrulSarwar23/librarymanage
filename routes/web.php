@@ -71,14 +71,16 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/active-books', [BookController::class, 'activeBook'])->name('active.book');
     Route::get('/inactive-books', [BookController::class, 'inactiveBook'])->name('inactive.book');
-   
+
+    Route::get('/books/search-by-query', [BookController::class, 'bookSearch'])->name('books.search-by-query');
+
     Route::resource('book', BookController::class);
 
+    
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);
     Route::delete('/user/destroy/{id}', [MessageController::class, 'destroy'])->name('user.destroy');
-
 
     Route::get('/messages', [MessageController::class, 'index'])->name('message.index');
     Route::delete('/messages/destroy/{id}', [MessageController::class, 'destroy'])->name('message.destroy');
