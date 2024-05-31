@@ -58,7 +58,8 @@ class BookController extends Controller
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'type'));
     }
 
-    public function activeBook(){
+    public function activeBook()
+    {
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -70,10 +71,11 @@ class BookController extends Controller
             flash()->error('No Data Found');
         }
 
-        return view('admin.book.index', compact('books','category', 'author', 'publisher'));
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
     }
 
-    public function inactiveBook(){
+    public function inactiveBook()
+    {
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -118,12 +120,13 @@ class BookController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('admin.book.index', compact('books', 'category', 'author', 'publisher' , 'dateRange', 'startDate', 'endDate'));
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'dateRange', 'startDate', 'endDate'));
     }
 
 
 
-    public function bookSearch(Request $request){
+    public function bookSearch(Request $request)
+    {
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
@@ -140,12 +143,15 @@ class BookController extends Controller
         if (!empty($searchQuery)) {
             $query->where(function ($query) use ($searchQuery) {
                 $query->where('title', 'like', '%' . $searchQuery . '%')
+
                     ->orWhereHas('category', function ($q) use ($searchQuery) {
                         $q->where('name', 'like', '%' . $searchQuery . '%');
                     })
+
                     ->orWhereHas('author', function ($q) use ($searchQuery) {
                         $q->where('name', 'like', '%' . $searchQuery . '%');
                     })
+                    
                     ->orWhereHas('publisher', function ($q) use ($searchQuery) {
                         $q->where('name', 'like', '%' . $searchQuery . '%');
                     });
@@ -240,7 +246,7 @@ class BookController extends Controller
             'summary' => 'required',
             'cover_image' => 'required',
             'status' => 'required',
-            'type'=> 'required',
+            'type' => 'required',
             'preview' => 'required',
         ]);
 
@@ -309,7 +315,7 @@ class BookController extends Controller
             'summary' => 'required',
             'cover_image' => 'nullable|image',
             'status' => 'required',
-            'type'=> 'required',
+            'type' => 'required',
             'preview' => 'required',
         ]);
 

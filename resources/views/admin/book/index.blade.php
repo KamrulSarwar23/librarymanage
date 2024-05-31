@@ -36,7 +36,6 @@
         form {
             margin-top: -10px;
         }
-
     </style>
     <section class="section">
         <div class="section-header">
@@ -182,7 +181,7 @@
 
 
                                 <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
-                                    <div class="form-group mx-sm-1">
+                                    <div class="form-group mx-sm-1 mr-2 mt-2">
                                         <label for="start_date" class="sr-only">Start Date</label>
                                         <input type="date" name="start_date" id="start_date"
                                             value="{{ old('start_date') }}" class="form-control" placeholder="Start Date">
@@ -207,14 +206,16 @@
 
                                     </div>
                                 </li>
-                                
+
                                 <li class="d-flex align-items-center ml-auto mr-5">
                                     <form action="{{ route('books.search-by-query') }}" method="GET" class="d-flex">
-                                        <input class="form-control me-2 mr-2" type="text" placeholder="Search" name="search_query">
-                                        <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
+                                        <input class="form-control me-2 mr-2" type="text" placeholder="Search"
+                                            name="search_query">
+                                        <button type="submit" class="btn btn-info py-2"><i
+                                                class="fas fa-search"></i></button>
                                     </form>
                                 </li>
-                                
+
 
 
                             </ul>

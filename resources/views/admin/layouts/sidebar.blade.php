@@ -88,6 +88,15 @@
             </li>
 
            
+            <li class="dropdown">
+                <a href="#" class="nav-link"><i class="fa-solid fa-tags"></i><span>Borrowing Request</span></a>
+
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>
+            </li>
+
             <li class="dropdown {{ setActive(['admin.book-review', 'active.review', 'pending.review']) }}">
                 <a href="{{ route('admin.book-review') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Reviews</span></a>
 

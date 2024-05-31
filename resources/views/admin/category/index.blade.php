@@ -5,11 +5,7 @@
         list-style: none;
     }
 
-    td {
-            white-space: nowrap;
-        }
-
-        th {
+    td,th {
             white-space: nowrap;
         }
 
