@@ -109,8 +109,16 @@ class PageController extends Controller
 
         $averageRating = round($totalReviews > 0 ? $allReview->avg('rating') : 0, 1);
 
-        $enjoyedbook = Book::where('category_id', $booksdetails->category_id)->where('id', '!=', $id)->take(4)->get();
-
+        $enjoyedbook = Book::where('id', '!=', $id)
+        ->where(function($query) use ($booksdetails) {
+            $query->where('category_id', $booksdetails->category_id)
+                  ->orWhere('author_id', $booksdetails->author_id)
+                  ->orWhere('publisher_id', $booksdetails->publisher_id);
+        })
+        ->inRandomOrder()
+        ->take(4)
+        ->get();
+    
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
 

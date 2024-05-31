@@ -20,7 +20,9 @@ class Book extends Model
         'summary',
         'cover_image',
         'status',
-        'quantity'
+        'quantity',
+        'type',
+        'preview'
     ];
 
 

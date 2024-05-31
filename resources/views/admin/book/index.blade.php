@@ -91,7 +91,8 @@
 
                                 <li>
                                     <div class="dropdown m-2">
-                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
                                             Publishers
                                         </button>
                                         <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
@@ -104,7 +105,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                
+
 
                                 <li>
                                     <div class="dropdown mt-2 mb-3 ml-2">
@@ -117,21 +118,16 @@
                                                 <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'available' ? 'active' : '' }}"
                                                     href="{{ route('books.filterByStatus', ['status' => 'available']) }}">Available</a>
                                             </li>
+
                                             <li>
-                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'lost' ? 'active' : '' }}"
-                                                    href="{{ route('books.filterByStatus', ['status' => 'lost']) }}">Lost</a>
+                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'not_available' ? 'active' : '' }}"
+                                                    href="{{ route('books.filterByStatus', ['status' => 'not_available']) }}">Not
+                                                    Available</a>
                                             </li>
-                                            <li>
-                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'reserved' ? 'active' : '' }}"
-                                                    href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">Reserved</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'checked_out' ? 'active' : '' }}"
-                                                    href="{{ route('books.filterByStatus', ['status' => 'checked_out']) }}">Checked Out</a>
-                                            </li>
+
                                         </ul>
-                                        
-                                        
+
+
                                     </div>
                                 </li>
 
@@ -214,6 +210,8 @@
                                     <th>Author Name</th>
                                     <th>Quantity</th>
                                     <th>Status</th>
+                                    <th>Type</th>
+                                    <th>Preview</th>
                                     <th>Action</th>
                                     {{-- <th>Delete</th> --}}
 
@@ -224,7 +222,8 @@
                                             <td><img width="80px" height="80px" class="py-2"
                                                     src="{{ asset('storage/book/' . $book->cover_image) }}" alt="">
                                             </td>
-                                            <td>{{ $book->title }}</td>
+                                            <td><a href="{{ route('book.details', $book->id) }}">{{ $book->title }}</a>
+                                            </td>
                                             <td>{{ $book->category->name }}</td>
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
@@ -233,23 +232,63 @@
                                             </td>
                                             <td>
                                                 <select class="form-select status-select" data-id="{{ $book->id }}">
-                                                    <option value="reserved"
-                                                        {{ $book->status == 'reserved' ? 'selected' : '' }}>Reserved
-                                                    </option>
-                                                    <option value="checked_out"
-                                                        {{ $book->status == 'checked_out' ? 'selected' : '' }}>Checked Out
-                                                    </option>
+
                                                     <option value="available"
                                                         {{ $book->status == 'available' ? 'selected' : '' }}>Available
                                                     </option>
-                                                    <option value="lost" {{ $book->status == 'lost' ? 'selected' : '' }}>
-                                                        Lost</option>
+
+                                                    <option value="not_available"
+                                                        {{ $book->status == 'not_available' ? 'selected' : '' }}>Not
+                                                        Available
+                                                    </option>
                                                 </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-select type-select" data-id="{{ $book->id }}">
+
+                                                    <option value="popular"
+                                                        {{ $book->type == 'popular' ? 'selected' : '' }}>Popular
+                                                    </option>
+
+                                                    <option value="recent" {{ $book->type == 'recent' ? 'selected' : '' }}>
+                                                        Recent
+                                                    </option>
+
+                                                    <option value="featured"
+                                                        {{ $book->type == 'featured' ? 'selected' : '' }}>Featured
+                                                    </option>
+
+                                                    <option value="recommended"
+                                                        {{ $book->type == 'recommended' ? 'selected' : '' }}>Recommended
+                                                    </option>
+
+                                                </select>
+
                                             </td>
 
                                             <td>
-                                                <a class="btn btn-info mr-2" href="{{ route('book.edit', $book->id) }}"><i
-                                                    class="fas fa-edit"></i></a>
+                                                @if ($book->preview == 'active')
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox" checked name="custom-switch-checkbox"
+                                                            data-id="{{ $book->id }}"
+                                                            id="flexSwitchCheckDefault{{ $book->id }}"
+                                                            class="custom-switch-input preview-change">
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
+                                                @else
+                                                    <label class="custom-switch">
+                                                        <input type="checkbox" name="custom-switch-checkbox"
+                                                            data-id="{{ $book->id }}"
+                                                            id="flexSwitchCheckDefault{{ $book->id }}"
+                                                            class="custom-switch-input preview-change">
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-info mr-2"
+                                                    href="{{ route('book.edit', $book->id) }}"><i
+                                                        class="fas fa-edit"></i></a>
 
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('book.destroy', $book->id) }}"><i
@@ -262,7 +301,7 @@
 
                                     @if ($books->isEmpty())
                                         <div class="alert alert-danger mt-5" role="alert">
-                                           No Data Found
+                                            No Data Found
                                         </div>
                                     @endif
 
@@ -301,6 +340,52 @@
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
+                    }
+                });
+            });
+
+            $('body').on('change', '.type-select', function() {
+                let type = $(this).val();
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('book.type.change') }}",
+                    method: 'PUT',
+                    data: {
+                        type: type,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+
+            $('body').on('click', '.preview-change', function() {
+
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('book.preview.change') }}",
+                    method: 'PUT',
+                    data: {
+                        preview: isChecked,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        toastr.error(errorMessage);
                     }
                 });
             });

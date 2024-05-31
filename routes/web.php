@@ -62,6 +62,12 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/books/filterByDate', [BookController::class, 'filterByDate'])->name('books.filterByDate');
 
     Route::put('/book/status', [BookController::class, 'changeStatus'])->name('book.status');
+    
+    Route::put('/book/type/change', [BookController::class, 'changeType'])->name('book.type.change');
+
+    Route::put('/book/preview/change', [BookController::class, 'changePreview'])->name('book.preview.change');
+
+   
     Route::resource('book', BookController::class);
 
     // User Routes

@@ -109,16 +109,33 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputState">Status</label>
-                                    <select id="inputState" class="form-control" name="status">
-                                        <option {{ $book->status == 'available' ? 'selected' : '' }} value="available">Available</option>
-                                        <option {{ $book->status == 'checked_out' ? 'selected' : '' }} value="checked_out">Checked Out</option>
-                                        <option {{ $book->status == 'reserved' ? 'selected' : '' }} value="reserved">Reserved</option>
-                                        <option {{ $book->status == 'lost' ? 'selected' : '' }} value="lost">Lost</option>
+                                    <label for="inputState">Type</label>
+                                    <select id="inputState" class="form-control" name="type">
+                                        <option {{ $book->type == 'popular' ? 'selected' : '' }} value="popular">Popular</option>
+                                        <option {{ $book->type == 'recent' ? 'selected' : '' }} value="recent">Recent</option>
+                                        <option {{ $book->type == 'featured' ? 'selected' : '' }} value="featured">Featured</option>
+                                        <option {{ $book->type == 'recommended' ? 'selected' : '' }} value="recommended">Recomended</option>
+                                      
                                     </select>
                                 </div>
 
 
+                                <div class="form-group">
+                                    <label for="inputState">Status</label>
+                                    <select id="inputState" class="form-control" name="status">
+                                        <option {{ $book->status == 'available' ? 'selected' : '' }} value="available">Available</option>
+                                        <option {{ $book->status == 'not_available' ? 'selected' : '' }} value="not_available">Not Available</option>
+                                       
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputState">Preview</label>
+                                    <select id="inputState" class="form-control" name="preview">
+                                        <option {{ $book->preview == 'active' ? 'selected' : '' }} value="active">Active</option>
+                                        <option {{ $book->preview == 'inactive' ? 'selected' : '' }} value="inactive">Inactive</option>
+                                    </select>
+                                </div>
 
                                 <button type="submit" class="btn btn-info">Update</button>
                             </form>

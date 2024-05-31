@@ -153,6 +153,8 @@ class BookController extends Controller
             'summary' => 'required',
             'cover_image' => 'required',
             'status' => 'required',
+            'type'=> 'required',
+            'preview' => 'required',
         ]);
 
         $imageName = '';
@@ -174,6 +176,8 @@ class BookController extends Controller
             'quantity' => $request->quantity,
             'summary' => $request->summary,
             'status' => $request->status,
+            'type' => $request->type,
+            'preview' => $request->preview,
             'cover_image' => $imageName,
         ]);
 
@@ -218,6 +222,8 @@ class BookController extends Controller
             'summary' => 'required',
             'cover_image' => 'nullable|image',
             'status' => 'required',
+            'type'=> 'required',
+            'preview' => 'required',
         ]);
 
         $book = Book::findOrFail($id);
@@ -244,6 +250,8 @@ class BookController extends Controller
             'quantity' => $request->quantity,
             'summary' => $request->summary,
             'status' => $request->status,
+            'type' => $request->type,
+            'preview' => $request->preview,
         ]);
 
         flash()->success('Book Updated Successfully');
@@ -265,6 +273,24 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($request->id);
         $book->status = $request->status;
+        $book->save();
+
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
+
+    public function changeType(Request $request)
+    {
+        $book = Book::findOrFail($request->id);
+        $book->type = $request->type;
+        $book->save();
+
+        return response()->json(['message' => 'Status has been Updated!']);
+    }
+
+    public function changePreview(Request $request)
+    {
+        $book = Book::findOrFail($request->id);
+        $book->preview = $request->preview == 'true' ? 'active' : 'inactive';
         $book->save();
 
         return response()->json(['message' => 'Status has been Updated!']);

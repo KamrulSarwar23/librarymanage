@@ -30,7 +30,7 @@
                                 </div>
 
                                 <div class="row">
-                              
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Category</label>
@@ -100,12 +100,30 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="inputState">Type</label>
+                                    <select id="inputState" class="form-control" name="type">
+                                        <option value="popular">Popular</option>
+                                        <option value="recent">Recent</option>
+                                        <option value="featured">Featured</option>
+                                        <option value="recommended">Recomended</option>
+                                    
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="inputState">Status</label>
                                     <select id="inputState" class="form-control" name="status">
                                         <option value="available">Available</option>
-                                        <option value="checked_out">Checked Out</option>
-                                        <option value="reserved">Reserved</option>
-                                        <option value="lost">Lost</option>
+                                        <option value="not_available">Not Available</option>
+                                   
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputState">Preview</label>
+                                    <select id="inputState" class="form-control" name="preview">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
                                     </select>
                                 </div>
 

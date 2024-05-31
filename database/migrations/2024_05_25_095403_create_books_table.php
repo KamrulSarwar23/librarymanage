@@ -23,7 +23,9 @@ return new class extends Migration
             $table->integer('number_of_pages');
             $table->text('summary')->nullable();
             $table->string('cover_image')->nullable();
-            $table->enum('status', ['available', 'checked_out', 'reserved', 'lost'])->default('available');
+            $table->enum('type', ['popular', 'recent', 'featured', 'recommended'])->default('recent');
+            $table->enum('preview', ['active', 'inactive'])->default('inactive');
+            $table->enum('status', ['available', 'not_available'])->default('available');
             $table->timestamps();
             
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
