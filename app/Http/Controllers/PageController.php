@@ -104,7 +104,7 @@ class PageController extends Controller
         $booksReview = Review::where('status', 'active')->where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
 
         $allReview = Review::where('status', 'active')->where('book_id', $id)->orderBy('created_at', 'DESC')->get();
-        
+
         $totalReviews = Review::where('status', 'active')->where('book_id', $id)->count();
 
         $averageRating = round($totalReviews > 0 ? $allReview->avg('rating') : 0, 1);
@@ -114,7 +114,7 @@ class PageController extends Controller
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
 
-    
+
     public function bookSearch(Request $request)
     {
         $category = Category::where('status', 'active')->get();

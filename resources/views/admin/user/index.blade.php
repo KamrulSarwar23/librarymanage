@@ -37,8 +37,8 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Action</th>
+                                
 
                                     @foreach ($users as $user)
                                         <tr>
@@ -67,13 +67,11 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-info"
-                                                    href="{{ route('user-manage.edit', $user->id) }}"><i class="fas fa-edit"></i>
-                                                </a>
-                                            </td>
 
                                             <td>
-
+                                                <a class="btn btn-info mr-2"
+                                                href="{{ route('user-manage.edit', $user->id) }}"><i class="fas fa-edit"></i>
+                                            </a>
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('user-manage.destroy', $user->id) }}"><i class="fas fa-trash"></i></a>
 
@@ -81,6 +79,13 @@
 
                                         </tr>
                                     @endforeach
+
+                                    @if ($users->isEmpty())
+                                    <div class="alert alert-danger mt-5" role="alert">
+                                        No Data Found
+                                    </div>
+                                    @endif
+
                                 </table>
                                 <div class="pagination">
                                     {{ $users->links() }}

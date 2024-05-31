@@ -203,8 +203,6 @@
                         @endif
 
 
-
-
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -214,10 +212,10 @@
                                     <th>Category Name</th>
                                     <th>Publisher Name</th>
                                     <th>Author Name</th>
-                                    <th>Date</th>
+                                    <th>Quantity</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Action</th>
+                                    {{-- <th>Delete</th> --}}
 
 
                                     @foreach ($books as $book)
@@ -230,7 +228,8 @@
                                             <td>{{ $book->category->name }}</td>
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
+                                            <td>{{ $book->quantity }}</td>
+                                            {{-- <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }} --}}
                                             </td>
                                             <td>
                                                 <select class="form-select status-select" data-id="{{ $book->id }}">
@@ -248,13 +247,9 @@
                                                 </select>
                                             </td>
 
-
-
-                                            <td><a class="btn btn-info" href="{{ route('book.edit', $book->id) }}"><i
-                                                        class="fas fa-edit"></i></a>
-                                            </td>
-
                                             <td>
+                                                <a class="btn btn-info mr-2" href="{{ route('book.edit', $book->id) }}"><i
+                                                    class="fas fa-edit"></i></a>
 
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('book.destroy', $book->id) }}"><i
@@ -264,9 +259,10 @@
 
                                         </tr>
                                     @endforeach
+
                                     @if ($books->isEmpty())
                                         <div class="alert alert-danger mt-5" role="alert">
-                                            No data found.
+                                           No Data Found
                                         </div>
                                     @endif
 

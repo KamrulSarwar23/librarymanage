@@ -166,7 +166,11 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
+                                    @if ($reviews->isEmpty())
+                                    <div class="alert alert-danger mt-5" role="alert">
+                                        No Data Found
+                                    </div>
+                                    @endif
                                 </table>
 
                                 <div class="pagination">

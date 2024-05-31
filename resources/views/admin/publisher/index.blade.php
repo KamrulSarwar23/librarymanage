@@ -58,8 +58,8 @@
                                     <th>Phone</th>
                                     <th>Address</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Action</th>
+                                    {{-- <th>Delete</th> --}}
 
 
                                     @foreach ($publishers as $publisher)
@@ -94,13 +94,15 @@
                                             </td>
 
 
-                                            <td><a class="btn btn-info"
+                                            {{-- <td>
+                                            </td> --}}
+
+                                            <td>
+                                                <a class="btn btn-info mr-2"
                                                     href="{{ route('publisher.edit', $publisher->id) }}"><i
                                                         class="fas fa-edit"></i>
                                                 </a>
-                                            </td>
 
-                                            <td>
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('publisher.destroy', $publisher->id) }}"><i
                                                         class="fas fa-trash"></i></a>
@@ -108,6 +110,12 @@
                                             </td>
                                         </tr>
                                     @endforeach
+
+                                    @if ($publishers->isEmpty())
+                                    <div class="alert alert-danger mt-5" role="alert">
+                                        No Data Found
+                                    </div>
+                                    @endif
                                 </table>
 
                                 <div class="pagination">

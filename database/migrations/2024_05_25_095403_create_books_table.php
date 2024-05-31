@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('publisher_id');
+            $table->integer('quantity');
             $table->string('isbn')->unique();
             $table->date('publication_date');
             $table->integer('number_of_pages');

@@ -19,7 +19,8 @@ class Book extends Model
         'number_of_pages',
         'summary',
         'cover_image',
-        'status'
+        'status',
+        'quantity'
     ];
 
 

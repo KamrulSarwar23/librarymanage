@@ -55,8 +55,8 @@
                                     <th>Name</th>
                                     <th>Status</th>
 
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    {{-- <th>Edit</th> --}}
+                                    <th>Action</th>
 
 
                                     @foreach ($categories as $category)
@@ -87,12 +87,13 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-info py-2"
-                                                    href="{{ route('category.edit', $category->id) }}"><i class="fas fa-edit"></i>
-                                                </a>
-                                            </td>
+                                            {{-- <td>
+                                            </td> --}}
 
                                             <td>
+                                                <a class="btn btn-info py-2 mr-2"
+                                                href="{{ route('category.edit', $category->id) }}"><i class="fas fa-edit"></i>
+                                                </a>
 
                                                 <a class="delete-item btn btn-danger py-2"
                                                     href="{{ route('category.destroy', $category->id) }}"><i class="fas fa-trash"></i></a>
@@ -101,7 +102,11 @@
 
                                         </tr>
                                     @endforeach
-
+                                    @if ($categories->isEmpty())
+                                    <div class="alert alert-danger mt-5" role="alert">
+                                       No Data Found
+                                    </div>
+                                    @endif
 
                                 </table>
 

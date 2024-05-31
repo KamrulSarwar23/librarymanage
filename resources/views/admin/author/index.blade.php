@@ -30,9 +30,12 @@
                     </button>
 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item btn-info {{ request()->routeIs('author.index') ? 'active' : '' }}" href="{{ route('author.index') }}">All</a></li>
-                        <li><a class="dropdown-item btn-info {{ request()->routeIs('active.author') ? 'active' : '' }}" href="{{ route('active.author') }}">Active</a></li>
-                        <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.author') ? 'active' : '' }}" href="{{ route('pending.author') }}">Pending</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('author.index') ? 'active' : '' }}"
+                                href="{{ route('author.index') }}">All</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('active.author') ? 'active' : '' }}"
+                                href="{{ route('active.author') }}">Active</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.author') ? 'active' : '' }}"
+                                href="{{ route('pending.author') }}">Pending</a></li>
                     </ul>
                 </div>
             </li>
@@ -61,8 +64,8 @@
                                     <th>Date of Birth</th>
                                     <th>Date of Death</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    {{-- <th>Edit</th> --}}
+                                    <th>Action</th>
 
 
                                     @foreach ($authors as $author)
@@ -73,7 +76,7 @@
                                             </td>
                                             <td>{{ $author->name }}</td>
                                             <td>{{ $author->address }}</td>
-                                            <td>{{ limitText($author->biography, 40) }}</td>
+                                            <td>{{ limitText($author->biography, 30) }}</td>
                                             <td>{{ $author->date_of_birth }}</td>
                                             <td>
                                                 @if ($author->date_of_death == null)
@@ -81,7 +84,6 @@
                                                 @else
                                                     {{ $author->date_of_death }}
                                                 @endif
-
                                             </td>
                                             <td>
                                                 @if ($author->status == 'active')
@@ -103,14 +105,13 @@
                                                 @endif
                                             </td>
 
-                                            <td><a class="btn btn-info"
+
+
+                                            <td>
+                                                <a class="btn btn-info mr-2"
                                                     href="{{ route('author.edit', $author->id) }}"><i
                                                         class="fas fa-edit"></i>
                                                 </a>
-                                            </td>
-
-                                            <td>
-
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('author.destroy', $author->id) }}"><i
                                                         class="fas fa-trash"></i></a>
@@ -119,7 +120,11 @@
 
                                         </tr>
                                     @endforeach
-
+                                    @if ($authors->isEmpty())
+                                        <div class="alert alert-danger mt-5" role="alert">
+                                            No Data Found
+                                        </div>
+                                    @endif
                                 </table>
 
                                 <div class="pagination">
@@ -156,12 +161,12 @@
                         toastr.success(data.message);
                     },
                     error: function(xhr, status, error) {
-                    let errorMessage = 'An error occurred';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        errorMessage = xhr.responseJSON.message;
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        toastr.error(errorMessage);
                     }
-                    toastr.error(errorMessage);
-                }
                 });
             });
         });
