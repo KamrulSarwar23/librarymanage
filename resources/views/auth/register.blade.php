@@ -11,7 +11,11 @@
 @section('section')
     <div class="container-login100">
         <div class="wrap-login100">
-
+            <div class="text-center mb-3">
+                <a class="txt2 text-primary" href="{{ route('home.page') }}">
+                  <span>Go Home </span>
+                </a>
+            </div>
             <form class="login100-form validate-form" method="POST" action="{{ route('register') }}">
                 @csrf
                 <span class="login100-form-title p-b-26">
@@ -56,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="text-center p-t-50">
+                <div class="text-center pt-3">
                     <span class="txt1">
                         Already have an account?
                     </span>
@@ -65,6 +69,7 @@
                         Sign In
                     </a>
                 </div>
+            
             </form>
         </div>
     </div>

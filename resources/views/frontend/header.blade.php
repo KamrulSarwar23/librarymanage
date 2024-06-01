@@ -26,16 +26,18 @@
                             </div>
 
                             <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                                <li>
-                                    <a href="{{ route('home.page') }}" class="nav-links">Home</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('all.books') }}" class="nav-links">Books</a>
-                                </li>
-
-                                <li>
-                                    <a href="{{ route('contact.page') }}" class="nav-links">Contact</a>
-                                </li>
+                            
+                                    <li class="nav-item {{ request()->routeIs('home.page') ? 'active' : '' }}">
+                                        <a href="{{ route('home.page') }}" class="nav-link">Home</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->routeIs('all.books') ? 'active' : '' }}">
+                                        <a href="{{ route('all.books') }}" class="nav-link">Books</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->routeIs('contact.page') ? 'active' : '' }}">
+                                        <a href="{{ route('contact.page') }}" class="nav-link">Contact</a>
+                                    </li>
+                             
+                                
 
                                 <li>
                                     @if (Route::has('login'))
@@ -57,13 +59,13 @@
                                                 @endif
                                             @else
                                                 <a href="{{ route('login') }}"
-                                                    class="btn btn-primary text-white mr-2 rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                                    class="btn btn-success text-white mr-2 rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                                     Log in
                                                 </a>
 
                                                 @if (Route::has('register'))
                                                     <a href="{{ route('register') }}"
-                                                        class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                                        class="btn btn-success text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                                         Register
                                                     </a>
                                                 @endif
