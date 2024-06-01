@@ -63,6 +63,12 @@ body.book-details-page {
         color: #bb5252;
         font-size: 1.5em;
     }
+
+    .custom-scrollbar {
+        max-height: 200px; /* Adjust the max-height as needed */
+        overflow-y: auto;
+    }
+
 </style>
 
 @section('content')
@@ -73,18 +79,14 @@ body.book-details-page {
                 <div class="col-md-6">
                     <div class="custom-nav mb-3">
                         <ul class="nav">
-        
                             <li>
                                 <div class="dropdown mr-2 mb-2">
-                                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
+                                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         Category
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($category as $item)
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a>
-                                            </li>
+                                            <li><a class="dropdown-item" href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a></li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -96,7 +98,7 @@ body.book-details-page {
                                         aria-expanded="false">
                                         Author
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($author as $item)
                                             <li><a class="dropdown-item"
                                                     href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a></li>
@@ -111,7 +113,7 @@ body.book-details-page {
                                         aria-expanded="false">
                                         Publishers
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($publisher as $item)
                                             <li><a class="dropdown-item"
                                                     href="{{ route('book.by-publisher', $item->id) }}">{{ $item->name }}</a>

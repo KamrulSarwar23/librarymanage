@@ -185,7 +185,7 @@
 
 
                     @foreach ($enjoyedbook as $item)
-                        <div class="col-md-4 col-lg-4 mb-4 enjoyedbook">
+                        <div class="col-md-4 col-lg-4 mb-4 enjoyedbook mb-5">
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
@@ -244,9 +244,9 @@
                         @csrf
                         <div class="mb-3">
                             <label for="review" class="form-label">Review</label>
-                            <textarea name="comment" id="review" class="form-control" cols="5" rows="5" placeholder="Review"></textarea>
+                            <textarea name="comment" id="review" class="form-control p-3" cols="5" rows="5"></textarea>
                         </div>
-                        <div class="rating mb-3" style="width: 10rem">
+                        <div class="rating mb-3 ml-3" style="width: 10rem">
 
                             <input id="rating-5" type="radio" name="rating" value="5" /><label
                                 for="rating-5"><i class="fas fa-3x fa-star"></i></label>

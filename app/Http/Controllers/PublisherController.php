@@ -19,7 +19,7 @@ class PublisherController extends Controller
 
     public function activePublisher()
     {
-        $publishers = Publisher::where('status', 'active')->paginate(10);
+        $publishers = Publisher::where('status', 'active')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($publishers) == null) {
             flash()->error('No Data Found');
@@ -30,7 +30,7 @@ class PublisherController extends Controller
 
     public function pendingPublisher()
     {
-        $publishers = Publisher::where('status', 'inactive')->paginate(10);
+        $publishers = Publisher::where('status', 'inactive')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($publishers) == null) {
             flash()->error('No Data Found');

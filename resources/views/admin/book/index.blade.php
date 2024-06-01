@@ -181,7 +181,7 @@
 
 
                                 <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
-                                    <div class="form-group mx-sm-1 mr-2 mt-2">
+                                    <div class="form-group mx-sm-1 mr-2">
                                         <label for="start_date" class="sr-only">Start Date</label>
                                         <input type="date" name="start_date" id="start_date"
                                             value="{{ old('start_date') }}" class="form-control" placeholder="Start Date">

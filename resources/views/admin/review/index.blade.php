@@ -120,16 +120,17 @@
                                                     <div class="star-rating d-inline-flex"
                                                         title="Rating: {{ $review->rating }}">
                                                         <div class="back-stars">
+
                                                             @for ($i = 1; $i <= 5; $i++)
                                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                             @endfor
 
-                                                            <div class="front-stars"
-                                                                style="width: {{ $review->rating * 20 }}%">
+                                                            <div class="front-stars" style="width: {{ $review->rating * 20 }}%">
                                                                 @for ($i = 1; $i <= 5; $i++)
                                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                                 @endfor
                                                             </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

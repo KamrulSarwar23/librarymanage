@@ -146,7 +146,7 @@ class CategoryController extends Controller
 
     public function activeCategory()
     {
-        $categories = Category::where('status', 'active')->paginate(10);
+        $categories = Category::where('status', 'active')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($categories) == null) {
             flash()->error('No Data Found');
@@ -157,7 +157,7 @@ class CategoryController extends Controller
 
     public function pendingCategory()
     {
-        $categories = Category::where('status', 'inactive')->paginate(10);
+        $categories = Category::where('status', 'inactive')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($categories) == null) {
             flash()->error('No Data Found');
