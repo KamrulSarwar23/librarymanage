@@ -25,7 +25,7 @@ class ReviewController extends Controller
             'status' => $request->status ?? 'inactive',
         ]);
 
-        flash()->success('Review Send Successfully');
+        flash()->success('Your review will be added soon');
         return redirect()->back();
     }
 

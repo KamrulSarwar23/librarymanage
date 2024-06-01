@@ -252,7 +252,7 @@
                                 for="rating-2"><i class="fas fa-3x fa-star"></i></label>
                             <input id="rating-1" type="radio" name="rating" value="1" /><label
                                 for="rating-1"><i class="fas fa-3x fa-star"></i></label>
-
+                                
                         </div>
 
 
