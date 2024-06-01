@@ -1,148 +1,273 @@
 @extends('frontend.master')
 
-@section('section')
-    <style>
-        .search-card {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-        }
+@section('content')
 
-        .search-input {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            margin-right: 10px;
-        }
-
-        .search-button {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .search-icon {
-            margin-right: 5px;
-        }
-
-        @media (max-width: 576px) {
-            .search-input {
-                border-radius: 0;
-            }
-
-            .search-button {
-                border-radius: 0;
-            }
-        }
-    </style>
-
-    <div class="container mt-3 pb-5">
-        <div class="row justify-content-center d-flex mt-5">
-            <div class="col-md-12">
-                <div class="d-flex justify-content-between">
-                    <h2 class="mb-3">Books</h2>
-
+    <div class="site-section" id="home-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-5">
+                    <h1 class="text-white serif text-uppercase mb-4">
+                        Meet Your Next Book
+                    </h1>
+                    <p class="text-white mb-5">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Debitis sint alias, doloribus assumenda totam porro ex impedit,
+                        recusandae voluptatibus sed.
+                    </p>
+                    <p>
+                        <a href="#" class="btn btn-white px-4 py-3">Get Started</a>
+                    </p>
                 </div>
+            </div>
 
-                <div class="container mt-5 mb-3">
-                    <div class="card search-card shadow-lg border-0">
-                        <div class="card-body">
-                            <form action="{{ route('book.search') }}" method="POST" class="form-inline">
-                                @csrf
-                                <div class="input-group w-100">
-                                    <input name="search_query" type="text" value="{{ old('search_query') }}"
-                                        class="form-control form-control-lg search-input"
-                                        placeholder="Search by book name, category, author, or publisher">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary btn-lg search-button">
-                                            <i class="fa-solid fa-magnifying-glass search-icon"></i> Search
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                @if (isset($searchQuery) && !empty($searchQuery))
-                    <div class="text-success">
-                        <h5>Search results for: "{{ $searchQuery }}"</h5>
-                    </div>
-                @endif
-
-                @if (isset($categoryName))
-                    <div class="text-success">
-                        <h5>Search results for: "{{ $categoryName->name }}"</h5>
-                    </div>
-                @endif
-
-
-                @if (isset($authorName))
-                    <div class="text-success mt-3">
-                        <h5>Search results for: "{{ $authorName->name }}"</h5>
-                    </div>
-                @endif
-
-                @if (isset($publisherName))
-                    <div class="text-success">
-                        <h5>Search results for: "{{ $publisherName->name }}"</h5>
-                    </div>
-                @endif
-
-                @if ($books->isEmpty())
-                    <div class="alert alert-danger mt-5" role="alert">
-                        No data found.
-                    </div>
-                @endif
-
-
-
-                <div class="row mt-4">
-                    @foreach ($books as $book)
-                        <div class="col-md-4 col-lg-3 mb-4">
-                            <div class="card border-0 shadow-lg">
-                                <a href="{{ route('book.details', $book->id) }}"><img height="300px"
-                                        src="{{ asset('storage/book/' . $book->cover_image) }}" alt=""
-                                        class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h3 class="h4 heading"><a href="#">{{ $book->title }}</a></h3>
-                                    {{-- <p>Author: {{ $book->author->name }}</p>
-                                    <p>Category: {{ $book->category->name }}</p>
-                                    <p>Publisher: {{ $book->publisher->name }}</p> --}}
-                                    <div class="star-rating d-inline-flex ml-2" title="">
-
-                                        <div class="star-rating d-inline-flex" title="">
-
-                                            <span
-                                                class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})
-                                            </span>
-
-                                            <div class="back-stars">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                @endfor
-                                                <div class="front-stars"
-                                                    style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $book->rating->avg('rating') * 20)
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        @else
-                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                        @endif
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div>
-                    {{ $books->links() }}
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <img src="{{ asset('newui/images/book_1.png') }}" alt="Image" class="img-fluid" />
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="site-section bg-light" id="features-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-7">
+                    <h2 class="heading">Features Of This Book</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos,
+                        harum repudiandae provident neque voluptas odio nostrum officiis
+                        debitis et vitae, dolorem placeat fugiat recusandae aperiam
+                        aspernatur expedita alias, officia. Suscipit!
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="service h-100">
+                        <span class="wrap-icon">
+                            <span class="icon-book"></span>
+                        </span>
+                        <h3>Hard Cover</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                            tenetur ea in accusantium est.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="service h-100">
+                        <span class="wrap-icon">
+                            <span class="icon-bookmark"></span>
+                        </span>
+                        <h3>Paper Back</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                            tenetur ea in accusantium est.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="service h-100">
+                        <span class="wrap-icon">
+                            <span class="icon-files-o"></span>
+                        </span>
+                        <h3>Paper Back</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                            tenetur ea in accusantium est.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="service h-100">
+                        <span class="wrap-icon">
+                            <span class="icon-font"></span>
+                        </span>
+                        <h3>Big Text</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                            tenetur ea in accusantium est.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="service h-100">
+                        <span class="wrap-icon">
+                            <span class="icon-photo"></span>
+                        </span>
+                        <h3>Images</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                            tenetur ea in accusantium est.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="service h-100">
+                        <span class="wrap-icon">
+                            <span class="icon-text-height"></span>
+                        </span>
+                        <h3>Readable Text</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                            tenetur ea in accusantium est.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-7">
+                    <h2 class="heading">Book Screenshot</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos,
+                        harum repudiandae provident neque voluptas odio nostrum officiis
+                        debitis et vitae, dolorem placeat fugiat recusandae aperiam
+                        aspernatur expedita alias, officia. Suscipit!
+                    </p>
+                    <p class="mb-3">
+                        <a href="#" class="customNextBtn">Prev</a>
+                        <span class="mx-2">/</span>
+                        <a href="#" class="customPrevBtn">Next</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="owl-carousel slide-one-item">
+                <img src="{{ asset('newui/images/img_1.jpg') }}" alt="Image" class="img-fluid" />
+                <img src="{{ asset('newui/images/img_2.jpg') }}" alt="Image" class="img-fluid" />
+                <img src="{{ asset('newui/images/img_3.jpg') }}" alt="Image" class="img-fluid" />
+                <img src="{{ asset('newui/images/img_4.jpg') }}" alt="Image" class="img-fluid" />
+                <img src="{{ asset('newui/images/img_5.jpg') }}" alt="Image" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+
+    <div class="author d-lg-flex" id="about-section">
+        <div class="bg-img" style="background-image: url({{ asset('newui/images/author_1.jpg') }})"></div>
+        <div class="text">
+            <h3>Hello It's Jane</h3>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis
+                qui voluptates illum harum minima accusantium praesentium eos aut
+                ab. Voluptate nulla illum ullam maxime consequuntur labore qui
+                delectus, omnis saepe.
+            </p>
+            <p>
+                Eos ratione repellat ea dignissimos iure ipsam sed dolore, excepturi
+                id recusandae cumque sit, fugiat obcaecati necessitatibus nisi
+                voluptate similique? Sed quae itaque nisi magnam amet aut maiores
+                debitis temporibus.
+            </p>
+            <p>
+                Iste repellendus libero cumque facilis sint quas quis temporibus
+                quia veritatis reiciendis obcaecati, magni, dolorum aspernatur
+                laborum, est, sequi rerum! Perspiciatis facilis commodi libero ipsa
+                minima reiciendis rerum, facere quaerat.
+            </p>
+
+            div.social_
+
+            <div class="mt-5">
+                <span class="d-block text-black mb-4">Jane Smith,
+                    <span class="text-muted">Book Author &amp; Publisher</span></span>
+                <img src="{{ asset('newui/images/signature.png') }}" alt="Image" class="img-fluid w-25" />
+            </div>
+        </div>
+    </div>
+
+    <div class="site-section bg-light" id="testimonial-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="heading">Testimonial From Readers</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial bg-white h-100">
+                        <blockquote class="mb-3">
+                            <p>
+                                Far far away, behind the word mountains, far from the
+                                countries Vokalia and Consonantia, there live the blind
+                                texts. Separated they live in Bookmarksgrove right at the
+                                coast of the Semantics, a large language ocean.&rdquo;
+                            </p>
+                        </blockquote>
+                        <div class="d-flex align-items-center vcard">
+                            <figure class="mb-0 mr-3">
+                                <img src="{{ asset('newui/images/person_1.jpg') }}" alt="Free website template by Free-Template.co"
+                                    class="img-fluid ounded-circle" />
+                            </figure>
+                            <div class="vcard-text">
+                                <span class="d-block">Jacob Spencer</span>
+                                <span class="position">Web Designer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial bg-white h-100">
+                        <blockquote class="mb-3">
+                            <p>
+                                Far far away, behind the word mountains, far from the
+                                countries Vokalia and Consonantia, there live the blind
+                                texts. Separated they live in Bookmarksgrove right at the
+                                coast of the Semantics, a large language ocean.&rdquo;
+                            </p>
+                        </blockquote>
+                        <div class="d-flex align-items-center vcard">
+                            <figure class="mb-0 mr-3">
+                                <img src="{{ asset('newui/images/person_2.jpg') }}" alt="Free website template by Free-Template.co"
+                                    class="img-fluid ounded-circle" />
+                            </figure>
+                            <div class="vcard-text">
+                                <span class="d-block">David Shaun</span>
+                                <span class="position">Web Designer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial bg-white h-100">
+                        <blockquote class="mb-3">
+                            <p>
+                                Far far away, behind the word mountains, far from the
+                                countries Vokalia and Consonantia, there live the blind
+                                texts. Separated they live in Bookmarksgrove right at the
+                                coast of the Semantics, a large language ocean.&rdquo;
+                            </p>
+                        </blockquote>
+                        <div class="d-flex align-items-center vcard">
+                            <figure class="mb-0 mr-3">
+                                <img src="{{ asset('newui/images/person_3.jpg') }}" alt="Free website template by Free-Template.co"
+                                    class="img-fluid ounded-circle" />
+                            </figure>
+                            <div class="vcard-text">
+                                <span class="d-block">Craig Smith</span>
+                                <span class="position">Web Designer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- 
+    <div class="site-section py-5 bg-primary">
+        <div class="container">
+            <h3 class="text-white h4 mb-3 ml-3">Subscribe For The New Updates</h3>
+            <div class="d-flex">
+                <input type="text" class="form-control mr-4 px-4" placeholder="Enter your email address..." />
+                <input type="submit" class="btn btn-white px-4" value="Send Email" />
+            </div>
+        </div>
+    </div> --}}
+
+
 @endsection

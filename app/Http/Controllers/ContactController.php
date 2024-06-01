@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+
+    public function contact()
+    {
+        return view('frontend.contact');
+    }
+
     public function sendMessage(Request $request)
     {
         // Validate the request data

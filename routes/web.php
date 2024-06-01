@@ -15,13 +15,31 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
+
+
+
+
 Route::get('/', [PageController::class, 'index'])->name('home.page');
+
+Route::get('/all-books', [PageController::class, 'allBook'])->name('all.books');
 
 Route::get('/admin/login', [AdminAuthController::class, 'adminLogin'])->name('admin.login');
 
 Route::post('/admin/login', [AdminAuthController::class, 'adminLoginSubmit'])->name('admin-login.submit');
 
-Route::get('/contact', [PageController::class, 'contact'])->name('contact.page');
+Route::get('/contact', [ContactController::class, 'contact'])->name('contact.page');
+
+Route::post('/send-message', [ContactController::class, 'sendMessage'])->name('send.message');
+
+Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name('book.details');
+
+Route::post('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
+
+Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'])->name('book.by-category');
+
+Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');
+
+Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
 
 
 
@@ -101,9 +119,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 });
 
 
-
-
-
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->name('user.dashboard');
     // Profile Routes
@@ -113,16 +128,5 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::post('/send-review', [ReviewController::class, 'sendReview'])->name('send.review');
 });
 
-
-Route::post('/send-message', [ContactController::class, 'sendMessage'])->name('send.message');
-
-Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name('book.details');
-Route::post('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
-
-Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'])->name('book.by-category');
-
-Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');
-
-Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
 
 require __DIR__ . '/auth.php';

@@ -24,6 +24,20 @@ class PageController extends Controller
         return view('frontend.index', compact('books', 'category', 'author', 'publisher'));
     }
 
+    public function allBook(){
+
+        $books = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('preview', 'active')->paginate(12);
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher'));
+    }
+
     public function filterByCategory($id)
     {
 
@@ -41,7 +55,7 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'categoryName'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'categoryName'));
     }
 
     public function filterByAuthor($id)
@@ -59,7 +73,7 @@ class PageController extends Controller
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
-        return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'authorName'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'authorName'));
     }
 
     public function filterByPublisher($id)
@@ -78,17 +92,10 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'publisherName'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'publisherName'));
     }
 
 
-    public function contact()
-    {
-        $category = Category::where('status', 'active')->get();
-        $author = Author::where('status', 'active')->get();
-        $publisher = Publisher::where('status', 'active')->get();
-        return view('frontend.contact', compact('category', 'author', 'publisher'));
-    }
 
     public function bookDetails(string $id)
     {
@@ -116,7 +123,7 @@ class PageController extends Controller
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })
             ->inRandomOrder()
-            ->take(4)
+            ->take(3)
             ->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
@@ -159,6 +166,6 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.index', compact('books', 'category', 'author', 'publisher', 'searchQuery'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery'));
     }
 }

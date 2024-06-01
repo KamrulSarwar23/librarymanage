@@ -17,7 +17,6 @@ class CategoryController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')->paginate(10);
 
         return view('admin.category.index', compact('categories'));
-        
     }
 
     /**
@@ -101,6 +100,7 @@ class CategoryController extends Controller
             $category->image = $imageName;
         }
 
+
         $category->name = $request->name;
         $category->status = $request->status;
         $category->save();
@@ -125,7 +125,8 @@ class CategoryController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Category Deleted Successfully']);
     }
 
-    public function changeStatus(Request $request){
+    public function changeStatus(Request $request)
+    {
         $category = Category::findOrFail($request->id);
 
 
@@ -143,7 +144,8 @@ class CategoryController extends Controller
     }
 
 
-    public function activeCategory(){
+    public function activeCategory()
+    {
         $categories = Category::where('status', 'active')->paginate(10);
 
         if (count($categories) == null) {
@@ -153,7 +155,8 @@ class CategoryController extends Controller
         return view('admin.category.index', compact('categories'));
     }
 
-    public function pendingCategory(){
+    public function pendingCategory()
+    {
         $categories = Category::where('status', 'inactive')->paginate(10);
 
         if (count($categories) == null) {

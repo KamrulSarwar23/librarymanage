@@ -1,117 +1,85 @@
-<div class="container-fluid shadow-lg header bg-primary">
-    <div class="container">
-        <div class="d-flex justify-content-between">
-            <h1 class="text-center"><a href="{{ route('home.page') }}" class="h3 text-white text-decoration-none">LMS by
-                    Five
-                    Dev</a></h1>
+<div class="site-mobile-menu site-navbar-target">
 
-            <div class="custom-nav">
-                <ul class="nav">
+    <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+</div>
+<!-- .site-mobile-menu -->
 
-                    <li>
-                        <div class="dropdown m-2">
-                            <button class="btn btn-success">
-                                <a style="text-decoration: none; color:white" href="{{ route('home.page') }}">Home
-                                    Page</a>
-                            </button>
+<div class="site-navbar-wrap">
+    <div class="site-navbar site-navbar-target js-sticky-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-3 col-lg-3">
+                    <h1 class="my-0 site-logo"><a href="{{ route('home.page') }}">LMS</a></h1>
+                </div>
+                <div class="col-9 col-lg-9">
+                    <nav class="site-navigation text-right" role="navigation">
+                        <div class="container">
+                            <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3">
+                                <a href="#" class="site-menu-toggle js-menu-toggle text-black">
+                                    <span class="icon-menu h3"></span>
+                                </a>
+                            </div>
 
-                        </div>
-                    </li>
+                            <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
+                                <li>
+                                    <a href="{{ route('home.page') }}" class="nav-links">Home</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('all.books') }}" class="nav-links">Books</a>
+                                </li>
 
-                    <li>
-                        <div class="dropdown mt-2 m-2">
-                            <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Category
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach ($category as $item)
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a>
-                                    </li>
-                                @endforeach
+                                <li>
+                                    <a href="{{ route('contact.page') }}" class="nav-links">Contact</a>
+                                </li>
+
+                                <li>
+                                    @if (Route::has('login'))
+                                        <nav class="mx-3 flex flex-1 justify-end">
+                                            @auth
+                                                @if (Auth::user()->role == 'admin')
+                                                    <a href="{{ route('admin.dashboard') }}"
+                                                        class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                                        {{ Auth::user()->name }}
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('user.dashboard') }}"
+                                                        class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                                        {{ Auth::user()->name }}
+                                                        <img style="border-radius: 50%" width="45px" height="45px"
+                                                            src="{{ asset(auth()->user()->image ?? 'frontend/images/default-profile-image.jpg') }}"
+                                                            alt="">
+                                                    </a>
+                                                @endif
+                                            @else
+                                                <a href="{{ route('login') }}"
+                                                    class="btn btn-primary text-white mr-2 rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                                    Log in
+                                                </a>
+
+                                                @if (Route::has('register'))
+                                                    <a href="{{ route('register') }}"
+                                                        class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                                        Register
+                                                    </a>
+                                                @endif
+                                            @endauth
+                                        </nav>
+                                    @endif
+                                </li>
+
                             </ul>
                         </div>
-                    </li>
-
-                    <li>
-                        <div class="dropdown mt-2 m-2">
-                            <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Author
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach ($author as $item)
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="dropdown mt-2">
-                            <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Publishers
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach ($publisher as $item)
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('book.by-publisher', $item->id) }}">{{ $item->name }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="dropdown m-2">
-                            <button class="btn btn-success">
-                                <a style="text-decoration: none; color:white" href="{{ route('contact.page') }}">Contact
-                                    Us</a>
-                            </button>
-
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="d-flex align-items-center navigation">
-                @if (Route::has('login'))
-                    <nav class="-mx-3 flex flex-1 justify-end">
-                        @auth
-                            @if (Auth::user()->role == 'admin')
-                                <a href="{{ route('admin.dashboard') }}"
-                                    class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    {{ Auth::user()->name }}
-                                </a>
-                            @else
-                                <a href="{{ route('user.dashboard') }}"
-                                    class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    {{ Auth::user()->name }}
-                                    <img style="border-radius: 50%" width="45px" height="45px"
-                                        src="{{ asset(auth()->user()->image ?? 'frontend/images/default-profile-image.jpg') }}"
-                                        alt="">
-                                </a>
-                            @endif
-                        @else
-                            <a href="{{ route('login') }}"
-                                class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                Log in
-                            </a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}"
-                                    class="btn btn-primary text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    Register
-                                </a>
-                            @endif
-                        @endauth
                     </nav>
-                @endif
 
+
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- END .site-navbar-wrap -->

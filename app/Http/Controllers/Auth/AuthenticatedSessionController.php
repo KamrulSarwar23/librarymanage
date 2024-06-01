@@ -48,11 +48,10 @@ class AuthenticatedSessionController extends Controller
             } else {
 
                 Auth::guard('web')->logout();
-
                 return redirect()->route('login')->with(['status' => 'You cannot log in as an user! Please log in with your specific role.']);
             }
         } else {
-
+            flash()->success('Invalid email or password');
             return redirect()->route('login')->with(['status' => 'Invalid email or password.']);
         }
     }

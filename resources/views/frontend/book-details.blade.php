@@ -1,7 +1,13 @@
 @extends('frontend.master')
 
-@section('section')
+@section('content')
     <style>
+        
+        body.book-details-page {
+            background-image: none !important;
+    
+        }
+
         .enjoyedbook a {
             text-decoration: none;
         }
@@ -41,7 +47,7 @@
         }
 
         .back-stars {
-            color: #CCC;
+            color: #c4c4c4;
             position: relative;
         }
 
@@ -53,29 +59,29 @@
             transition: all 0.5s;
         }
 
-
         .percent {
             color: #bb5252;
             font-size: 1.5em;
         }
+  
     </style>
 
     <div class="container mt-3 ">
         <div class="row justify-content-center d-flex mt-5">
             <div class="col-md-12">
-                <a href="{{ route('home.page') }}" class="text-decoration-none text-dark ">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp; <strong>Back to books</strong>
-                </a>
+
                 <div class="row mt-4">
 
-                    <div class="col-md-4">
-                        <img height="450px" src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt=""
-                            class="card-img-top">
+                    <div class="col-md-4 cover_image">
+                        <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                            <img src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt="{{ $booksdetails->title }}" class="card-img-top img-fluid" style="border-radius: 10px; height: 450px; object-fit: cover;">
+                        </div>
                     </div>
+                    
 
-                    <div class="col-md-8">
-                        <h3 class="h2 mb-3">{{ $booksdetails->title }}</h3>
-                        <p class="h4 text-muted">Author: {{ $booksdetails->author->name }}</p>
+                    <div class="col-md-8 text-dark">
+                        <h2>{{ $booksdetails->title }}</h2>
+                        <p>Author: {{ $booksdetails->author->name }}</p>
                         <p>Category: {{ $booksdetails->category->name }}</p>
                         <p>Publisher: {{ $booksdetails->publisher->name }}</p>
                         <div class="star-rating d-inline-flex ml-2" title="">
@@ -83,15 +89,15 @@
                                 <span
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($booksdetails->rating->avg('rating'), 1) }})
                                 </span>
-                                
+
                                 <div class="back-stars">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                @endfor
-                                <div class="front-stars" style="width: {{ ($averageRating / 5) * 100 }}%">
                                     @for ($i = 1; $i <= 5; $i++)
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     @endfor
+                                    <div class="front-stars" style="width: {{ ($averageRating / 5) * 100 }}%">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        @endfor
                                     </div>
 
                                 </div>
@@ -179,14 +185,14 @@
 
 
                     @foreach ($enjoyedbook as $item)
-                        <div class="col-md-3 col-lg-3 mb-4 enjoyedbook">
+                        <div class="col-md-4 col-lg-4 mb-4 enjoyedbook">
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
                                         <h3 class="h4 heading">{{ limitText($item->title, 25) }}</h3>
-                                        {{-- <p>{{ $item->author->name }}</p> --}}
+
                                         <div class="star-rating d-inline-flex ml-2" title="">
                                             <span
                                                 class="rating-text theme-font theme-yellow">({{ round($item->rating->avg('rating'), 1) }})</span>
@@ -252,7 +258,7 @@
                                 for="rating-2"><i class="fas fa-3x fa-star"></i></label>
                             <input id="rating-1" type="radio" name="rating" value="1" /><label
                                 for="rating-1"><i class="fas fa-3x fa-star"></i></label>
-                                
+
                         </div>
 
 

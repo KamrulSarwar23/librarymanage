@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $category = Category::where('status', 'active')->get();

@@ -1,7 +1,7 @@
 @extends('frontend.master')
 
 
-@section('section')
+@section('content')
     <div class="container mt-5 pt-5">
         <section class="section">
 
