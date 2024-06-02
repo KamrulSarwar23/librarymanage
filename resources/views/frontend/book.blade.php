@@ -2,10 +2,10 @@
 
 
 <style>
-/* 
+/*
 body.book-details-page {
             background-image: none !important;
-    
+
         } */
 
     .enjoyedbook a {
@@ -73,7 +73,7 @@ body.book-details-page {
                 <div class="col-md-6">
                     <div class="custom-nav mb-3">
                         <ul class="nav">
-        
+
                             <li>
                                 <div class="dropdown mr-2 mb-2">
                                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
@@ -89,7 +89,7 @@ body.book-details-page {
                                     </ul>
                                 </div>
                             </li>
-        
+
                             <li>
                                 <div class="dropdown mr-2">
                                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
@@ -104,7 +104,7 @@ body.book-details-page {
                                     </ul>
                                 </div>
                             </li>
-        
+
                             <li>
                                 <div class="dropdown mr-2">
                                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
@@ -120,7 +120,7 @@ body.book-details-page {
                                     </ul>
                                 </div>
                             </li>
-          
+
                         </ul>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ body.book-details-page {
         <div class="row">
 
                 @foreach ($books as $book)
-               
+
                     <div class="col-md-4 mt-4">
                         <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
@@ -182,7 +182,7 @@ body.book-details-page {
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
                             <div class="card-body">
                                 <p class="card-text">
-                                    <a class="text-muted" href="#">{{ $book->title }}</a>
+                                    <a class="text-muted" href="#">{{ limitText($book->title, 20) }}</a>
                                 </p>
 
                                 <div class="star-rating d-inline-flex align-items-center"
@@ -210,13 +210,13 @@ body.book-details-page {
                         </div>
                     </a>
                     </div>
-              
+
             @endforeach
 
-            <div class="ml-auto">
-                {{ $books->links() }}
-            </div>
-            
+
+        </div>
+        <div class="ml-auto">
+            {{ $books->links() }}
         </div>
     </div>
 @endsection
