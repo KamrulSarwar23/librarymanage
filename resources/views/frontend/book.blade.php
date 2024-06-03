@@ -2,7 +2,7 @@
 
 
 <style>
-/*
+    /*
 body.book-details-page {
             background-image: none !important;
 
@@ -67,13 +67,11 @@ body.book-details-page {
 
 @section('content')
     <div class="container mt-3 mb-5">
-
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="custom-nav mb-3">
                         <ul class="nav">
-
                             <li>
                                 <div class="dropdown mr-2 mb-2">
                                     <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
@@ -99,7 +97,8 @@ body.book-details-page {
                                     <ul class="dropdown-menu">
                                         @foreach ($author as $item)
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a></li>
+                                                    href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -155,14 +154,14 @@ body.book-details-page {
 
 
         @if (isset($authorName))
-            <div class="text-success mt-3">
-                <h6>Search results for: "{{ $authorName->name }}"</h6>
+            <div>
+                <h6 class="text-white">Search results for: "{{ $authorName->name }}"</h6>
             </div>
         @endif
 
         @if (isset($publisherName))
-            <div class="text-success">
-                <h6>Search results for: "{{ $publisherName->name }}"</h6>
+            <div>
+                <h6 class="text-white">Search results for: "{{ $publisherName->name }}"</h6>
             </div>
         @endif
 
@@ -171,18 +170,28 @@ body.book-details-page {
                 No data found.
             </div>
         @endif
-        <div class="row">
 
-                @foreach ($books as $book)
+        @if (count($books) > 0)
+            @if (isset($categoryName) || isset($authorName) || isset($publisherName) || isset($searchQuery))
+                <h2 class="text-white">Search Result</h2>
+            @else
+                <h2 class="text-white">All Books</h2>
+            @endif
+        @endif
 
-                    <div class="col-md-4 mt-4">
-                        <a href="{{ route('book.details', $book->id) }}">
-                        <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+
+        <div class="row mb-4">
+
+            @foreach ($books as $book)
+                <div class="col-md-3 mt-4">
+                    <a href="{{ route('book.details', $book->id) }}">
+                        <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
                             <div class="card-body">
                                 <p class="card-text">
-                                    <a class="text-muted" href="#">{{ limitText($book->title, 20) }}</a>
+                                    <a class="text-muted"
+                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
                                 </p>
 
                                 <div class="star-rating d-inline-flex align-items-center"
@@ -204,19 +213,201 @@ body.book-details-page {
                                     </div>
                                     <span
                                         class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
+                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
                                 </div>
                             </div>
                         </div>
                     </a>
-                    </div>
-
+                </div>
             @endforeach
 
-
         </div>
-        <div class="ml-auto">
-            {{ $books->links() }}
+
+
+        @if (count($popularBook) > 0)
+            <h2>Popular Books</h2>
+        @endif
+
+        <div class="row mb-4">
+
+            @foreach ($popularBook as $book)
+                <div class="col-md-3 mt-4">
+                    <a href="{{ route('book.details', $book->id) }}">
+                        <div class="card shadow-lg p-3 bg-white rounded">
+                            <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
+                                alt="Book Cover" style="height: 260px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <a class="text-muted"
+                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                                </p>
+
+                                <div class="star-rating d-inline-flex align-items-center"
+                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                    <div class="back-stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        @endfor
+                                        <div class="front-stars"
+                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $book->rating->avg('rating') * 20)
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
+                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
+        @if (count($recommendedBook) > 0)
+            <h2>Recommended Books</h2>
+        @endif
+
+        <div class="row mb-4">
+
+            @foreach ($recommendedBook as $book)
+                <div class="col-md-3 mt-4">
+                    <a href="{{ route('book.details', $book->id) }}">
+                        <div class="card shadow-lg p-3 bg-white rounded">
+                            <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
+                                alt="Book Cover" style="height: 260px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <a class="text-muted"
+                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                                </p>
+
+                                <div class="star-rating d-inline-flex align-items-center"
+                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                    <div class="back-stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        @endfor
+                                        <div class="front-stars"
+                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $book->rating->avg('rating') * 20)
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
+                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
+
+        @if (count($recentBook) > 0)
+            <h2>Recent Books</h2>
+        @endif
+
+        <div class="row mb-4">
+
+            @foreach ($recentBook as $book)
+                <div class="col-md-3 mt-4">
+                    <a href="{{ route('book.details', $book->id) }}">
+                        <div class="card shadow-lg p-3 bg-white rounded">
+                            <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
+                                alt="Book Cover" style="height: 260px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <a class="text-muted"
+                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                                </p>
+
+                                <div class="star-rating d-inline-flex align-items-center"
+                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                    <div class="back-stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        @endfor
+                                        <div class="front-stars"
+                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $book->rating->avg('rating') * 20)
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
+                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
+
+        @if (count($featuredBook) > 0)
+            <h2>Featured Books</h2>
+        @endif
+
+        <div class="row">
+
+            @foreach ($featuredBook as $book)
+                <div class="col-md-3 mt-4">
+                    <a href="{{ route('book.details', $book->id) }}">
+                        <div class="card shadow-lg p-3 bg-white rounded">
+                            <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
+                                alt="Book Cover" style="height: 260px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <a class="text-muted"
+                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                                </p>
+
+                                <div class="star-rating d-inline-flex align-items-center"
+                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                    <div class="back-stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        @endfor
+                                        <div class="front-stars"
+                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $book->rating->avg('rating') * 20)
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
+                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection

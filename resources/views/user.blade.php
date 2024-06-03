@@ -2,15 +2,13 @@
 
 
 @section('content')
+
+
     <div class="container mt-5 pt-5">
         <section class="section">
 
             <div class="section-body">
 
-
-                <div class="row mt-sm-4">
-
-                </div>
 
                 <div class="col-md-12 m-auto">
 

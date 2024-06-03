@@ -2,10 +2,10 @@
 
 @section('content')
     <style>
-        
+
         body.book-details-page {
             background-image: none !important;
-    
+
         }
 
         .enjoyedbook a {
@@ -63,7 +63,7 @@
             color: #bb5252;
             font-size: 1.5em;
         }
-  
+
     </style>
 
     <div class="container mt-3 ">
@@ -77,15 +77,22 @@
                             <img src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt="{{ $booksdetails->title }}" class="card-img-top img-fluid" style="border-radius: 10px; height: 450px; object-fit: cover;">
                         </div>
                     </div>
-                    
+
 
                     <div class="col-md-8 text-dark">
+
                         <h2>{{ $booksdetails->title }}</h2>
+                        <p class="text-success">Status: {{ strtoupper($booksdetails->status) }}</p>
+
+                        <p>Book ID: {{ $booksdetails->isbn }}</p>
                         <p>Author: {{ $booksdetails->author->name }}</p>
+                        <p>Publication: {{ \Carbon\Carbon::parse($booksdetails->publication_date)->format('F , Y') }}</p>
+                        <p>Available Book: {{ $booksdetails->quantity }}</p>
+                        <p>Pages: {{ $booksdetails->number_of_pages }}</p>
                         <p>Category: {{ $booksdetails->category->name }}</p>
                         <p>Publisher: {{ $booksdetails->publisher->name }}</p>
-                        <div class="star-rating d-inline-flex ml-2" title="">
-                            <div class="star-rating d-inline-flex mx-2" title="">
+                        <div class="star-rating d-inline-flex" title="">
+                            <div class="star-rating d-inline-flex mx-1" title="">
                                 <span
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($booksdetails->rating->avg('rating'), 1) }})
                                 </span>
