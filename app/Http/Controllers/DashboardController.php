@@ -29,9 +29,8 @@ class DashboardController extends Controller
 
         $allBook = Book::count();
         $availableBook = Book::where('status', 'available')->count();
-        $reservedBook = Book::where('status', 'reserved')->count();
-        $lostBook = Book::where('status', 'lost')->count();
-        $checkoutBook = Book::where('status', 'checked_out')->count();
+        $notavailableBook = Book::where('status', 'not_available')->count();
+
 
         $allReview = Review::count();
         $activeReview = Review::where('status', 'active')->count();
@@ -40,23 +39,21 @@ class DashboardController extends Controller
         $allUser = User::where('role', 'user')->count();
         $activeUser = User::where('role', 'user')->where('status', 'active')->count();
         $pendingUser = User::where('role', 'user')->where('status', 'inactive')->count();
-        
+
         $allMessage = Contact::count();
 
         return view('admin.dashboard', compact(
-            'activeCategory', 
-            'allCategory', 
+            'activeCategory',
+            'allCategory',
             'pendingCategory',
-            'allAuthor', 
-            'activeAuthor', 
+            'allAuthor',
+            'activeAuthor',
             'pendingAuthor',
-            'allPublishers', 
+            'allPublishers',
             'activePublishers',
             'pendingPublishers',
             'availableBook',
-            'reservedBook',
-            'lostBook',
-            'checkoutBook',
+            'notavailableBook',
             'allReview',
             'activeReview',
             'pendingReview',
@@ -65,7 +62,7 @@ class DashboardController extends Controller
             'pendingUser',
             'allMessage',
             'allBook'
-           
+
         ));
     }
 
