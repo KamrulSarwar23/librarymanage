@@ -195,7 +195,7 @@ class PageController extends Controller
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })
             ->inRandomOrder()
-            ->take(3)
+            ->take(4)
             ->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));

@@ -65,10 +65,10 @@ body.book-details-page {
     }
 
     .custom-scrollbar {
-        max-height: 200px; /* Adjust the max-height as needed */
+        max-height: 200px;
+        /* Adjust the max-height as needed */
         overflow-y: auto;
     }
-
 </style>
 
 @section('content')
@@ -80,12 +80,15 @@ body.book-details-page {
                         <ul class="nav">
                             <li>
                                 <div class="dropdown mr-2 mb-2">
-                                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         Category
                                     </button>
                                     <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($category as $item)
-                                            <li><a class="dropdown-item" href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -186,7 +189,7 @@ body.book-details-page {
         <div class="row mb-4">
 
             @foreach ($books as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -194,10 +197,10 @@ body.book-details-page {
                             <div class="card-body">
                                 <p class="card-text">
                                     <a class="text-muted"
-                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 20) }}</a>
                                 </p>
 
-                                <div class="star-rating d-inline-flex align-items-center"
+                                <div class="star-rating"
                                     title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
                                     <div class="back-stars">
                                         @for ($i = 1; $i <= 5; $i++)
@@ -214,9 +217,8 @@ body.book-details-page {
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                         </div>
@@ -234,7 +236,7 @@ body.book-details-page {
         <div class="row mb-4">
 
             @foreach ($popularBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -262,9 +264,8 @@ body.book-details-page {
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span> --}}
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                         </div>
@@ -280,7 +281,7 @@ body.book-details-page {
         <div class="row mb-4">
 
             @foreach ($recommendedBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -308,9 +309,8 @@ body.book-details-page {
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +327,7 @@ body.book-details-page {
         <div class="row mb-4">
 
             @foreach ($recentBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -355,9 +355,9 @@ body.book-details-page {
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
+                                    
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                         </div>
@@ -374,7 +374,7 @@ body.book-details-page {
         <div class="row">
 
             @foreach ($featuredBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -402,9 +402,9 @@ body.book-details-page {
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span> --}}
+
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                         </div>

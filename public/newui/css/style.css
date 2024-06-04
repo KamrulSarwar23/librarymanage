@@ -617,14 +617,14 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   padding-bottom: 30px;
   margin-bottom: 30px; }
-  .heading:after {
+  /* .heading:after {
     content: "";
     position: absolute;
     width: 50px;
     height: 2px;
     background: #1C63FB;
     bottom: 0;
-    left: 0; }
+    left: 0; } */
 
 .site-menu-toggle .menu-text {
   position: relative;

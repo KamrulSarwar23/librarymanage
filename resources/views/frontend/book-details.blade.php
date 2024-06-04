@@ -84,7 +84,7 @@
                         <h2>{{ $booksdetails->title }}</h2>
                         <p class="text-success">Status: {{ strtoupper($booksdetails->status) }}</p>
 
-                        <p>Book ID: {{ $booksdetails->isbn }}</p>
+                        <p >Book ID: {{ $booksdetails->isbn }}</p>
                         <p>Author: {{ $booksdetails->author->name }}</p>
                         <p>Publication: {{ \Carbon\Carbon::parse($booksdetails->publication_date)->format('F , Y') }}</p>
                         <p>Available Book: {{ $booksdetails->quantity }}</p>
@@ -190,20 +190,19 @@
                     @endif
 
 
-
                     @foreach ($enjoyedbook as $item)
-                        <div class="col-md-4 col-lg-4 mb-4 enjoyedbook mb-5">
+                        <div class="col-md-4 col-lg-3 mb-4 enjoyedbook mb-5">
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
-                                        <h3 class="h4 heading">{{ limitText($item->title, 25) }}</h3>
+                                        <h5>{{ limitText($item->title, 20) }}</h5>
 
                                         <div class="star-rating d-inline-flex ml-2" title="">
                                             <span
                                                 class="rating-text theme-font theme-yellow">({{ round($item->rating->avg('rating'), 1) }})</span>
-                                            <div class="star-rating d-inline-flex mx-2" title="">
+                                            <div class="star-rating d-inline-flex mx-1" title="">
                                                 <div class="back-stars">
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -221,7 +220,7 @@
                                                 </div>
                                             </div>
                                             <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
-                                                Reviews)</span>
+                                                Review)</span>
                                         </div>
                                     </div>
                                 </div>
