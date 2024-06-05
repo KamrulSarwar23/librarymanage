@@ -13,15 +13,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        $books = Book::with(['rating' => function ($query) {
-            $query->where('status', 'active');
-        }])->where('preview', 'active')->paginate(12);
-
-        $category = Category::where('status', 'active')->get();
-        $author = Author::where('status', 'active')->get();
-        $publisher = Publisher::where('status', 'active')->get();
-
-        return view('frontend.index', compact('books', 'category', 'author', 'publisher'));
+        return view('frontend.index');
     }
 
     public function allBook(){
@@ -32,21 +24,21 @@ class PageController extends Controller
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'popular')->where('preview', 'active')->get();
 
         $recentBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recent')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recent')->where('preview', 'active')->get();
 
 
         $featuredBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'featured')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'featured')->where('preview', 'active')->get();
 
 
         $recommendedBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recommended')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -67,25 +59,25 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('category_id', $id)->paginate(8);
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'popular')->where('preview', 'active')->get();
 
         $recentBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recent')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recent')->where('preview', 'active')->get();
 
 
         $featuredBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'featured')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'featured')->where('preview', 'active')->get();
 
 
         $recommendedBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recommended')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
         if ($books->isEmpty()) {
             flash()->error('No data found');
@@ -104,25 +96,25 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('preview', 'active')->where('author_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('author_id', $id)->paginate(8);
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'popular')->where('preview', 'active')->get();
 
         $recentBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recent')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recent')->where('preview', 'active')->get();
 
 
         $featuredBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'featured')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'featured')->where('preview', 'active')->get();
 
 
         $recommendedBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recommended')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -140,25 +132,25 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('preview', 'active')->where('publisher_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('publisher_id', $id)->paginate(8);
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'popular')->where('preview', 'active')->get();
 
         $recentBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recent')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recent')->where('preview', 'active')->get();
 
 
         $featuredBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'featured')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'featured')->where('preview', 'active')->get();
 
 
         $recommendedBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recommended')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -195,7 +187,7 @@ class PageController extends Controller
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })
             ->inRandomOrder()
-            ->take(3)
+            ->take(4)
             ->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
@@ -231,24 +223,24 @@ class PageController extends Controller
                 }]);
         }
 
-        $books = $query->paginate(12);
+        $books = $query->paginate(8);
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
 
         $recentBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recent')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recent')->where('preview', 'active')->get();
 
 
         $featuredBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'featured')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'featured')->where('preview', 'active')->get();
 
 
         $recommendedBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('type', 'recommended')->where('preview', 'active')->paginate(6);
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
 
         if ($books->isEmpty()) {

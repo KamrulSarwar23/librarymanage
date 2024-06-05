@@ -190,7 +190,7 @@ body.book-details-page {
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
                             <div class="card-body">
                                 <p class="card-text">
-                                    <a class="text-muted"
+                                    <a class="text-dark"
                                         href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
                                 </p>
 

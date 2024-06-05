@@ -192,13 +192,13 @@
 
 
                     @foreach ($enjoyedbook as $item)
-                        <div class="col-md-4 col-lg-4 mb-4 enjoyedbook">
+                        <div class="col-md-4 col-lg-3 mb-4 enjoyedbook">
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
-                                        <h3 class="h4 heading">{{ limitText($item->title, 25) }}</h3>
+                                        <h5 class="">{{ limitText($item->title, 20) }}</h5>
 
                                         <div class="star-rating d-inline-flex ml-2" title="">
                                             <span
@@ -220,8 +220,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
-                                                Reviews)</span>
+                                            {{--  <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
+                                                Reviews)</span>  --}}
                                         </div>
                                     </div>
                                 </div>
