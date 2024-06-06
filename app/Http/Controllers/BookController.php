@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Author;
+use Carbon\Carbon;
 use App\Models\Book;
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\Publisher;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Helper\QuantityManage;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -31,7 +32,24 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::where('status', $status)->orderBy('created_at', 'DESC')->paginate(10);
+        // Get all books
+        $books = Book::orderBy('created_at', 'DESC');
+
+        // Filter books based on their availability
+        if ($status == "available") {
+            $bookIds = $books->pluck('id')->filter(function ($id) {
+                return QuantityManage::isQuantityAvailable($id);
+            });
+            $books = $books->whereIn('id', $bookIds);
+        } else if ($status == "not_available") {
+            $bookIds = $books->pluck('id')->filter(function ($id) {
+                return !QuantityManage::isQuantityAvailable($id);
+            });
+            $books = $books->whereIn('id', $bookIds);
+        }
+
+        // Paginate the results
+        $books = $books->paginate(10);
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -150,7 +168,7 @@ class BookController extends Controller
                     ->orWhereHas('author', function ($q) use ($searchQuery) {
                         $q->where('name', 'like', '%' . $searchQuery . '%');
                     })
-                    
+
                     ->orWhereHas('publisher', function ($q) use ($searchQuery) {
                         $q->where('name', 'like', '%' . $searchQuery . '%');
                     });

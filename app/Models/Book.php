@@ -26,20 +26,29 @@ class Book extends Model
     ];
 
 
-    public function author(){
+    public function author()
+    {
         return $this->belongsTo(Author::class);
     }
 
-    public function publisher(){
+    public function publisher()
+    {
         return $this->belongsTo(Publisher::class);
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function rating(){
+    public function rating()
+    {
         return $this->hasMany(Review::class);
     }
 
+    // define the relationship with BookQuantity
+    public function quantities()
+    {
+        return $this->hasMany(BookQuantity::class);
+    }
 }

@@ -29,7 +29,7 @@ return new class extends Migration
             $table->enum('preview', ['active', 'inactive'])->default('inactive');
             $table->enum('status', ['available', 'not_available'])->default('available');
             $table->timestamps();
-            
+
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
             $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
