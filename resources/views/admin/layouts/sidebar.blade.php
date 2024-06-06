@@ -48,46 +48,48 @@
 
             </li>
 
-            <li class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit', 'active.category', 'pending.category']) }}">
+            <li
+                class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit', 'active.category', 'pending.category']) }}">
                 <a href="{{ route('category.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Categories</span></a>
 
             </li>
 
-            <li class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit', 'active.author', 'pending.author']) }}">
+            <li
+                class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit', 'active.author', 'pending.author']) }}">
                 <a href="{{ route('author.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Authors</span></a>
 
             </li>
 
-            <li class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit', 'active.publisher', 'pending.publisher']) }}">
+            <li
+                class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit', 'active.publisher', 'pending.publisher']) }}">
                 <a href="{{ route('publisher.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Publishers</span></a>
 
             </li>
 
-            <li class="dropdown {{ setActive([
-                'book.index', 
-                'book.create', 
-                'book.edit', 
-                'admin.book-by-category', 
-                'admin.book-by-author', 
-                'admin.book-by-publisher', 
-                'books.filterByStatus', 
-                'books.filterByDate',
-                'books.search-by-query',
-                'active.book',
-                'inactive.book',
-                'books.filterByType'
-                
-
+            <li
+                class="dropdown {{ setActive([
+                    'book.index',
+                    'book.create',
+                    'book.edit',
+                    'admin.book-by-category',
+                    'admin.book-by-author',
+                    'admin.book-by-publisher',
+                    'books.filterByStatus',
+                    'books.filterByDate',
+                    'books.search-by-query',
+                    'active.book',
+                    'inactive.book',
+                    'books.filterByType',
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
 
             </li>
 
-           
+
             <li class="dropdown">
                 <a href="#" class="nav-link"><i class="fa-solid fa-tags"></i><span>Borrowing Request</span></a>
 
@@ -98,23 +100,27 @@
             </li>
 
             <li class="dropdown {{ setActive(['admin.book-review', 'active.review', 'pending.review']) }}">
-                <a href="{{ route('admin.book-review') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Reviews</span></a>
+                <a href="{{ route('admin.book-review') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Reviews</span></a>
 
             </li>
 
 
             <li class="dropdown {{ setActive(['message.index']) }}">
-                <a href="{{ route('message.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Messages</span></a>
+                <a href="{{ route('message.index') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Messages</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
-                <a href="{{ route('user-manage.index') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Users</span></a>
+                <a href="{{ route('user-manage.index') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Users</span></a>
 
             </li>
 
             <li class="dropdown {{ setActive(['admin.profile']) }}">
-                <a href="{{ route('admin.profile') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Profile</span></a>
+                <a href="{{ route('admin.profile') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Profile</span></a>
 
             </li>
 
