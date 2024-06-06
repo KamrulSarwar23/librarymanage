@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Book;
+use App\Models\BookQuantity;
 use App\Models\Borrow;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,13 +43,13 @@ class BookBorrowController extends Controller
                 'status' => $request->status,
             ]);
 
-            $book = Book::where('id', $borrowRecords->book_id)->first();
-            $book->current_quantity = $book->current_quantity - 1;
+            $book = BookQuantity::where('id', $borrowRecords->book_id)->first();
+            $book->current_qty = $book->current_qty - 1;
             $book->save();
 
             flash()->success('Borrow Request Updated Successfully');
             return redirect()->route('book.borrowinfo');
-            
+
         } elseif ($request->status == 'reject') {
             $borrowRecords = Borrow::findOrFail($id);
 
@@ -89,8 +90,8 @@ class BookBorrowController extends Controller
             'status' =>  $request->status
         ]);
 
-        $book = Book::where('id', $borrowRecords->book_id)->first();
-        $book->current_quantity = $book->current_quantity + 1;
+        $book = BookQuantity::where('id', $borrowRecords->book_id)->first();
+        $book->current_qty = $book->current_qty + 1;
         $book->save();
 
         flash()->success('Book Return Successfully');
@@ -114,7 +115,7 @@ class BookBorrowController extends Controller
             $query->where(function ($query) use ($searchQuery){
 
             $query->where('status', 'like', '%' . $searchQuery . '%')
-            
+
             ->orWhereHas('user', function ($q) use ($searchQuery) {
                     $q->where('name', 'like', '%' . $searchQuery . '%');
                 })
@@ -124,7 +125,7 @@ class BookBorrowController extends Controller
                 });
             });
         }
-        
+
         $borrowedBooks = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('admin.borrow.index', compact('borrowedBooks'));
@@ -135,7 +136,7 @@ class BookBorrowController extends Controller
         $query  = $request->query('status');
 
         $borrowedBooks =  Borrow::where('status', $query)->paginate(10);
-       
+
         return view('admin.borrow.index', compact('borrowedBooks'));
     }
 }

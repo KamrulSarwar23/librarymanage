@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\BookQuantity;
 use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Publisher;
@@ -264,9 +265,9 @@ class PageController extends Controller
             ->whereNull('returned_at')
             ->exists();
 
-        $quantityBook = Book::where('id', $bookId)->select('quantity')->first();
+        $quantityBook = BookQuantity::where('id', $bookId)->select('quantity')->first();
 
-        if ($quantityBook->quantity  === 0) {
+        if ($quantityBook->current_qty  === 0) {
             flash()->error('Stock Out');
             return redirect()->back();
         } else {

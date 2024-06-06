@@ -28,8 +28,6 @@ class DashboardController extends Controller
         $pendingPublishers = Publisher::where('status', 'inactive')->count();
 
         $allBook = Book::count();
-        $availableBook = Book::where('status', 'available')->count();
-        $notavailableBook = Book::where('status', 'not_available')->count();
 
 
         $allReview = Review::count();
@@ -52,8 +50,6 @@ class DashboardController extends Controller
             'allPublishers',
             'activePublishers',
             'pendingPublishers',
-            'availableBook',
-            'notavailableBook',
             'allReview',
             'activeReview',
             'pendingReview',

@@ -110,28 +110,6 @@
 
 
                                     <li>
-                                        <div class="dropdown mt-2 mb-3 ml-2">
-                                            <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                Status
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'available' ? 'active' : '' }}"
-                                                        href="{{ route('books.filterByStatus', ['status' => 'available']) }}">Available</a>
-                                                </li>
-
-                                                <li>
-                                                    <a class="dropdown-item btn-info {{ request()->routeIs('books.filterByStatus') && request('status') === 'not_available' ? 'active' : '' }}"
-                                                        href="{{ route('books.filterByStatus', ['status' => 'not_available']) }}">Not
-                                                        Available</a>
-                                                </li>
-                                            </ul>
-
-                                        </div>
-                                    </li>
-
-                                    <li>
                                         <div class="dropdown ml-3 mt-2 mb-3">
                                             <button class="btn btn-info dropdown-toggle py-2" data-bs-toggle="dropdown"
                                                 aria-expanded="false">
@@ -277,7 +255,7 @@
                                     <th>Category Name</th>
                                     <th>Publisher Name</th>
                                     <th>Author Name</th>
-                                    <th>Quantity</th>
+                                    <th>Stock</th>
                                     <th>Current Quantity</th>
                                     <th>Status</th>
                                     <th>Type</th>
@@ -300,12 +278,12 @@
                                                 <span
                                                     class="badge rounded-pill bg-info text-dark">{{ $book->category->name }}</span>
                                             </td>
-                                            {{-- <td>{{ $book->category->name }}</td> --}}
+
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
                                             <td>{{ $book->quantity }}</td>
-                                            <td>{{ $book->current_quantity }}</td>
-                                            {{-- <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }} --}}
+                                            <td>{{ $book->current_qty }}</td>
+
                                             </td>
 
                                             <td>
@@ -317,19 +295,6 @@
                                                 @endif
                                             </td>
 
-                                            {{-- <td>
-                                                <select class="form-select status-select" data-id="{{ $book->id }}">
-
-                                                    <option value="available"
-                                                        {{ $book->status == 'available' ? 'selected' : '' }}>Available
-                                                    </option>
-
-                                                    <option value="not_available"
-                                                        {{ $book->status == 'not_available' ? 'selected' : '' }}>Not
-                                                        Available
-                                                    </option>
-                                                </select>
-                                            </td> --}}
                                             <td>
                                                 <select class="form-select type-select" data-id="{{ $book->id }}">
 

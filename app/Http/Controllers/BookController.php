@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 use App\Helper\QuantityManage;
+use App\Models\BookQuantity;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -19,8 +20,16 @@ class BookController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-        $books = Book::orderBy('created_at', 'DESC')->paginate(10);
-        
+        $books = Book::with('quantities')->orderBy('created_at', 'DESC')->paginate(10);
+
+        foreach ($books as $book) {
+            $book->quantity = $book->quantities->sum('quantity');
+        }
+
+        foreach ($books as $book) {
+            $book->current_qty = $book->quantities->sum('current_qty');
+        }
+
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
     }
 

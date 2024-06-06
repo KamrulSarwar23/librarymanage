@@ -204,7 +204,7 @@
                                 <h4>Available Book</h4>
                             </div>
                             <div class="card-body">
-                                {{ $availableBook }}
+
                             </div>
                         </div>
                     </div>
@@ -222,7 +222,7 @@
                                 <h4>Not Available</h4>
                             </div>
                             <div class="card-body">
-                                {{ $notavailableBook }}
+
                             </div>
                         </div>
                     </div>
