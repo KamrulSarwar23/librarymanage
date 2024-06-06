@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookBorrowController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
@@ -31,6 +32,8 @@ Route::post('/send-message', [ContactController::class, 'sendMessage'])->name('s
 Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name('book.details');
 
 Route::post('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
+
+Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
 
 Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'])->name('book.by-category');
 
@@ -91,6 +94,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pending-review', [ReviewController::class, 'pendingReview'])->name('pending.review');
     Route::resource('book', BookController::class);
 
+    // Book Borrow
+    Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
+    Route::post('/book-borrow/update-info', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
+
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);
@@ -115,6 +122,3 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     // Review Route
     Route::post('/send-review', [ReviewController::class, 'sendReview'])->name('send.review');
 });
-
-
-

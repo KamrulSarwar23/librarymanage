@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap-iconpicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/modules/select2/dist/css/select2.min.css') }}">
-   
+
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
@@ -42,7 +42,7 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
-    
+
     <!-- /END GA -->
 </head>
 
@@ -119,7 +119,7 @@
             @endforeach
         @endif
     </script>
-    
+
 
     <script>
         $(document).ready(function() {
@@ -129,11 +129,11 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-    
+
             $('body').on('click', '.delete-item', function(event) {
                 event.preventDefault();
                 let deleteUrl = $(this).attr('href');
-    
+
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -177,7 +177,7 @@
             });
         });
     </script>
-    
+
 
     @stack('scripts')
 
