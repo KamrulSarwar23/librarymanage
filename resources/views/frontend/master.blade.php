@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('newui/css/owl.carousel.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('newui/css/owl.theme.default.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('newui/css/bootstrap-datepicker.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('newui/fonts/flaticon/font/flaticon.css') }}" />
@@ -47,6 +47,7 @@
     <script src="{{ asset('newui/js/isotope.pkgd.min.js') }}"></script>
     <script src="{{ asset('newui/js/jquery.fancybox.min.js') }}"></script>
     <script src="{{ asset('newui/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -66,6 +67,67 @@
             @endforeach
         @endif
     </script>
+
+
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('body').on('click', '.applied', function(event) {
+            event.preventDefault();
+            let deleteUrl = $(this).attr('href');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do You want to apply for this Book?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Apply Now'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, submit the form
+                    $(this).closest('form').submit();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: deleteUrl,
+
+                        success: function(data) {
+                            if (data.status == 'success') {
+                                Swal.fire(
+                                    'Applied',
+                                    data.message,
+                                    'success'
+                                )
+
+                                window.location.reload();
+
+                            } else if (data.status == 'error') {
+                                Swal.fire(
+                                    'Cant Delete',
+                                    data.message,
+                                    'error'
+                                )
+                            }
+
+                        },
+
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                        }
+                    })
+
+                }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

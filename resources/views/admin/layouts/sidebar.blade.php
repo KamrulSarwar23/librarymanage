@@ -86,12 +86,12 @@
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
-
             </li>
 
 
-            <li class="dropdown">
-                <a href="#" class="nav-link"><i class="fa-solid fa-tags"></i><span>Borrowing Request</span></a>
+            <li class="dropdown {{ setActive(['book.borrowinfo', 'book-borrow.edit', 'book.borrow-search']) }}">
+                <a href="{{ route('book.borrowinfo') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Borrowing Request</span></a>
 
             </li>
 

@@ -23,12 +23,14 @@ class BooksTableSeeder extends Seeder
         $publisherIds = DB::table('publishers')->pluck('id')->toArray();
 
         for ($i = 0; $i < 20; $i++) {
+            $quantity = $faker->numberBetween(1, 100); // Generate the random number once
             DB::table('books')->insert([
                 'title' => $faker->sentence,
                 'author_id' => $faker->randomElement($authorIds),
                 'category_id' => $faker->randomElement($categoryIds),
                 'publisher_id' => $faker->randomElement($publisherIds),
-                'quantity' => $faker->numberBetween(1, 100),
+                'quantity' => $quantity, // Use the same number for both fields
+                'current_quantity' => $quantity, // Use the same number for both fields
                 'isbn' => $faker->unique()->isbn13,
                 'publication_date' => $faker->date(),
                 'number_of_pages' => $faker->numberBetween(50, 1000),
@@ -41,5 +43,6 @@ class BooksTableSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+        
     }
 }

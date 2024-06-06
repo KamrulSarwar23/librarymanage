@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Publisher;
 use App\Models\Review;
@@ -24,7 +25,8 @@ class PageController extends Controller
         return view('frontend.index', compact('books', 'category', 'author', 'publisher'));
     }
 
-    public function allBook(){
+    public function allBook()
+    {
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
@@ -53,7 +55,7 @@ class PageController extends Controller
         $publisher = Publisher::where('status', 'active')->get();
 
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook' ));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByCategory($id)
@@ -68,6 +70,7 @@ class PageController extends Controller
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
+
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
@@ -91,7 +94,7 @@ class PageController extends Controller
             flash()->error('No data found');
         }
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'categoryName','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'categoryName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByAuthor($id)
@@ -127,7 +130,7 @@ class PageController extends Controller
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'authorName','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'authorName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByPublisher($id)
@@ -164,7 +167,7 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'publisherName','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'publisherName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
 
@@ -193,10 +196,7 @@ class PageController extends Controller
                 $query->where('category_id', $booksdetails->category_id)
                     ->orWhere('author_id', $booksdetails->author_id)
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
-            })
-            ->inRandomOrder()
-            ->take(3)
-            ->get();
+            })->take(4)->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
@@ -215,7 +215,9 @@ class PageController extends Controller
         if (!empty($searchQuery)) {
             $query->where('preview', 'active')
                 ->where(function ($query) use ($searchQuery) {
+
                     $query->where('title', 'like', '%' . $searchQuery . '%')
+
                         ->orWhereHas('category', function ($q) use ($searchQuery) {
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         })
@@ -226,12 +228,14 @@ class PageController extends Controller
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         });
                 })
+
                 ->with(['rating' => function ($query) {
                     $query->where('status', 'active');
                 }]);
         }
 
         $books = $query->paginate(12);
+
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
@@ -255,6 +259,47 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+    }
+
+    public function borrowBook(Request $request)
+    {
+        $bookId = $request->input('bookId');
+        $userId = $request->input('userId');
+
+        $existingRecord = Borrow::where('user_id', $userId)
+            ->where('book_id', $bookId)
+            ->whereNull('returned_at')
+            ->exists();
+
+        $quantityBook = Book::where('id', $bookId)->select('quantity')->first();
+
+        if ($quantityBook->quantity  === 0) {
+            flash()->error('Stock Out');
+            return redirect()->back();
+        } else {
+
+            $quantityBook = Borrow::where('user_id', $userId)->whereNotNull('issued_at')->whereNull('returned_at')->count();
+
+            if ($quantityBook === 3) {
+                flash()->error('You Cant Borrow More Than 3 Books');
+                return redirect()->back();
+            } else {
+
+                if ($existingRecord) {
+                    flash()->error('You already send request for this book');
+                    return redirect()->back();
+                }
+
+                $borrow = new Borrow();
+                $borrow->book_id = $bookId;
+                $borrow->user_id = $userId;
+                $borrow->save();
+
+                flash()->success('Your borrow request is currently in pending');
+
+                return redirect()->back();
+            }
+        }
     }
 }
