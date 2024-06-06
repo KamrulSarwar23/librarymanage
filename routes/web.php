@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\QuantityController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -112,6 +113,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Message Routes
     Route::get('/messages', [MessageController::class, 'index'])->name('message.index');
     Route::delete('/messages/destroy/{id}', [MessageController::class, 'destroy'])->name('message.destroy');
+
+
+    //  ====== books quantity Manage =======
+    Route::get('/book/{bookId}/quantity', [QuantityController::class, 'index'])->name('quantity.index');
+    Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
+    Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
+
+    Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
 });
 
 
