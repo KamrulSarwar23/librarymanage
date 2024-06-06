@@ -133,8 +133,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form action="{{ route('book.search') }}" method="POST" class="form-inline">
-                        @csrf
+                    <form action="{{ route('book.search') }}" method="GET" class="form-inline">
                         <div class="input-group w-100">
                             <input name="search_query" type="text" value="{{ old('search_query') }}"
                                 class="form-control form-control-lg search-input"
@@ -231,9 +230,11 @@
                                 @csrf
                                 <input type="hidden" name="bookId" value="{{ $book->id }}">
                                 <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                              
                             </form>
                         @endauth
+                       
                     </div>
                 </div>
             @endforeach
@@ -283,7 +284,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>
@@ -336,7 +337,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>
@@ -390,7 +391,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>
@@ -445,7 +446,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>

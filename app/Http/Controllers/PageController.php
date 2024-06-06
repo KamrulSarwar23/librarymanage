@@ -71,7 +71,7 @@ class PageController extends Controller
             $query->where('status', 'active');
         }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
 
-        
+
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
@@ -197,7 +197,6 @@ class PageController extends Controller
                     ->orWhere('author_id', $booksdetails->author_id)
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })
-            ->inRandomOrder()
             ->take(4)
             ->get();
 
@@ -235,6 +234,7 @@ class PageController extends Controller
         }
 
         $books = $query->paginate(12);
+        
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
@@ -266,37 +266,23 @@ class PageController extends Controller
         $bookId = $request->input('bookId');
         $userId = $request->input('userId');
 
-
         $existingRecord = Borrow::where('user_id', $userId)
             ->where('book_id', $bookId)
             ->whereNull('returned_at')
             ->exists();
 
-
         if ($existingRecord) {
-            flash()->error('Your order is already pending');
-            return redirect()->route('all.books');
+            flash()->error('You already send request for this book');
+            return redirect()->back();
         }
 
-
         $borrow = new Borrow();
-
-
-        $book = Book::where('id', $bookId)->first();
-        $book->quantity = $book->quantity - 1;
-        $book->save();
-
-
         $borrow->book_id = $bookId;
         $borrow->user_id = $userId;
-
-
         $borrow->save();
 
+        flash()->success('Your borrow request is currently in pending');
 
-        flash()->success('Your order is currently pending');
-
-
-        return redirect()->route('all.books');
+        return redirect()->back();
     }
 }
