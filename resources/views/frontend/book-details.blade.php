@@ -196,57 +196,8 @@
                             <h2 class="h3 mb-4">Readers also enjoyed</h2>
                         </div>
                     @endif
-                    <div class="row mb-4">
-                        @foreach ($enjoyedbook as $book)
-                            <div class="col-md-4 col-lg-3 mt-4">
-                                <a href="{{ route('book.details', $book->id) }}">
-                                    <div class="card shadow-lg p-3 bg-white rounded">
-                                        <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
-                                            alt="Book Cover" style="height: 260px; object-fit: cover;">
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                <a class="text-muted"
-                                                    href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
-                                            </p>
-
-
-                                            <div class="star-rating d-inline-flex align-items-center"
-                                                title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
-                                                <div class="back-stars">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    @endfor
-                                                    <div class="front-stars"
-                                                        style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
-                                                        @for ($i = 1; $i <= 5; $i++)
-                                                            @if ($i <= $book->rating->avg('rating') * 20)
-                                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                            @else
-                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                            @endif
-                                                        @endfor
-                                                    </div>
-                                                </div>
-                                                {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
-                                                <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }}
-                                                    Reviews)</span>
-                                            </div>
-                                        </div>
-                                        @auth
-                                            <form action="{{ route('book.borrow') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                                <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                                <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                            </form>
-                                        @endauth
-                                    </div>
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    {{-- @foreach ($enjoyedbook as $item)
+                
+                    @foreach ($enjoyedbook as $item)
                         <div class="col-md-4 col-lg-3 mb-4 enjoyedbook mb-5">
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
@@ -284,13 +235,13 @@
                                         @csrf
                                         <input type="hidden" name="bookId" value="{{ $item->id }}">
                                         <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                     </form>
                                 @endauth
                                 </div>
                             </a>
                         </div>
-                    @endforeach --}}
+                    @endforeach
 
 
 

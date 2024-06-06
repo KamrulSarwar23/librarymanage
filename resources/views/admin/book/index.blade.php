@@ -36,6 +36,9 @@
         form {
             margin-top: -10px;
         }
+        .card-body{
+            
+        }
     </style>
     <section class="section">
         <div class="section-header">
@@ -273,6 +276,7 @@
                                     <th>Publisher Name</th>
                                     <th>Author Name</th>
                                     <th>Quantity</th>
+                                    <th>Current Quantity</th>
                                     <th>Status</th>
                                     <th>Type</th>
                                     <th>Preview</th>
@@ -293,6 +297,7 @@
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
                                             <td>{{ $book->quantity }}</td>
+                                            <td>{{ $book->current_quantity }}</td>
                                             {{-- <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }} --}}
                                             </td>
                                             <td>

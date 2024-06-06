@@ -234,13 +234,14 @@
                               
                             </form>
                         @endauth
-                       
                     </div>
                 </div>
             @endforeach
-            <div class="pagination ml-auto mt-3">
+
+            {{-- <div class="pagination ml-auto mt-3">
                 {{ $books->links() }}
-            </div>
+            </div> --}}
+
         </div>
 
         @if (count($popularBook) > 0)

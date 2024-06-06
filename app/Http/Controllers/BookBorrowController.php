@@ -25,6 +25,7 @@ class BookBorrowController extends Controller
         return view('admin.borrow.edit', compact('borrowRecords'));
     }
 
+
     public function updateInfo(String $id, Request $request)
     {
         if ($request->status == 'active') {
@@ -38,16 +39,16 @@ class BookBorrowController extends Controller
             $borrowRecords->update([
                 'issued_at' => $request->issued_at,
                 'due_at' => $request->due_at,
-                'returned_at' => $request->returned_at,
                 'status' => $request->status,
             ]);
 
             $book = Book::where('id', $borrowRecords->book_id)->first();
-            $book->quantity = $book->quantity - 1;
+            $book->current_quantity = $book->current_quantity - 1;
             $book->save();
 
             flash()->success('Borrow Request Updated Successfully');
             return redirect()->route('book.borrowinfo');
+            
         } elseif ($request->status == 'reject') {
             $borrowRecords = Borrow::findOrFail($id);
 
@@ -73,6 +74,27 @@ class BookBorrowController extends Controller
             flash()->success('Borrow Request Updated Successfully');
             return redirect()->route('book.borrowinfo');
         }
+    }
+
+
+    public function returnBook(string $id, Request $request){
+        $request->validate([
+            'returned_at' => 'required',
+            ]);
+
+        $borrowRecords = Borrow::findOrFail($id);
+
+        $borrowRecords->update([
+            'returned_at' => $request->returned_at,
+            'status' =>  $request->status
+        ]);
+
+        $book = Book::where('id', $borrowRecords->book_id)->first();
+        $book->current_quantity = $book->current_quantity + 1;
+        $book->save();
+
+        flash()->success('Book Return Successfully');
+        return redirect()->route('book.borrowinfo');
     }
 
     public function borrowBookDelete(string $id)

@@ -196,9 +196,7 @@ class PageController extends Controller
                 $query->where('category_id', $booksdetails->category_id)
                     ->orWhere('author_id', $booksdetails->author_id)
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
-            })
-            ->take(4)
-            ->get();
+            })->take(4)->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }

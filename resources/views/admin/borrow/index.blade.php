@@ -192,8 +192,10 @@
                                                     <button class="badge badge-pill badge-success">Active</button>
                                                 @elseif($book->status == 'pending')
                                                     <button class="badge badge-pill badge-info">Pending</button>
+                                                @elseif($book->status == 'return')
+                                                    <button class="badge badge-pill badge-primary">Return</button>
                                                 @else
-                                                    <button class="badge badge-pill badge-danger">Reject</button>
+                                                <button class="badge badge-pill badge-danger">Reject</button>
                                                 @endif
                                             </td>
 
