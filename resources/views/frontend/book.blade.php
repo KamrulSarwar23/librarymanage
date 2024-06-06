@@ -86,7 +86,7 @@ body.book-details-page {
                                     </button>
                                     <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($category as $item)
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item {{ request()->routeIs('book.by-category') && request()->route('id') == $item->id ? 'bg-success' : '' }}"
                                                     href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a>
                                             </li>
                                         @endforeach
@@ -102,7 +102,7 @@ body.book-details-page {
                                     </button>
                                     <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($author as $item)
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item {{ request()->routeIs('book.by-author') && request()->route('id') == $item->id ? 'bg-success' : '' }}"
                                                     href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a>
                                             </li>
                                         @endforeach
@@ -118,7 +118,7 @@ body.book-details-page {
                                     </button>
                                     <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($publisher as $item)
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item {{ request()->routeIs('book.by-publisher') && request()->route('id') == $item->id ? 'bg-success' : '' }}"
                                                     href="{{ route('book.by-publisher', $item->id) }}">{{ $item->name }}</a>
                                             </li>
                                         @endforeach
@@ -356,7 +356,7 @@ body.book-details-page {
                                         </div>
                                     </div>
                                     {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
-                                    
+
                                     <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>

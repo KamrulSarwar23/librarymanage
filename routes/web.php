@@ -115,6 +115,3 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     // Review Route
     Route::post('/send-review', [ReviewController::class, 'sendReview'])->name('send.review');
 });
-
-
-

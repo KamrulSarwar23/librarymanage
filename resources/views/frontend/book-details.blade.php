@@ -2,11 +2,9 @@
 
 @section('content')
     <style>
-
         body.book-details-page {
             background-image: none !important;
-
-        }
+              }
 
         .enjoyedbook a {
             text-decoration: none;
@@ -63,7 +61,6 @@
             color: #bb5252;
             font-size: 1.5em;
         }
-
     </style>
 
     <div class="container mt-3 ">
@@ -74,7 +71,9 @@
 
                     <div class="col-md-4 cover_image">
                         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
-                            <img src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt="{{ $booksdetails->title }}" class="card-img-top img-fluid" style="border-radius: 10px; height: 450px; object-fit: cover;">
+                            <img src="{{ asset('storage/book/' . $booksdetails->cover_image) }}"
+                                alt="{{ $booksdetails->title }}" class="card-img-top img-fluid"
+                                style="border-radius: 10px; height: 450px; object-fit: cover;">
                         </div>
                     </div>
 
@@ -84,7 +83,7 @@
                         <h2>{{ $booksdetails->title }}</h2>
                         <p class="text-success">Status: {{ strtoupper($booksdetails->status) }}</p>
 
-                        <p >Book ID: {{ $booksdetails->isbn }}</p>
+                        <p>Book ID: {{ $booksdetails->isbn }}</p>
                         <p>Author: {{ $booksdetails->author->name }}</p>
                         <p>Publication: {{ \Carbon\Carbon::parse($booksdetails->publication_date)->format('F , Y') }}</p>
                         <p>Available Book: {{ $booksdetails->quantity }}</p>

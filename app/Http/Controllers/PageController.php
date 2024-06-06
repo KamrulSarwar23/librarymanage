@@ -24,7 +24,8 @@ class PageController extends Controller
         return view('frontend.index', compact('books', 'category', 'author', 'publisher'));
     }
 
-    public function allBook(){
+    public function allBook()
+    {
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
@@ -53,7 +54,7 @@ class PageController extends Controller
         $publisher = Publisher::where('status', 'active')->get();
 
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook' ));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByCategory($id)
@@ -69,6 +70,7 @@ class PageController extends Controller
             $query->where('status', 'active');
         }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
 
+        
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
@@ -91,7 +93,7 @@ class PageController extends Controller
             flash()->error('No data found');
         }
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'categoryName','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'categoryName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByAuthor($id)
@@ -127,7 +129,7 @@ class PageController extends Controller
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'authorName','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'authorName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByPublisher($id)
@@ -164,7 +166,7 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'publisherName','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'publisherName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
 
@@ -255,6 +257,6 @@ class PageController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery','popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 }
