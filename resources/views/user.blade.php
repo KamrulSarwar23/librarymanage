@@ -4,6 +4,11 @@
 @section('content')
 
 
+<style>
+    body{
+        background-image: none;
+    }    
+</style>
     <div class="container mt-5 pt-5">
         <section class="section">
 

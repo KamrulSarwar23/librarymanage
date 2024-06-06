@@ -61,7 +61,8 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('preview', 'active')->where('category_id', $id)->paginate(8);
+        }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
+
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
@@ -187,10 +188,7 @@ class PageController extends Controller
                 $query->where('category_id', $booksdetails->category_id)
                     ->orWhere('author_id', $booksdetails->author_id)
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
-            })
-            ->inRandomOrder()
-            ->take(4)
-            ->get();
+            })->take(4)->get();
 
         return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
@@ -209,7 +207,9 @@ class PageController extends Controller
         if (!empty($searchQuery)) {
             $query->where('preview', 'active')
                 ->where(function ($query) use ($searchQuery) {
+
                     $query->where('title', 'like', '%' . $searchQuery . '%')
+
                         ->orWhereHas('category', function ($q) use ($searchQuery) {
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         })
@@ -220,12 +220,14 @@ class PageController extends Controller
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         });
                 })
+
                 ->with(['rating' => function ($query) {
                     $query->where('status', 'active');
                 }]);
         }
 
-        $books = $query->paginate(8);
+        $books = $query->paginate(12);
+
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
@@ -257,31 +259,39 @@ class PageController extends Controller
         $bookId = $request->input('bookId');
         $userId = $request->input('userId');
 
-
         $existingRecord = Borrow::where('user_id', $userId)
             ->where('book_id', $bookId)
             ->whereNull('returned_at')
             ->exists();
 
+        $quantityBook = Book::where('id', $bookId)->select('quantity')->first();
 
-        if ($existingRecord) {
-            flash()->error('Your order is already pending');
-            return redirect()->route('all.books');
+        if ($quantityBook->quantity  === 0) {
+            flash()->error('Stock Out');
+            return redirect()->back();
+        } else {
+
+            $quantityBook = Borrow::where('user_id', $userId)->whereNotNull('issued_at')->whereNull('returned_at')->count();
+
+            if ($quantityBook === 3) {
+                flash()->error('You Cant Borrow More Than 3 Books! Already you have borrowed 3 books');
+                return redirect()->back();
+            } else {
+
+                if ($existingRecord) {
+                    flash()->error('You already send request for this book');
+                    return redirect()->back();
+                }
+
+                $borrow = new Borrow();
+                $borrow->book_id = $bookId;
+                $borrow->user_id = $userId;
+                $borrow->save();
+
+                flash()->success('Your borrow request is currently in pending');
+
+                return redirect()->back();
+            }
         }
-
-        $borrow = new Borrow();
-
-        $book = Book::where('id', $bookId)->first();
-        $book->quantity = $book->quantity - 1;
-        $book->save();
-
-        $borrow->book_id = $bookId;
-        $borrow->user_id = $userId;
-
-        $borrow->save();
-
-        flash()->success('Your order is currently pending');
-
-        return redirect()->route('all.books');
     }
 }

@@ -2,10 +2,8 @@
 
 @section('content')
     <style>
-
         body.book-details-page {
             background-image: none !important;
-
         }
 
         .enjoyedbook a {
@@ -63,7 +61,6 @@
             color: #bb5252;
             font-size: 1.5em;
         }
-
     </style>
 
     <div class="container mt-3 ">
@@ -74,7 +71,9 @@
 
                     <div class="col-md-4 cover_image">
                         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
-                            <img src="{{ asset('storage/book/' . $booksdetails->cover_image) }}" alt="{{ $booksdetails->title }}" class="card-img-top img-fluid" style="border-radius: 10px; height: 450px; object-fit: cover;">
+                            <img src="{{ asset('storage/book/' . $booksdetails->cover_image) }}"
+                                alt="{{ $booksdetails->title }}" class="card-img-top img-fluid"
+                                style="border-radius: 10px; height: 450px; object-fit: cover;">
                         </div>
                     </div>
 
@@ -118,6 +117,15 @@
                                 {!! $booksdetails->summary !!}
                             </p>
                         </div>
+
+                        @auth
+                            <form action="{{ route('book.borrow') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="bookId" value="{{ $booksdetails->id }}">
+                                <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                <button type="submit" class="applied btn btn-primary w-100">Borrow This Book</button>
+                            </form>
+                        @endauth
 
 
                         <div class="col-md-12 pt-2">
@@ -188,22 +196,28 @@
                             <h2 class="h3 mb-4">Readers also enjoyed</h2>
                         </div>
                     @endif
-
-
-
+                
                     @foreach ($enjoyedbook as $item)
+<<<<<<< HEAD
                         <div class="col-md-4 col-lg-3 mb-4 enjoyedbook">
+=======
+                        <div class="col-md-4 col-lg-3 mb-4 enjoyedbook mb-5">
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
+<<<<<<< HEAD
                                         <h5 class="">{{ limitText($item->title, 20) }}</h5>
+=======
+                                        <h5>{{ limitText($item->title, 20) }}</h5>
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
 
                                         <div class="star-rating d-inline-flex ml-2" title="">
                                             <span
                                                 class="rating-text theme-font theme-yellow">({{ round($item->rating->avg('rating'), 1) }})</span>
-                                            <div class="star-rating d-inline-flex mx-2" title="">
+                                            <div class="star-rating d-inline-flex mx-1" title="">
                                                 <div class="back-stars">
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -220,10 +234,23 @@
                                                     </div>
                                                 </div>
                                             </div>
+<<<<<<< HEAD
                                             {{--  <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
                                                 Reviews)</span>  --}}
+=======
+                                            <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
+                                                Review)</span>
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
                                         </div>
                                     </div>
+                                    @auth
+                                    <form class="mb-2" action="{{ route('book.borrow') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="bookId" value="{{ $item->id }}">
+                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                    </form>
+                                @endauth
                                 </div>
                             </a>
                         </div>
@@ -251,9 +278,9 @@
                         @csrf
                         <div class="mb-3">
                             <label for="review" class="form-label">Review</label>
-                            <textarea name="comment" id="review" class="form-control" cols="5" rows="5" placeholder="Review"></textarea>
+                            <textarea name="comment" id="review" class="form-control p-3" cols="5" rows="5"></textarea>
                         </div>
-                        <div class="rating mb-3" style="width: 10rem">
+                        <div class="rating mb-3 ml-3" style="width: 10rem">
 
                             <input id="rating-5" type="radio" name="rating" value="5" /><label
                                 for="rating-5"><i class="fas fa-3x fa-star"></i></label>

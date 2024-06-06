@@ -18,7 +18,7 @@ class AuthorController extends Controller
     }
 
     public function activeAuthor(){
-        $authors = Author::where('status', 'active')->paginate(10);
+        $authors = Author::where('status', 'active')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($authors) == null) {
             flash()->error('No Data Found');
@@ -28,7 +28,7 @@ class AuthorController extends Controller
     }
 
     public function pendingAuthor(){
-        $authors = Author::where('status', 'inactive')->paginate(10);
+        $authors = Author::where('status', 'inactive')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($authors) == null) {
             flash()->error('No Data Found');
@@ -40,6 +40,7 @@ class AuthorController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    
     public function create()
     {
         return view('admin.author.create');

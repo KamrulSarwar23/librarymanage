@@ -55,7 +55,7 @@ class ReviewController extends Controller
     }
 
     public function activeReview(){
-        $reviews = Review::where('status', 'active')->paginate(10);
+        $reviews = Review::where('status', 'active')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($reviews) == null) {
             flash()->error('No Data Found');
@@ -65,7 +65,7 @@ class ReviewController extends Controller
     }
 
     public function pendingReview(){
-        $reviews = Review::where('status', 'inactive')->paginate(10);
+        $reviews = Review::where('status', 'inactive')->orderBy('created_at', 'DESC')->paginate(10);
 
         if (count($reviews) == null) {
             flash()->error('No Data Found');

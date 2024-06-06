@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('issued_at')->nullable();
             $table->date('due_at')->nullable();
             $table->date('returned_at')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->enum('status', ['active', 'pending', 'reject', 'return'])->default('pending');
             $table->timestamps();
         });
     }

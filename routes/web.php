@@ -31,7 +31,7 @@ Route::post('/send-message', [ContactController::class, 'sendMessage'])->name('s
 
 Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name('book.details');
 
-Route::post('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
+Route::get('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
 
 Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
 
@@ -96,7 +96,12 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Book Borrow
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
-    Route::post('/book-borrow/update-info', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
+    Route::put('/return-borrow/{id}', [BookBorrowController::class, 'returnBook'])->name('book.return');
+    Route::get('/book-borrow-edit/{id}', [BookBorrowController::class, 'edit'])->name('book-borrow.edit');
+    Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
+    Route::delete('/book/borrow/delete/{id}', [BookBorrowController::class, 'borrowBookDelete'])->name('book.borrow-delete');
+    Route::get('/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
+    Route::get('/borrow-book-filter-by-status', [BookBorrowController::class, 'borrowBookFilterByStatus'])->name('borrow-book-filter-by-status');
 
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');

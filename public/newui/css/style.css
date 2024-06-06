@@ -185,9 +185,15 @@ h6 {
 .site-section-heading {
     font-size: 30px;
     color: #dee2e6;
+<<<<<<< HEAD
     /* position: relative; */
 }
 /* .site-section-heading:before {
+=======
+    position: relative;
+}
+.site-section-heading:before {
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
     content: "";
     left: 0%;
     top: 0;
@@ -195,8 +201,13 @@ h6 {
     width: 40px;
     height: 2px;
     background: #1c63fb;
+<<<<<<< HEAD
 } */
 /* .site-section-heading.text-center:before {
+=======
+}
+.site-section-heading.text-center:before {
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
     content: "";
     left: 50%;
     top: 0;
@@ -207,7 +218,11 @@ h6 {
     width: 40px;
     height: 2px;
     background: #1c63fb;
+<<<<<<< HEAD
 } */
+=======
+}
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
 
 .border-top {
     border-top: 1px solid #ced4da !important;
@@ -888,10 +903,17 @@ h6 {
 
 .heading {
     font-family: "Oswald", sans-serif;
+<<<<<<< HEAD
     /* text-transform: uppercase; */
     position: relative;
     padding-bottom: 10px;
 
+=======
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
 }
 /* .heading:after {
     content: "";
@@ -900,8 +922,12 @@ h6 {
     height: 2px;
     background: #1c63fb;
     bottom: 0;
+<<<<<<< HEAD
     left: 0;
 } */
+=======
+    left: 0; } */
+>>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
 
 .site-menu-toggle .menu-text {
     position: relative;

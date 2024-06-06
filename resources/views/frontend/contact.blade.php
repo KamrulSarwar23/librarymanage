@@ -16,10 +16,6 @@ textarea.form-control {
     height: 150px;
 }
 
-input{
-    background: rgb(98, 213, 221)
-}
-
 .text-danger {
     color: red;
     margin-top: 5px;
@@ -32,16 +28,16 @@ input{
     border: none;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
+.bg-color{
+    background-color: #9e8080;
+    color: white
 }
-
 
 
 </style>
 
 <div class="site-section mt-5">
-    <div class="container bg-dark p-5 rounded">
+    <div class="container bg-color p-5 rounded">
         <form action="{{ route('send.message') }}" method="POST">
             @csrf
             <div class="row">
@@ -50,7 +46,7 @@ input{
                     <input type="text" name="firstName" class="form-control form-control-lg"
                         value="{{ old('firstName') }}">
                     @error('firstName')
-                        <p class="text-danger">{{ $message }}</p>
+                        <p class="text-white">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="col-md-6 form-group mb-4">
@@ -92,7 +88,7 @@ input{
 
             <div class="row">
                 <div class="col-12">
-                    <input type="submit" value="Send Message" class="btn btn-primary btn-lg px-5">
+                    <input type="submit" value="Send Message" class="btn btn-secondary btn-lg px-5">
                 </div>
             </div>
         </form>

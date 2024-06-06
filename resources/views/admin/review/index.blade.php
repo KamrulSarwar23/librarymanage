@@ -75,11 +75,9 @@
     <section class="section">
         <div class="section-header">
             <h1>Reviews</h1>
-
         </div>
 
         <div class="section-body">
-
             <li>
                 <div class="dropdown mt-2 mb-3">
                     <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
@@ -109,34 +107,35 @@
                                     <th>Comment Date</th>
                                     <th>Status</th>
                                     <th>Delete</th>
+
                                     @foreach ($reviews as $review)
                                         <tr>
                                             <td>{{ $review->id }}</td>
                                             <td>{{ $review->user->name }}</td>
-                                            <td>{{ $review->book->title }}</td>
+                                            <td><a href="{{ route('book.details',$review->id) }}">{{ $review->book->title }}</a></td>
                                             <td>{{ $review->comment }}</td>
                                             <td>
                                                 <div class="mb-3">
                                                     <div class="star-rating d-inline-flex"
                                                         title="Rating: {{ $review->rating }}">
                                                         <div class="back-stars">
+
                                                             @for ($i = 1; $i <= 5; $i++)
                                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                             @endfor
 
-                                                            <div class="front-stars"
-                                                                style="width: {{ $review->rating * 20 }}%">
+                                                            <div class="front-stars" style="width: {{ $review->rating * 20 }}%">
                                                                 @for ($i = 1; $i <= 5; $i++)
                                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                                 @endfor
                                                             </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
                                             
-                                            <td>{{ \Carbon\Carbon::parse($review->created_at)->format('F j, Y, g:i a') }}
-                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($review->created_at)->format('F j, Y, g:i a') }}</td>
 
                                             <td>
                                                 @if ($review->status == 'active')
@@ -159,18 +158,19 @@
                                             </td>
 
                                             <td>
-
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('book-reviews.delete', $review->id) }}"><i class="fas fa-trash"></i></a>
-
                                             </td>
                                         </tr>
+
                                     @endforeach
+
                                     @if ($reviews->isEmpty())
                                     <div class="alert alert-danger mt-5" role="alert">
                                         No Data Found
                                     </div>
                                     @endif
+
                                 </table>
 
                                 <div class="pagination">

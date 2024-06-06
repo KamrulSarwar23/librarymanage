@@ -64,6 +64,12 @@
         color: #bb5252;
         font-size: 1.5em;
     }
+
+    .custom-scrollbar {
+        max-height: 200px;
+        /* Adjust the max-height as needed */
+        overflow-y: auto;
+    }
 </style>
 
 
@@ -80,9 +86,9 @@
                                         aria-expanded="false">
                                         Category
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($category as $item)
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item {{ request()->routeIs('book.by-category') && request()->route('id') == $item->id ? 'bg-success' : '' }}"
                                                     href="{{ route('book.by-category', $item->id) }}">{{ $item->name }}</a>
                                             </li>
                                         @endforeach
@@ -97,9 +103,9 @@
                                         aria-expanded="false">
                                         Author
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($author as $item)
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item {{ request()->routeIs('book.by-author') && request()->route('id') == $item->id ? 'bg-success' : '' }}"
                                                     href="{{ route('book.by-author', $item->id) }}">{{ $item->name }}</a>
                                             </li>
                                         @endforeach
@@ -114,9 +120,9 @@
                                         aria-expanded="false">
                                         Publishers
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu custom-scrollbar">
                                         @foreach ($publisher as $item)
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item {{ request()->routeIs('book.by-publisher') && request()->route('id') == $item->id ? 'bg-success' : '' }}"
                                                     href="{{ route('book.by-publisher', $item->id) }}">{{ $item->name }}</a>
                                             </li>
                                         @endforeach
@@ -127,8 +133,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form action="{{ route('book.search') }}" method="POST" class="form-inline">
-                        @csrf
+                    <form action="{{ route('book.search') }}" method="GET" class="form-inline">
                         <div class="input-group w-100">
                             <input name="search_query" type="text" value="{{ old('search_query') }}"
                                 class="form-control form-control-lg search-input"
@@ -225,12 +230,18 @@
                                 @csrf
                                 <input type="hidden" name="bookId" value="{{ $book->id }}">
                                 <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                              
                             </form>
                         @endauth
                     </div>
                 </div>
             @endforeach
+
+            {{-- <div class="pagination ml-auto mt-3">
+                {{ $books->links() }}
+            </div> --}}
+
         </div>
 
         @if (count($popularBook) > 0)
@@ -239,7 +250,7 @@
 
         <div class="row mb-4">
             @foreach ($popularBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -268,9 +279,8 @@
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span> --}}
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                             @auth
@@ -278,7 +288,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>
@@ -293,7 +303,7 @@
 
         <div class="row mb-4">
             @foreach ($recommendedBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -322,9 +332,8 @@
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                             @auth
@@ -332,7 +341,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>
@@ -347,7 +356,7 @@
 
         <div class="row mb-4">
             @foreach ($recentBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -376,9 +385,9 @@
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
+
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                             @auth
@@ -386,7 +395,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>
@@ -402,7 +411,7 @@
 
         <div class="row">
             @foreach ($featuredBook as $book)
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 col-lg-3 mt-4">
                     <a href="{{ route('book.details', $book->id) }}">
                         <div class="card shadow-lg p-3 bg-white rounded">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
@@ -431,9 +440,9 @@
                                             @endfor
                                         </div>
                                     </div>
-                                    <span
-                                        class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
-                                    {{--  <span class="theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>  --}}
+                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span> --}}
+
+                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
                             @auth
@@ -441,7 +450,7 @@
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="btn btn-secondary w-100">Borrow</button>
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
                             @endauth
                         </div>

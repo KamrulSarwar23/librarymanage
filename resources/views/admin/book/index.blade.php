@@ -36,6 +36,9 @@
         form {
             margin-top: -10px;
         }
+        .card-body{
+            
+        }
     </style>
     <section class="section">
         <div class="section-header">
@@ -181,7 +184,7 @@
 
 
                                 <form action="{{ route('books.filterByDate') }}" method="GET" class="form-inline ml-2">
-                                    <div class="form-group mx-sm-1 mr-2 mt-2">
+                                    <div class="form-group mx-sm-1 mr-2">
                                         <label for="start_date" class="sr-only">Start Date</label>
                                         <input type="date" name="start_date" id="start_date"
                                             value="{{ old('start_date') }}" class="form-control" placeholder="Start Date">
@@ -273,6 +276,7 @@
                                     <th>Publisher Name</th>
                                     <th>Author Name</th>
                                     <th>Quantity</th>
+                                    <th>Current Quantity</th>
                                     <th>Status</th>
                                     <th>Type</th>
                                     <th>Preview</th>
@@ -293,6 +297,7 @@
                                             <td>{{ $book->publisher->name }}</td>
                                             <td>{{ $book->author->name }}</td>
                                             <td>{{ $book->quantity }}</td>
+                                            <td>{{ $book->current_quantity }}</td>
                                             {{-- <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }} --}}
                                             </td>
                                             <td>

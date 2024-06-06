@@ -19,6 +19,7 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
         $books = Book::orderBy('created_at', 'DESC')->paginate(10);
+        
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
     }
 
@@ -156,7 +157,7 @@ class BookController extends Controller
             });
         }
 
-        $books = $query->paginate(12);
+        $books = $query->orderBy('created_at', 'DESC')->paginate(12);
 
 
         if ($books->isEmpty()) {

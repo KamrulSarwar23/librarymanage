@@ -6,6 +6,9 @@
             list-style-type: none
         }
 
+        .table-responsive {
+            overflow-x: auto;
+        }
 
         td {
             white-space: nowrap;
