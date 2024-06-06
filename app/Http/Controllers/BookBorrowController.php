@@ -15,10 +15,8 @@ class BookBorrowController extends Controller
     public function index()
     {
         $borrowedBooks = Borrow::all();
-
-
+        
         $books = [];
-
 
         foreach ($borrowedBooks as $borrowedBook) {
             $book = Book::find($borrowedBook->book_id);
@@ -36,9 +34,6 @@ class BookBorrowController extends Controller
                 'status' => $borrowedBook->status
             ];
         }
-
-
-
 
         return view('admin.borrow.index', compact('books'));
     }

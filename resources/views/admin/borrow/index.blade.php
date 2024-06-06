@@ -179,18 +179,10 @@
                                                    @endif
                                                </td> --}}
 
-
-
-
-
-
                                                 {{-- <td>
-
-
                                                    <a class="delete-item btn btn-danger"
                                                        href="{{ route('book-reviews.delete', $review->id) }}"><i
                                                            class="fas fa-trash"></i></a>
-
 
                                                </td> --}}
 
