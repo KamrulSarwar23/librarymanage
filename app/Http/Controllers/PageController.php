@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Publisher;
 use App\Models\Review;
@@ -258,5 +259,44 @@ class PageController extends Controller
         }
 
         return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+    }
+
+    public function borrowBook(Request $request)
+    {
+        $bookId = $request->input('bookId');
+        $userId = $request->input('userId');
+
+
+        $existingRecord = Borrow::where('user_id', $userId)
+            ->where('book_id', $bookId)
+            ->whereNull('returned_at')
+            ->exists();
+
+
+        if ($existingRecord) {
+            flash()->error('Your order is already pending');
+            return redirect()->route('all.books');
+        }
+
+
+        $borrow = new Borrow();
+
+
+        $book = Book::where('id', $bookId)->first();
+        $book->quantity = $book->quantity - 1;
+        $book->save();
+
+
+        $borrow->book_id = $bookId;
+        $borrow->user_id = $userId;
+
+
+        $borrow->save();
+
+
+        flash()->success('Your order is currently pending');
+
+
+        return redirect()->route('all.books');
     }
 }
