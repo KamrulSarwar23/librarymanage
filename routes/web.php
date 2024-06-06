@@ -37,6 +37,8 @@ Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.b
 
 Route::get('/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
 
+Route::get('/borrow-book-filter-by-status', [BookBorrowController::class, 'borrowBookFilterByStatus'])->name('borrow-book-filter-by-status');
+
 Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'])->name('book.by-category');
 
 Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');

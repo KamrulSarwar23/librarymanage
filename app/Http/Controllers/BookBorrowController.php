@@ -102,9 +102,18 @@ class BookBorrowController extends Controller
                 });
             });
         }
+        
+        $borrowedBooks = $query->orderBy('created_at', 'DESC')->paginate(10);
 
-        $borrowedBooks = $query->paginate(10);
+        return view('admin.borrow.index', compact('borrowedBooks'));
+    }
 
+    public function borrowBookFilterByStatus(Request $request){
+
+        $query  = $request->query('status');
+
+        $borrowedBooks =  Borrow::where('status', $query)->paginate(10);
+       
         return view('admin.borrow.index', compact('borrowedBooks'));
     }
 }

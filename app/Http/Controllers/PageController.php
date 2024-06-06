@@ -230,7 +230,7 @@ class PageController extends Controller
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         });
                 })
-                
+
                 ->with(['rating' => function ($query) {
                     $query->where('status', 'active');
                 }]);
@@ -274,18 +274,34 @@ class PageController extends Controller
             ->whereNull('returned_at')
             ->exists();
 
-        if ($existingRecord) {
-            flash()->error('You already send request for this book');
+        $quantityBook = Book::where('id', $bookId)->select('quantity')->first();
+
+        if ($quantityBook->quantity  === 0) {
+            flash()->error('Stock Out');
             return redirect()->back();
+        } else {
+
+            $quantityBook = Borrow::where('user_id', $userId)->whereNotNull('issued_at')->whereNull('returned_at')->count();
+
+            if ($quantityBook === 3) {
+                flash()->error('You Cant Borrow More Than 3 Books');
+                return redirect()->back();
+            } else {
+
+                if ($existingRecord) {
+                    flash()->error('You already send request for this book');
+                    return redirect()->back();
+                }
+
+                $borrow = new Borrow();
+                $borrow->book_id = $bookId;
+                $borrow->user_id = $userId;
+                $borrow->save();
+
+                flash()->success('Your borrow request is currently in pending');
+
+                return redirect()->back();
+            }
         }
-
-        $borrow = new Borrow();
-        $borrow->book_id = $bookId;
-        $borrow->user_id = $userId;
-        $borrow->save();
-
-        flash()->success('Your borrow request is currently in pending');
-
-        return redirect()->back();
     }
 }
