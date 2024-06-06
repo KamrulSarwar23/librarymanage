@@ -48,13 +48,25 @@ class BookBorrowController extends Controller
 
             flash()->success('Borrow Request Updated Successfully');
             return redirect()->route('book.borrowinfo');
+        } elseif ($request->status == 'reject') {
+            $borrowRecords = Borrow::findOrFail($id);
+
+            $borrowRecords->update([
+                'issued_at' => null,
+                'due_at' => null,
+                'returned_at' => null,
+                'status' => $request->status,
+            ]);
+
+            flash()->success('Borrow Request Updated Successfully');
+            return redirect()->route('book.borrowinfo');
         } else {
             $borrowRecords = Borrow::findOrFail($id);
 
             $borrowRecords->update([
-                'issued_at' => $request->issued_at,
-                'due_at' => $request->due_at,
-                'returned_at' => $request->returned_at,
+                'issued_at' => null,
+                'due_at' => null,
+                'returned_at' => null,
                 'status' => $request->status,
             ]);
 
@@ -73,25 +85,26 @@ class BookBorrowController extends Controller
     public function borrowBookSearch(Request $request)
     {
         $searchQuery = $request->input('search_query');
-    
-        $query = Borrow::query();
-    
-        if (!empty($searchQuery)) {
-            $query->where(function ($query) use ($searchQuery) {
-                $query->whereHas('user', function ($q) use ($searchQuery) {
-                    $q->where('name', 'like', '%' . $searchQuery . '%');
-                });
-                $query->orWhereHas('user', function($q) use ($searchQuery){
-                    $q->where('email', 'like', '%' .$searchQuery. '%');
-                });
 
+        $query = Borrow::query();
+
+        if (!empty($searchQuery)) {
+            $query->where(function ($query) use ($searchQuery){
+
+            $query->where('status', 'like', '%' . $searchQuery . '%')
+            
+            ->orWhereHas('user', function ($q) use ($searchQuery) {
+                    $q->where('name', 'like', '%' . $searchQuery . '%');
+                })
+
+            ->orWhereHas('user', function ($q) use ($searchQuery) {
+                    $q->where('email', 'like', '%' . $searchQuery . '%');
+                });
             });
         }
-    
+
         $borrowedBooks = $query->paginate(10);
-        
+
         return view('admin.borrow.index', compact('borrowedBooks'));
     }
-    
-
 }

@@ -238,6 +238,9 @@
                     </div>
                 </div>
             @endforeach
+            <div class="pagination ml-auto mt-3">
+                {{ $books->links() }}
+            </div>
         </div>
 
         @if (count($popularBook) > 0)

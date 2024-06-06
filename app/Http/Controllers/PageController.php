@@ -217,7 +217,9 @@ class PageController extends Controller
         if (!empty($searchQuery)) {
             $query->where('preview', 'active')
                 ->where(function ($query) use ($searchQuery) {
+
                     $query->where('title', 'like', '%' . $searchQuery . '%')
+
                         ->orWhereHas('category', function ($q) use ($searchQuery) {
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         })
@@ -228,13 +230,14 @@ class PageController extends Controller
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         });
                 })
+                
                 ->with(['rating' => function ($query) {
                     $query->where('status', 'active');
                 }]);
         }
 
         $books = $query->paginate(12);
-        
+
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
