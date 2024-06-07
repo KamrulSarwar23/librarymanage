@@ -20,52 +20,18 @@ class BookController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-        $books = Book::with('quantities')->orderBy('created_at', 'DESC')->paginate(10);
-
+        $books = Book::with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->orderBy('created_at', 'DESC')->paginate(10);
+    
         foreach ($books as $book) {
-            $book->quantity = $book->quantities->sum('quantity');
+            $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
+            $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
         }
-
-        foreach ($books as $book) {
-            $book->current_qty = $book->quantities->sum('current_qty');
-        }
-
+    
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
     }
-
-    public function filterByStatus(Request $request)
-    {
-        $status = $request->query('status');
-
-        $category = Category::where('status', 'active')->get();
-        $author = Author::where('status', 'active')->get();
-        $publisher = Publisher::where('status', 'active')->get();
-
-        // Get all books
-        $books = Book::orderBy('created_at', 'DESC');
-
-        // Filter books based on their availability
-        if ($status == "available") {
-            $bookIds = $books->pluck('id')->filter(function ($id) {
-                return QuantityManage::isQuantityAvailable($id);
-            });
-            $books = $books->whereIn('id', $bookIds);
-        } else if ($status == "not_available") {
-            $bookIds = $books->pluck('id')->filter(function ($id) {
-                return !QuantityManage::isQuantityAvailable($id);
-            });
-            $books = $books->whereIn('id', $bookIds);
-        }
-
-        // Paginate the results
-        $books = $books->paginate(10);
-
-        if ($books->isEmpty()) {
-            flash()->error('No data found.');
-        }
-
-        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'status'));
-    }
+    
 
     public function filterByType(Request $request)
     {
@@ -268,10 +234,8 @@ class BookController extends Controller
             'isbn' => 'required',
             'publication_date' => 'required',
             'number_of_pages' => 'required',
-            'quantity' => 'required',
             'summary' => 'required',
             'cover_image' => 'required',
-            'status' => 'required',
             'type' => 'required',
             'preview' => 'required',
         ]);
@@ -292,9 +256,7 @@ class BookController extends Controller
             'isbn' => $request->isbn,
             'publication_date' => $request->publication_date,
             'number_of_pages' => $request->number_of_pages,
-            'quantity' => $request->quantity,
             'summary' => $request->summary,
-            'status' => $request->status,
             'type' => $request->type,
             'preview' => $request->preview,
             'cover_image' => $imageName,
@@ -337,10 +299,8 @@ class BookController extends Controller
             'isbn' => 'required',
             'publication_date' => 'required',
             'number_of_pages' => 'required',
-            'quantity' => 'required',
             'summary' => 'required',
             'cover_image' => 'nullable|image',
-            'status' => 'required',
             'type' => 'required',
             'preview' => 'required',
         ]);
@@ -366,9 +326,7 @@ class BookController extends Controller
             'isbn' => $request->isbn,
             'publication_date' => $request->publication_date,
             'number_of_pages' => $request->number_of_pages,
-            'quantity' => $request->quantity,
             'summary' => $request->summary,
-            'status' => $request->status,
             'type' => $request->type,
             'preview' => $request->preview,
         ]);
@@ -388,14 +346,6 @@ class BookController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
     }
 
-    public function changeStatus(Request $request)
-    {
-        $book = Book::findOrFail($request->id);
-        $book->status = $request->status;
-        $book->save();
-
-        return response()->json(['message' => 'Status has been Updated!']);
-    }
 
     public function changeType(Request $request)
     {

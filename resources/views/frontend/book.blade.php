@@ -203,7 +203,6 @@
                                     href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
                             </p>
 
-
                             <div class="star-rating d-inline-flex align-items-center"
                                 title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
                                 <div class="back-stars">
@@ -225,22 +224,31 @@
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
                         </div>
-                        @auth
-                            <form action="{{ route('book.borrow') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                              
+
+
+                        @if ($book->quantities->sum('current_qty') !== 0)
+                            @auth
+                                <form action="{{ route('book.borrow') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                </form>
+                            @endauth
+                        @else
+                            <form action="javascript:;">
+                                <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                             </form>
-                        @endauth
+                        @endif
+
+
                     </div>
                 </div>
             @endforeach
 
-            {{-- <div class="pagination ml-auto mt-3">
+            <div class="pagination ml-auto mt-3">
                 {{ $books->links() }}
-            </div> --}}
+            </div>
 
         </div>
 
@@ -283,14 +291,21 @@
                                     <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
-                            @auth
-                                <form action="{{ route('book.borrow') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+
+                            @if ($book->quantities->sum('current_qty') !== 0)
+                                @auth
+                                    <form action="{{ route('book.borrow') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                    </form>
+                                @endauth
+                            @else
+                                <form action="javascript:;">
+                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                                 </form>
-                            @endauth
+                            @endif
                         </div>
                     </a>
                 </div>
@@ -336,14 +351,21 @@
                                     <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
-                            @auth
-                                <form action="{{ route('book.borrow') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+
+                            @if ($book->quantities->sum('current_qty') !== 0)
+                                @auth
+                                    <form action="{{ route('book.borrow') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                    </form>
+                                @endauth
+                            @else
+                                <form action="javascript:;">
+                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                                 </form>
-                            @endauth
+                            @endif
                         </div>
                     </a>
                 </div>
@@ -390,14 +412,21 @@
                                     <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
-                            @auth
-                                <form action="{{ route('book.borrow') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+
+                            @if ($book->quantities->sum('current_qty') !== 0)
+                                @auth
+                                    <form action="{{ route('book.borrow') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                    </form>
+                                @endauth
+                            @else
+                                <form action="javascript:;">
+                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                                 </form>
-                            @endauth
+                            @endif
                         </div>
                     </a>
                 </div>
@@ -445,14 +474,21 @@
                                     <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
-                            @auth
-                                <form action="{{ route('book.borrow') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+
+                            @if ($book->quantities->sum('current_qty') !== 0)
+                                @auth
+                                    <form action="{{ route('book.borrow') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                    </form>
+                                @endauth
+                            @else
+                                <form action="javascript:;">
+                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                                 </form>
-                            @endauth
+                            @endif
                         </div>
                     </a>
                 </div>

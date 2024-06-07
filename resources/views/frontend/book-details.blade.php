@@ -81,12 +81,17 @@
                     <div class="col-md-8 text-dark">
 
                         <h2>{{ $booksdetails->title }}</h2>
-                        <p class="text-success">Status: {{ strtoupper($booksdetails->status) }}</p>
 
+                        @if ($totalCurrentQty !== 0)
+                        <h5 class="text-primary mb-3">Available Book: {{ $totalCurrentQty }}</h5>
+                        @else
+                        <h5 class="text-primary mb-3">Available Book: Stock Out</h5>
+                        @endif
+                       
                         <p>Book ID: {{ $booksdetails->isbn }}</p>
                         <p>Author: {{ $booksdetails->author->name }}</p>
                         <p>Publication: {{ \Carbon\Carbon::parse($booksdetails->publication_date)->format('F , Y') }}</p>
-                        <p>Available Book: {{ $booksdetails->quantity }}</p>
+                       
                         <p>Pages: {{ $booksdetails->number_of_pages }}</p>
                         <p>Category: {{ $booksdetails->category->name }}</p>
                         <p>Publisher: {{ $booksdetails->publisher->name }}</p>
@@ -118,14 +123,19 @@
                             </p>
                         </div>
 
+                        @if ($booksdetails->quantities->sum('current_qty') !== 0)
                         @auth
-                            <form action="{{ route('book.borrow') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="bookId" value="{{ $booksdetails->id }}">
-                                <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                <button type="submit" class="applied btn btn-primary w-100">Borrow This Book</button>
-                            </form>
-                        @endauth
+                        <form action="{{ route('book.borrow') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="bookId" value="{{ $booksdetails->id }}">
+                            <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                            <button type="submit" class="applied btn btn-primary w-100">Borrow This Book</button>
+                        </form>
+                    @endauth
+                    @else
+                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
+                        @endif
+                 
 
 
                         <div class="col-md-12 pt-2">
@@ -198,21 +208,13 @@
                     @endif
                 
                     @foreach ($enjoyedbook as $item)
-<<<<<<< HEAD
-                        <div class="col-md-4 col-lg-3 mb-4 enjoyedbook">
-=======
                         <div class="col-md-4 col-lg-3 mb-4 enjoyedbook mb-5">
->>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                 <div class="card border-0 shadow-lg">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
-<<<<<<< HEAD
-                                        <h5 class="">{{ limitText($item->title, 20) }}</h5>
-=======
                                         <h5>{{ limitText($item->title, 20) }}</h5>
->>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
 
                                         <div class="star-rating d-inline-flex ml-2" title="">
                                             <span
@@ -234,13 +236,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-<<<<<<< HEAD
-                                            {{--  <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
-                                                Reviews)</span>  --}}
-=======
                                             <span class="theme-font text-muted">({{ $item->rating->count('rating') }}
                                                 Review)</span>
->>>>>>> 84a1cde5714c2cb89242da5b7a092fb19a76d13a
                                         </div>
                                     </div>
                                     @auth

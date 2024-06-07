@@ -21,7 +21,6 @@ class QuantityController extends Controller
 
     public function changeStatus(Request $request)
     {
-        // dd($request->status);
         $bookQuantity = BookQuantity::findOrFail($request->quantityId);
         $bookQuantity->status = $request->status;
         $bookQuantity->save();
@@ -31,7 +30,7 @@ class QuantityController extends Controller
 
     public function destroy(string $quantityId)
     {
-        // dd($quantityId);
+
         $book = BookQuantity::findOrFail($quantityId);
         $book->delete();
         return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
@@ -40,12 +39,11 @@ class QuantityController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
             'book_id' => 'required|exists:books,id',
             'quantity' => 'required|integer|min:1',
         ]);
-        // dd($request->book_id);
+       
         try {
             // Create a new BookQuantity record
             BookQuantity::create([

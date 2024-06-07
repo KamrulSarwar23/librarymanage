@@ -34,8 +34,6 @@ Route::get('/books-details/{id}', [PageController::class, 'bookDetails'])->name(
 
 Route::get('/books-search', [PageController::class, 'bookSearch'])->name('book.search');
 
-Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
-
 Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'])->name('book.by-category');
 
 Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');
@@ -75,10 +73,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('author', AuthorController::class);
 
     // Book Routes
-    Route::get('/books/filterByStatus', [BookController::class, 'filterByStatus'])->name('books.filterByStatus');
     Route::get('/books/filterByType', [BookController::class, 'filterByType'])->name('books.filterByType');
     Route::get('/books/filterByDate', [BookController::class, 'filterByDate'])->name('books.filterByDate');
-    Route::put('/book/status', [BookController::class, 'changeStatus'])->name('book.status');
     Route::put('/book/type/change', [BookController::class, 'changeType'])->name('book.type.change');
     Route::put('/book/preview/change', [BookController::class, 'changePreview'])->name('book.preview.change');
     Route::get('/active-books', [BookController::class, 'activeBook'])->name('active.book');
@@ -119,8 +115,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/book/{bookId}/quantity', [QuantityController::class, 'index'])->name('quantity.index');
     Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
-
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
+    
 });
 
 
@@ -135,4 +131,7 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Review Route
     Route::post('/send-review', [ReviewController::class, 'sendReview'])->name('send.review');
+
+ // Book Borrow Route
+    Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
 });

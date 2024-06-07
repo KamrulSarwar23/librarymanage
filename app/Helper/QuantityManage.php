@@ -17,7 +17,6 @@ class QuantityManage
         $totalQuantity = BookQuantity::where('book_id', $bookId)
             ->where('status', 'activate')
             ->sum('current_qty');
-        // dd($totalQuantity);
 
         if ($totalQuantity > 0) {
             return true;

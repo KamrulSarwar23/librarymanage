@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
     <style>
         .form-select {
             width: 100%;
@@ -36,7 +37,9 @@
         form {
             margin-top: -10px;
         }
+        
     </style>
+
     <section class="section">
         <div class="section-header">
             <h1>Add Book Quantity</h1>
@@ -78,9 +81,7 @@
                                             <td>{{ $quantity->created_at->format('Y-m-d') }}</td>
                                             <td>{{ $quantity->quantity }}</td>
                                             <td>{{ $quantity->current_qty }}</td>
-                                            {{-- <td>{{ $quantity->status }}</td> --}}
-
-
+                                      
                                             <td>
                                                 @if ($quantity->status == 'activate')
                                                     <label class="custom-switch">
@@ -100,9 +101,6 @@
                                                     </label>
                                                 @endif
                                             </td>
-
-
-
 
                                             <td>
                                                 <a class="delete-item btn btn-danger mr-2"
@@ -139,7 +137,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <input type="text" name="book_id" value="{{ $book->id }}">
+                            <input type="hidden" name="book_id" value="{{ $book->id }}">
                             <label for="quantity" class="form-label">Add Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity"
                                 placeholder="Add Quantity (2/5/9)">

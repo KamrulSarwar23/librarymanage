@@ -47,8 +47,6 @@
 
                                         <option {{ $borrowRecords->status == 'active' ? 'selected' : '' }} value="active">
                                             Approved</option>
-                                        <option {{ $borrowRecords->status == 'pending' ? 'selected' : '' }} value="pending">
-                                            Pending</option>
                                         <option {{ $borrowRecords->status == 'reject' ? 'selected' : '' }} value="reject">
                                             Reject</option>
 

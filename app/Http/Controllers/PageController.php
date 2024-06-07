@@ -23,7 +23,10 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
+        }])->with(['quantities' => function ($query) {
+            $query->where('status', 'activate');
         }])->where('preview', 'active')->paginate(8);
+
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
@@ -62,7 +65,7 @@ class PageController extends Controller
 
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
-        }])->where('preview', 'active')->where('category_id', $id)->paginate(12);
+        }])->where('preview', 'active')->where('category_id', $id)->paginate(8);
 
 
         $popularBook = Book::with(['rating' => function ($query) {
@@ -174,7 +177,14 @@ class PageController extends Controller
 
         $booksdetails = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
+        }])->with(['quantities' => function ($query) {
+            $query->where('status', 'activate');
         }])->findOrFail($id);
+
+        // Calculate the sum of current_qty for the active quantities
+        $totalCurrentQty = $booksdetails->quantities->where('status', 'activate')->sum('current_qty');
+
+
 
         $booksReview = Review::where('status', 'active')->where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
 
@@ -191,7 +201,7 @@ class PageController extends Controller
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })->take(4)->get();
 
-        return view('frontend.book-details', compact('booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
+        return view('frontend.book-details', compact('totalCurrentQty', 'booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
 
 
@@ -227,7 +237,7 @@ class PageController extends Controller
                 }]);
         }
 
-        $books = $query->paginate(12);
+        $books = $query->paginate(8);
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
@@ -255,44 +265,60 @@ class PageController extends Controller
         return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
+
     public function borrowBook(Request $request)
     {
         $bookId = $request->input('bookId');
         $userId = $request->input('userId');
 
+        // Check if the user has already borrowed this book and not returned it yet
         $existingRecord = Borrow::where('user_id', $userId)
             ->where('book_id', $bookId)
             ->whereNull('returned_at')
             ->exists();
 
-        $quantityBook = BookQuantity::where('id', $bookId)->select('quantity')->first();
+        // Get all book quantities
+        $quantityBooks = BookQuantity::where('book_id', $bookId)->get();
 
-        if ($quantityBook->current_qty  === 0) {
+        // Check if any book quantity or status meets the conditions for 'Stock Out'
+        $isStockOut = true;
+        $totalCurrentQty = 0;
+        foreach ($quantityBooks as $quantityBook) {
+            if ($quantityBook->status == 'activate' && $quantityBook->current_qty > 0) {
+                $isStockOut = false;
+            }
+            $totalCurrentQty += $quantityBook->current_qty;
+        }
+
+        if ($isStockOut) {
             flash()->error('Stock Out');
             return redirect()->back();
-        } else {
-
-            $quantityBook = Borrow::where('user_id', $userId)->whereNotNull('issued_at')->whereNull('returned_at')->count();
-
-            if ($quantityBook === 3) {
-                flash()->error('You Cant Borrow More Than 3 Books! Already you have borrowed 3 books');
-                return redirect()->back();
-            } else {
-
-                if ($existingRecord) {
-                    flash()->error('You already send request for this book');
-                    return redirect()->back();
-                }
-
-                $borrow = new Borrow();
-                $borrow->book_id = $bookId;
-                $borrow->user_id = $userId;
-                $borrow->save();
-
-                flash()->success('Your borrow request is currently in pending');
-
-                return redirect()->back();
-            }
         }
+
+        // Check if the user has already borrowed 3 books
+        $borrowedBooksCount = Borrow::where('user_id', $userId)
+            ->whereNotNull('issued_at')
+            ->whereNull('returned_at')
+            ->count();
+
+        if ($borrowedBooksCount >= 3) {
+            flash()->error('You can\'t borrow more than 3 books! You have already borrowed 3 books.');
+            return redirect()->back();
+        }
+
+        // Check if the user has already requested this book
+        if ($existingRecord) {
+            flash()->error('You have already sent a request for this book.');
+            return redirect()->back();
+        }
+
+        // Proceed to save the borrow request
+        $borrow = new Borrow();
+        $borrow->book_id = $bookId;
+        $borrow->user_id = $userId;
+        $borrow->save();
+
+        flash()->success('Your borrow request is currently pending.');
+        return redirect()->back();
     }
 }

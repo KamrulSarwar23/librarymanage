@@ -83,6 +83,7 @@
                     'active.book',
                     'inactive.book',
                     'books.filterByType',
+                    'quantity.index'
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>

@@ -37,7 +37,11 @@
             margin-top: -10px;
         }
 
-        .card-body {}
+       .fa-gear{
+        color: rgb(33, 115, 153);
+        font-size: 20px;
+        margin-top: 8px;
+       }
     </style>
     <section class="section">
         <div class="section-header">
@@ -261,9 +265,7 @@
                                     <th>Type</th>
                                     <th>Preview</th>
                                     <th>Action</th>
-                                    {{-- <th>Delete</th> --}}
-
-
+                                   
                                     @foreach ($books as $key => $book)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
@@ -271,12 +273,10 @@
                                                     src="{{ asset('storage/book/' . $book->cover_image) }}"
                                                     alt="">
                                             </td>
-                                            <td><a href="{{ route('book.details', $book->id) }}">{{ $book->title }}</a>
+                                            <td><a href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 20) }}</a>
                                             </td>
                                             <td>
-
-                                                <span
-                                                    class="badge rounded-pill bg-info text-dark">{{ $book->category->name }}</span>
+                                                <span>{{ $book->category->name }}</span>
                                             </td>
 
                                             <td>{{ $book->publisher->name }}</td>
@@ -287,12 +287,17 @@
                                             </td>
 
                                             <td>
-                                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+
+                                                @if ($book->quantities->sum('current_qty') !== 0)
+
                                                     <span class="badge rounded-pill bg-primary text-light">Available</span>
+
                                                 @else
-                                                    <span class="badge rounded-pill bg-danger text-light">Not
-                                                        Available</span>
+
+                                                    <span class="badge rounded-pill bg-danger text-light">Not Available</span>
+
                                                 @endif
+                                               
                                             </td>
 
                                             <td>
@@ -350,16 +355,16 @@
                                                 {{-- quantity.index --}}
 
                                                 <div class="btn-group dropleft">
-                                                    <a class="text-info mx-2" type="button" id="dropdownMenuButton"
+                                                    <a class="mx-2" type="button" id="dropdownMenuButton"
                                                         data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        <h5><i class="fa fa-ellipsis-vertical"></i></h5>
+                                                        <h5><i class="fa-solid fa-gear"></i></h5>
                                                     </a>
-                                                    <div class="dropdown-menu border bg-secondary"
+                                                    <div class="dropdown-menu border bg-primary"
                                                         aria-labelledby="dropdownMenuButton">
                                                         <a class="dropdown-item"
                                                             href="{{ route('quantity.index', $book->id) }}">Add Qty</a>
-                                                        <a class="dropdown-item" href="#">Book Inventory</a>
+                                                        {{-- <a class="dropdown-item" href="#">Book Inventory</a> --}}
                                                     </div>
                                                 </div>
 
@@ -393,27 +398,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('body').on('change', '.status-select', function() {
-                let status = $(this).val();
-                let id = $(this).data('id');
-
-                $.ajax({
-                    url: "{{ route('book.status') }}",
-                    method: 'PUT',
-                    data: {
-                        status: status,
-                        id: id
-                    },
-                    success: function(data) {
-                        toastr.success(data.message);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-            });
-
-            $('body').on('change', '.type-select', function() {
+               $('body').on('change', '.type-select', function() {
                 let type = $(this).val();
                 let id = $(this).data('id');
 

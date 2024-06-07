@@ -97,11 +97,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" class="form-control" name="quantity" value="{{ $book->quantity }}">
-                                </div>
-
-                                <div class="form-group">
                                     <label>Summary</label>
                                     <textarea class="form-control summernote" name="summary" id="" cols="30" rows="10">
                                         {{ $book->summary }}
@@ -119,15 +114,6 @@
                                     </select>
                                 </div>
 
-
-                                <div class="form-group">
-                                    <label for="inputState">Status</label>
-                                    <select id="inputState" class="form-control" name="status">
-                                        <option {{ $book->status == 'available' ? 'selected' : '' }} value="available">Available</option>
-                                        <option {{ $book->status == 'not_available' ? 'selected' : '' }} value="not_available">Not Available</option>
-                                       
-                                    </select>
-                                </div>
 
                                 <div class="form-group">
                                     <label for="inputState">Preview</label>

@@ -194,42 +194,6 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('books.filterByStatus', ['status' => 'available']) }}">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-info">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Available Book</h4>
-                            </div>
-                            <div class="card-body">
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('books.filterByStatus', ['status' => 'reserved']) }}">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-info">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Not Available</h4>
-                            </div>
-                            <div class="card-body">
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <a href="{{ route('admin.book-review') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
@@ -350,6 +314,42 @@
                             </div>
                             <div class="card-body">
                                 {{ $allMessage }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('message.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Message</h4>
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('message.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Message</h4>
+                            </div>
+                            <div class="card-body">
+
                             </div>
                         </div>
                     </div>
