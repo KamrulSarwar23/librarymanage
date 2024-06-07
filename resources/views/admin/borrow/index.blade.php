@@ -176,13 +176,13 @@
                                             @if ($book->issued_at !== null)
                                                  <td>{{ \Carbon\Carbon::now()->format('F j, Y') }}</td>
                                             @else
-                                                <td class="text-danger">Need To Update</td>
+                                                <td class="text-danger">Need To Approve</td>
                                             @endif
 
                                             @if ($book->due_at !== null)
                                                 <td>{{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
                                             @else
-                                                <td class="text-danger">Need To Update</td>
+                                                <td class="text-danger">Need To Approve</td>
                                             @endif
 
                                             @if ($book->returned_at !== null)

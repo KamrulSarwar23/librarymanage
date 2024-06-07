@@ -224,9 +224,57 @@
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
                         </div>
+                    @auth
+                    @if ($book->quantities->sum('current_qty') !== 0)
+
+                    
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#borrowModal-{{ $book->id }}">
+                                Borrow
+                            </button>
+                      
+                    @else
+                        <button type="button" class="btn btn-danger w-100" disabled>Stock Out</button>
+                    @endif
+                
+                    <!-- Borrow Modal -->
+                    <div class="modal fade" id="borrowModal-{{ $book->id }}" tabindex="-1" aria-labelledby="borrowModalLabel-{{ $book->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="borrowModalLabel-{{ $book->id }}">Confirm Borrow</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{ route('book.borrow') }}" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                       
+                                        <div class="row">
+                       
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Return Date</label>
+                                                    <input type="date" class="form-control" name="returned_at" value="">
+                                                </div>
+                                            </div>
+        
+                                        </div>
 
 
-                        @if ($book->quantities->sum('current_qty') !== 0)
+                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @endauth
+                        {{-- @if ($book->quantities->sum('current_qty') !== 0)
                             @auth
                                 <form action="{{ route('book.borrow') }}" method="POST">
                                     @csrf
@@ -239,7 +287,7 @@
                             <form action="javascript:;">
                                 <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                             </form>
-                        @endif
+                        @endif --}}
 
 
                     </div>
