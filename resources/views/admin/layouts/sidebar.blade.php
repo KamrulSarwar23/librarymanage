@@ -31,7 +31,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a style="font-size: 22px; color:#5C8374" href="javascript:;">LMS</a>
+            <a style="font-size: 22px; color:hsl(154, 15%, 91%)" href="javascript:;">LMS</a>
         </div>
 
 

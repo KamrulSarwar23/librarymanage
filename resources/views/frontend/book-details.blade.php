@@ -87,11 +87,11 @@
                         @else
                         <h5 class="text-primary mb-3">Available Book: Stock Out</h5>
                         @endif
-                       
+
                         <p>Book ID: {{ $booksdetails->isbn }}</p>
                         <p>Author: {{ $booksdetails->author->name }}</p>
                         <p>Publication: {{ \Carbon\Carbon::parse($booksdetails->publication_date)->format('F , Y') }}</p>
-                       
+
                         <p>Pages: {{ $booksdetails->number_of_pages }}</p>
                         <p>Category: {{ $booksdetails->category->name }}</p>
                         <p>Publisher: {{ $booksdetails->publisher->name }}</p>
@@ -135,7 +135,7 @@
                     @else
                     <button type="submit" class="btn btn-danger w-100">Stock Out</button>
                         @endif
-                 
+
 
 
                         <div class="col-md-12 pt-2">
@@ -206,7 +206,7 @@
                             <h2 class="h3 mb-4">Readers also enjoyed</h2>
                         </div>
                     @endif
-                
+
                     @foreach ($enjoyedbook as $item)
                         <div class="col-md-4 col-lg-3 mb-4 enjoyedbook mb-5">
                             <a class="text-dark" href="{{ route('book.details', $item->id) }}">
@@ -241,13 +241,21 @@
                                         </div>
                                     </div>
                                     @auth
-                                    <form class="mb-2" action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $item->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
-                                @endauth
+                                    @if ($item->quantities->sum('current_qty') !== 0)
+
+                                            <form class="mb-3" action="{{ route('book.borrow') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="bookId" value="{{ $item->id }}">
+                                                <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                                <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
+                                            </form>
+
+                                    @else
+                                        <form class="mb-3" action="javascript:;">
+                                            <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        </form>
+                                    @endif
+                                    @endauth
                                 </div>
                             </a>
                         </div>

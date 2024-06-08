@@ -224,21 +224,22 @@
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
                         </div>
+                        @auth
                         @if ($book->quantities->sum('current_qty') !== 0)
-                            @auth
+
                                 <form action="{{ route('book.borrow') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="bookId" value="{{ $book->id }}">
                                     <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
                                     <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
-                            @endauth
+
                         @else
                             <form action="javascript:;">
-                                <button type="submit" class="btn btn-danger w-100">Stock Out</button>
+                                <button type="submit" class="btn btn-danger w-100">Not Available</button>
                             </form>
                         @endif
-
+                        @endauth
 
                     </div>
                 </div>
@@ -290,20 +291,22 @@
                                 </div>
                             </div>
 
+                            @auth
                             @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
+
                                     <form action="{{ route('book.borrow') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="bookId" value="{{ $book->id }}">
                                         <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
                                         <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                     </form>
-                                @endauth
+
                             @else
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 </form>
                             @endif
+                            @endauth
                         </div>
                     </a>
                 </div>
@@ -349,21 +352,22 @@
                                     <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
                             </div>
-
+                            @auth
                             @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
+
                                     <form action="{{ route('book.borrow') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="bookId" value="{{ $book->id }}">
                                         <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
                                         <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                     </form>
-                                @endauth
+
                             @else
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 </form>
                             @endif
+                            @endauth
                         </div>
                     </a>
                 </div>
@@ -411,20 +415,22 @@
                                 </div>
                             </div>
 
+                            @auth
                             @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
+
                                     <form action="{{ route('book.borrow') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="bookId" value="{{ $book->id }}">
                                         <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
                                         <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                     </form>
-                                @endauth
+
                             @else
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 </form>
                             @endif
+                            @endauth
                         </div>
                     </a>
                 </div>
@@ -473,20 +479,22 @@
                                 </div>
                             </div>
 
-                            @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
-                                    <form action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
-                                @endauth
-                            @else
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
+                        @auth
+                        @if ($book->quantities->sum('current_qty') !== 0)
+
+                                <form action="{{ route('book.borrow') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
+                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
+                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
                                 </form>
-                            @endif
+
+                        @else
+                            <form action="javascript:;">
+                                <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                            </form>
+                        @endif
+                        @endauth
                         </div>
                     </a>
                 </div>

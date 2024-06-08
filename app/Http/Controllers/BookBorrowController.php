@@ -9,7 +9,7 @@ use App\Models\BookQuantity;
 use App\Models\Borrow;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class BookBorrowController extends Controller
 {
@@ -29,10 +29,19 @@ class BookBorrowController extends Controller
 
     public function updateInfo(String $id, Request $request)
     {
+
         $borrowRecords = Borrow::findOrFail($id);
-    
+
+        $borrowCount = Borrow::where('user_id', Auth::user()->id)->whereNotNull('issued_at')
+        ->whereNull('returned_at')
+        ->count();
+
+        if ($borrowCount) {
+
+        }
+
         if ($request->status == 'active') {
-    
+
             $request->validate([
                 'issued_at' => 'required',
                 'due_at' => 'required'
@@ -46,7 +55,7 @@ class BookBorrowController extends Controller
             // Reduce the book quantity
             $quantityBooks = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->get();
             $isStockOut = true;
-    
+
             foreach ($quantityBooks as $quantityBook) {
                 if ($quantityBook->current_qty > 0) {
                     $quantityBook->current_qty -= 1;
@@ -55,28 +64,28 @@ class BookBorrowController extends Controller
                     break;
                 }
             }
-    
+
             if ($isStockOut) {
                 flash()->error('Stock Out');
                 return redirect()->back();
             }
-    
+
             // Update borrow record
             $borrowRecords->update([
                 'issued_at' => $request->issued_at,
                 'due_at' => $request->due_at,
                 'status' => $request->status,
             ]);
-    
+
             flash()->success('Borrow Request Updated Successfully');
             return redirect()->route('book.borrowinfo');
-    
+
         } elseif ($request->status == 'reject') {
 
 
             if ($borrowRecords->status == 'active') {
                 $quantityBooks = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->get();
-    
+
                 foreach ($quantityBooks as $quantityBook) {
                     $quantityBook->current_qty += 1;
                     $quantityBook->save();
@@ -90,12 +99,12 @@ class BookBorrowController extends Controller
                 'returned_at' => null,
                 'status' => $request->status,
             ]);
-    
+
             flash()->success('Borrow Request Updated Successfully');
             return redirect()->route('book.borrowinfo');
         }
     }
-    
+
 
     public function returnBook(string $id, Request $request)
     {
