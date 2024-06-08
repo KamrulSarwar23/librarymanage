@@ -18,115 +18,162 @@ class PageController extends Controller
         return view('frontend.index');
     }
 
-    private function getBooksByType($type = null, $paginate = 8)
+    public function allBook()
     {
-        $query = Book::with(['rating' => function ($query) {
+
+        $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->with(['quantities' => function ($query) {
             $query->where('status', 'activate');
-        }])->where('preview', 'active');
+        }])->where('preview', 'active')->paginate(8);
 
-        if ($type) {
-            $query->where('type', $type);
-        }
 
-        return $paginate ? $query->paginate($paginate) : $query->get();
-    }
+        $popularBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'popular')->where('preview', 'active')->get();
 
-    private function getCommonData()
-    {
-        return [
-            'category' => Category::where('status', 'active')->get(),
-            'author' => Author::where('status', 'active')->get(),
-            'publisher' => Publisher::where('status', 'active')->get(),
-        ];
-    }
+        $recentBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recent')->where('preview', 'active')->get();
 
-    public function allBook()
-    {
-        $books = $this->getBooksByType();
-        $popularBook = $this->getBooksByType('popular', null);
-        $recentBook = $this->getBooksByType('recent', null);
-        $featuredBook = $this->getBooksByType('featured', null);
-        $recommendedBook = $this->getBooksByType('recommended', null);
 
-        return view('frontend.book', array_merge(
-            compact('books', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'),
-            $this->getCommonData()
-        ));
+        $featuredBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'featured')->where('preview', 'active')->get();
+
+
+        $recommendedBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
+
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByCategory($id)
     {
+
         $categoryName = Category::findOrFail($id);
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('preview', 'active')->where('category_id', $id)->paginate(8);
+
+
+        $popularBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'popular')->where('preview', 'active')->get();
+
+        $recentBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recent')->where('preview', 'active')->get();
+
+
+        $featuredBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'featured')->where('preview', 'active')->get();
+
+
+        $recommendedBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
         if ($books->isEmpty()) {
             flash()->error('No data found');
         }
 
-        return view('frontend.book', array_merge(
-            compact('books', 'categoryName'),
-            $this->getCommonData(),
-            [
-                'popularBook' => $this->getBooksByType('popular', null),
-                'recentBook' => $this->getBooksByType('recent', null),
-                'featuredBook' => $this->getBooksByType('featured', null),
-                'recommendedBook' => $this->getBooksByType('recommended', null),
-            ]
-        ));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'categoryName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByAuthor($id)
     {
+
         $authorName = Author::findOrFail($id);
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('preview', 'active')->where('author_id', $id)->paginate(8);
 
+        $popularBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'popular')->where('preview', 'active')->get();
+
+        $recentBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recent')->where('preview', 'active')->get();
+
+
+        $featuredBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'featured')->where('preview', 'active')->get();
+
+
+        $recommendedBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
+
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
-
-        return view('frontend.book', array_merge(
-            compact('books', 'authorName'),
-            $this->getCommonData(),
-            [
-                'popularBook' => $this->getBooksByType('popular', null),
-                'recentBook' => $this->getBooksByType('recent', null),
-                'featuredBook' => $this->getBooksByType('featured', null),
-                'recommendedBook' => $this->getBooksByType('recommended', null),
-            ]
-        ));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'authorName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
 
     public function filterByPublisher($id)
     {
+
         $publisherName = Publisher::findOrFail($id);
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('preview', 'active')->where('publisher_id', $id)->paginate(8);
+
+        $popularBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'popular')->where('preview', 'active')->get();
+
+        $recentBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recent')->where('preview', 'active')->get();
+
+
+        $featuredBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'featured')->where('preview', 'active')->get();
+
+
+        $recommendedBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
 
-        return view('frontend.book', array_merge(
-            compact('books', 'publisherName'),
-            $this->getCommonData(),
-            [
-                'popularBook' => $this->getBooksByType('popular', null),
-                'recentBook' => $this->getBooksByType('recent', null),
-                'featuredBook' => $this->getBooksByType('featured', null),
-                'recommendedBook' => $this->getBooksByType('recommended', null),
-            ]
-        ));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'publisherName', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
+
 
     public function bookDetails(string $id)
     {
+
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
         $booksdetails = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->with(['quantities' => function ($query) {
@@ -151,14 +198,16 @@ class PageController extends Controller
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })->take(4)->get();
 
-        return view('frontend.book-details', array_merge(
-            compact('totalCurrentQty', 'booksdetails', 'enjoyedbook', 'booksReview', 'totalReviews', 'averageRating'),
-            $this->getCommonData()
-        ));
+        return view('frontend.book-details', compact('totalCurrentQty', 'booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
     }
+
 
     public function bookSearch(Request $request)
     {
+        $category = Category::where('status', 'active')->get();
+        $author = Author::where('status', 'active')->get();
+        $publisher = Publisher::where('status', 'active')->get();
+
         $searchQuery = $request->input('search_query');
 
         $query = Book::query();
@@ -166,7 +215,9 @@ class PageController extends Controller
         if (!empty($searchQuery)) {
             $query->where('preview', 'active')
                 ->where(function ($query) use ($searchQuery) {
+
                     $query->where('title', 'like', '%' . $searchQuery . '%')
+
                         ->orWhereHas('category', function ($q) use ($searchQuery) {
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         })
@@ -177,6 +228,7 @@ class PageController extends Controller
                             $q->where('name', 'like', '%' . $searchQuery . '%');
                         });
                 })
+
                 ->with(['rating' => function ($query) {
                     $query->where('status', 'active');
                 }]);
@@ -184,21 +236,32 @@ class PageController extends Controller
 
         $books = $query->paginate(8);
 
+        $popularBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'popular')->where('preview', 'active')->paginate(6);
+
+        $recentBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recent')->where('preview', 'active')->get();
+
+
+        $featuredBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'featured')->where('preview', 'active')->get();
+
+
+        $recommendedBook = Book::with(['rating' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('type', 'recommended')->where('preview', 'active')->get();
+
+
         if ($books->isEmpty()) {
             flash()->error('No data found.');
         }
 
-        return view('frontend.book', array_merge(
-            compact('books', 'searchQuery'),
-            $this->getCommonData(),
-            [
-                'popularBook' => $this->getBooksByType('popular', null),
-                'recentBook' => $this->getBooksByType('recent', null),
-                'featuredBook' => $this->getBooksByType('featured', null),
-                'recommendedBook' => $this->getBooksByType('recommended', null),
-            ]
-        ));
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
+
 
     public function borrowBook(Request $request)
     {
@@ -221,7 +284,6 @@ class PageController extends Controller
             if ($quantityBook->status == 'activate' && $quantityBook->current_qty > 0) {
                 $isStockOut = false;
             }
-            $totalCurrentQty += $quantityBook->current;
             $totalCurrentQty += $quantityBook->current_qty;
         }
 
