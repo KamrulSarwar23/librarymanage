@@ -28,7 +28,8 @@
     "autoload": {
         "files": [
             "app/Helper/helpers.php",
-            "app/Helper/QuantityManage.php"
+            "app/Helper/QuantityManage.php",
+            "app/Helper/AxistBookingRequestHelper.php"
         ],
         "psr-4": {
             "App\\": "app/",
