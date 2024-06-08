@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Author;
+use App\Helper\AxistBookingRequestHelper;
 use App\Models\Book;
-use App\Models\BookQuantity;
+use App\Models\Author;
 use App\Models\Borrow;
+use App\Models\Review;
 use App\Models\Category;
 use App\Models\Publisher;
-use App\Models\Review;
+use App\Models\BookQuantity;
 use Illuminate\Http\Request;
+use App\Helper\QuantityManage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
@@ -265,67 +269,69 @@ class PageController extends Controller
 
     public function borrowBook(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'bookId' => 'required',
+            'userId' => 'required',
+            'returned_at' => 'required|date',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Extracting inputs from the validated request
         $bookId = $request->input('bookId');
         $userId = $request->input('userId');
+        $returned_at = $request->input('returned_at');
 
-        // Check if the user has already borrowed this book and not returned it yet
-        $existingRecord = Borrow::where('user_id', $userId)
-            ->where('book_id', $bookId)
-            ->whereNull('returned_at')
-            ->exists();
-
-        // Get all book quantities
-        $quantityBooks = BookQuantity::where('book_id', $bookId)->get();
-
-        // Check if any book quantity or status meets the conditions for 'Stock Out'
-        $isStockOut = true;
-        $totalCurrentQty = 0;
-        foreach ($quantityBooks as $quantityBook) {
-            if ($quantityBook->status == 'activate' && $quantityBook->current_qty > 0) {
-                $isStockOut = false;
-            }
-            $totalCurrentQty += $quantityBook->current_qty;
-        }
-
-        if ($isStockOut) {
-            flash()->error('Stock Out');
-            return redirect()->back();
-        }
-
-        // Check if the user has already borrowed 3 books
-        $borrowedBooksCount = Borrow::where('user_id', $userId)
-            ->whereNotNull('issued_at')
-            ->whereNull('returned_at')
-            ->count();
-
-        $cantAddMoreThanfive = Borrow::where('user_id', $userId)
-            ->whereNull('issued_at')
-            ->whereNull('returned_at')
-            ->count();
-
-        if ($borrowedBooksCount == 3 ) {
-            flash()->error('You Cant Borrow More Than 3 Books. After Return Those You Can Borrow More');
-            return redirect()->back();
-        }
-
-        if ($cantAddMoreThanfive == 5) {
-            flash()->error('You Cant Add More Than 5 Books');
-            return redirect()->back();
-        }
 
         // Check if the user has already requested this book
-        if ($existingRecord) {
+        if (AxistBookingRequestHelper::existsForBook($bookId, $userId)) {
             flash()->error('You have already sent a request for this book.');
             return redirect()->back();
         }
 
-        // Proceed to save the borrow request
-        $borrow = new Borrow();
-        $borrow->book_id = $bookId;
-        $borrow->user_id = $userId;
-        $borrow->save();
+        // Start a database transaction
+        DB::beginTransaction();
 
-        flash()->success('Your borrow request is currently pending.');
-        return redirect()->back();
+        try {
+            // Check if the book quantity is available
+            if (QuantityManage::isQuantityAvailable($bookId)) {
+                // Fetch the book quantity record
+                $quantityBooks = BookQuantity::where('book_id', $bookId)
+                    ->where('current_qty', '>', 0)
+                    ->first();
+
+                // Decrement the current quantity by 1
+                $quantityBooks->update([
+                    'current_qty' => $quantityBooks->current_qty - 1
+                ]);
+
+                // Create a new borrow record
+                Borrow::create([
+                    "user_id" => $userId,
+                    "book_id" => $bookId,
+                    "qty_id" => $quantityBooks->id,
+                    "due_at" => $returned_at,
+                ]);
+
+                DB::commit();
+
+                // Inform the user about the successful borrow request
+                flash()->success('Your borrow request is currently pending. Please receive this around 5 hours.');
+                return redirect()->back();
+            } else {
+                DB::rollBack();
+
+                // Inform the user that the book is not available
+                flash()->error('Not Available.');
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e);
+        }
     }
 }

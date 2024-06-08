@@ -37,11 +37,11 @@
             margin-top: -10px;
         }
 
-       .fa-gear{
-        color: rgb(33, 115, 153);
-        font-size: 20px;
-        margin-top: 8px;
-       }
+        .fa-gear {
+            color: rgb(33, 115, 153);
+            font-size: 20px;
+            margin-top: 8px;
+        }
     </style>
     <section class="section">
         <div class="section-header">
@@ -265,7 +265,7 @@
                                     <th>Type</th>
                                     <th>Preview</th>
                                     <th>Action</th>
-                                   
+
                                     @foreach ($books as $key => $book)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
@@ -273,7 +273,8 @@
                                                     src="{{ asset('storage/book/' . $book->cover_image) }}"
                                                     alt="">
                                             </td>
-                                            <td><a href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 20) }}</a>
+                                            <td><a
+                                                    href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 20) }}</a>
                                             </td>
                                             <td>
                                                 <span>{{ $book->category->name }}</span>
@@ -288,16 +289,14 @@
 
                                             <td>
 
-                                                @if ($book->quantities->sum('current_qty') !== 0)
-
+                                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                                     <span class="badge rounded-pill bg-primary text-light">Available</span>
-
                                                 @else
-
-                                                    <span class="badge rounded-pill bg-danger text-light">Not Available</span>
-
+                                                    <span class="badge rounded-pill bg-danger text-light">Not
+                                                        Available</span>
                                                 @endif
-                                               
+
+
                                             </td>
 
                                             <td>
@@ -398,7 +397,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-               $('body').on('change', '.type-select', function() {
+            $('body').on('change', '.type-select', function() {
                 let type = $(this).val();
                 let id = $(this).data('id');
 

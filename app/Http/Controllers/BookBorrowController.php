@@ -5,22 +5,38 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Book;
-use App\Models\BookQuantity;
-use App\Models\Borrow;
 use App\Models\User;
+use App\Models\Borrow;
+use App\Models\BookQuantity;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class BookBorrowController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Retrieve the status query parameter
+        $status = $request->query('status');
 
-        $borrowedBooks = Borrow::orderBy('created_at', 'DESC')->paginate(10);
+        // Query the Borrow model based on the status parameter
+        $query = Borrow::orderBy('created_at', 'DESC');
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $borrowedBooks = $query->paginate(10);
+
         return view('admin.borrow.index', compact('borrowedBooks'));
     }
 
-    public function edit(string $id)
+
+
+
+
+    public function updateInfo(string $id, Request $request)
     {
         $borrowRecords = Borrow::findOrFail($id);
         return view('admin.borrow.edit', compact('borrowRecords'));
@@ -29,16 +45,7 @@ class BookBorrowController extends Controller
 
     public function updateInfo(String $id, Request $request)
     {
-
         $borrowRecords = Borrow::findOrFail($id);
-
-        $borrowCount = Borrow::where('user_id', Auth::user()->id)->whereNotNull('issued_at')
-        ->whereNull('returned_at')
-        ->count();
-
-        if ($borrowCount) {
-
-        }
 
         if ($request->status == 'active') {
 
@@ -109,64 +116,64 @@ class BookBorrowController extends Controller
     public function returnBook(string $id, Request $request)
     {
 
-        $request->validate([
-            'returned_at' => 'required',
-        ]);
+            $request->validate([
+                'returned_at' => 'required',
+            ]);
 
-        $borrowRecords = Borrow::findOrFail($id);
+            $borrowRecords = Borrow::findOrFail($id);
 
-        if (!empty($borrowRecords->returned_at)) {
-            flash()->error('Book already return');
-            return redirect()->back();
+            if (!empty($borrowRecords->returned_at)) {
+                flash()->error('Book already return');
+                return redirect()->back();
+            }
+
+            $borrowRecords->update([
+                'returned_at' => $request->returned_at,
+                'status' =>  $request->status
+            ]);
+
+            $book = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->first();
+
+            $book->current_qty += 1;
+            $book->save();
+
+            flash()->success('Book Return Successfully');
+            return redirect()->route('book.borrowinfo');
         }
 
-        $borrowRecords->update([
-            'returned_at' => $request->returned_at,
-            'status' =>  $request->status
-        ]);
-
-        $book = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->first();
-
-        $book->current_qty += 1;
-        $book->save();
-
-        flash()->success('Book Return Successfully');
-        return redirect()->route('book.borrowinfo');
-    }
-
-    public function borrowBookDelete(string $id)
-    {
-        $borrowbook = Borrow::findOrFail($id);
-        $borrowbook->delete();
-        return response()->json(['status' => 'success', 'message' => 'Borrow Request Deleted Successfully']);
-    }
-
-    public function borrowBookSearch(Request $request)
-    {
-        $searchQuery = $request->input('search_query');
-
-        $query = Borrow::query();
-
-        if (!empty($searchQuery)) {
-            $query->where(function ($query) use ($searchQuery) {
-
-                $query->where('status', 'like', '%' . $searchQuery . '%')
-
-                    ->orWhereHas('user', function ($q) use ($searchQuery) {
-                        $q->where('name', 'like', '%' . $searchQuery . '%');
-                    })
-
-                    ->orWhereHas('user', function ($q) use ($searchQuery) {
-                        $q->where('email', 'like', '%' . $searchQuery . '%');
-                    });
-            });
+        public function borrowBookDelete(string $id)
+        {
+            $borrowbook = Borrow::findOrFail($id);
+            $borrowbook->delete();
+            return response()->json(['status' => 'success', 'message' => 'Borrow Request Deleted Successfully']);
         }
 
-        $borrowedBooks = $query->orderBy('created_at', 'DESC')->paginate(10);
+        public function borrowBookSearch(Request $request)
+        {
+            $searchQuery = $request->input('search_query');
 
-        return view('admin.borrow.index', compact('borrowedBooks'));
-    }
+            $query = Borrow::query();
 
+            if (!empty($searchQuery)) {
+                $query->where(function ($query) use ($searchQuery) {
+
+                    $query->where('status', 'like', '%' . $searchQuery . '%')
+
+                        ->orWhereHas('user', function ($q) use ($searchQuery) {
+                            $q->where('name', 'like', '%' . $searchQuery . '%');
+                        })
+
+                        ->orWhereHas('user', function ($q) use ($searchQuery) {
+                            $q->where('email', 'like', '%' . $searchQuery . '%');
+                        });
+                });
+            }
+
+            $borrowedBooks = $query->orderBy('created_at', 'DESC')->paginate(10);
+
+            return view('admin.borrow.index', compact('borrowedBooks'));
+        }
+    */
 
     public function borrowBookFilterByStatus(Request $request)
     {

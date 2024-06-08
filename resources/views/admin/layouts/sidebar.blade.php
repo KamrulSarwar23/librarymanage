@@ -83,16 +83,46 @@
                     'active.book',
                     'inactive.book',
                     'books.filterByType',
-                    'quantity.index'
+                    'quantity.index',
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
             </li>
 
 
-            <li class="dropdown {{ setActive(['book.borrowinfo', 'book-borrow.edit', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
-                <a href="{{ route('book.borrowinfo') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Borrowing Request</span></a>
+            <li
+                class="dropdown {{ setActive(['book.borrowinfo', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
+                <a href="{{ route('book.borrowinfo') }}" class="nav-link">
+                    <i class="fa-solid fa-tags"></i><span>Borrowing Request</span>
+                </a>
+
+            </li>
+            <li
+                class="dropdown {{ setActive(['book.borrowinfo', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
+                <a href="{{ route('book.borrowinfo', ['status' => 'pending']) }}" class="nav-link">
+                    <i class="fa-solid fa-tags"></i><span>Pending Request</span>
+                </a>
+
+            </li>
+            <li
+                class="dropdown {{ setActive(['book.borrowinfo', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
+                <a href="{{ route('book.borrowinfo', ['status' => 'receive']) }}" class="nav-link">
+                    <i class="fa-solid fa-tags"></i><span>Receive Request</span>
+                </a>
+
+            </li>
+            <li
+                class="dropdown {{ setActive(['book.borrowinfo', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
+                <a href="{{ route('book.borrowinfo', ['status' => 'return']) }}" class="nav-link">
+                    <i class="fa-solid fa-tags"></i><span>Return Request</span>
+                </a>
+
+            </li>
+            <li
+                class="dropdown {{ setActive(['book.borrowinfo', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
+                <a href="{{ route('book.borrowinfo', ['status' => 'reject']) }}" class="nav-link">
+                    <i class="fa-solid fa-tags"></i><span>Reject Request</span>
+                </a>
 
             </li>
 

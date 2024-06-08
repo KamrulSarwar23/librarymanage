@@ -7,7 +7,6 @@
             text-decoration: none;
         }
 
-
         .rating {
             direction: rtl;
             unicode-bidi: bidi-override;
@@ -83,6 +82,24 @@
         th {
             white-space: nowrap;
         }
+
+        /* Style for the select element */
+        .form_select {
+            padding: 5px 8px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #495057;
+
+        }
+
+        /* Style for the select element when focused */
+        .form_select:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
     </style>
 
 
@@ -143,8 +160,7 @@
                             <form action="{{ route('book.borrow-search') }}" method="GET" class="d-flex mt-3">
                                 <input class="form-control me-2 mr-2" type="text" placeholder="Search"
                                     name="search_query">
-                                <button type="submit" class="btn btn-info py-2"><i
-                                        class="fas fa-search"></i></button>
+                                <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
                             </form>
 
                         </li>
@@ -162,8 +178,8 @@
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="width: 20%">Status</th>
+                                    {{-- <th>Action</th> --}}
 
                                     @foreach ($borrowedBooks as $book)
                                         <tr>
@@ -171,10 +187,11 @@
                                             <td>{{ $book->user->name }}</td>
                                             <td>{{ $book->user->email }}</td>
                                             <td>{{ $book->book->title }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
+                                            </td>
 
                                             @if ($book->issued_at !== null)
-                                                 <td>{{ \Carbon\Carbon::now()->format('F j, Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::now()->format('F j, Y') }}</td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
@@ -193,27 +210,28 @@
                                             @endif
 
                                             <td>
-                                                @if ($book->status == 'active')
-                                                    <button class="badge badge-pill badge-success">Active</button>
-                                                @elseif($book->status == 'pending')
-                                                    <button class="badge badge-pill badge-info">Pending</button>
-                                                @elseif($book->status == 'return')
-                                                    <button class="badge badge-pill badge-primary">Return</button>
-                                                @else
-                                                <button class="badge badge-pill badge-danger">Reject</button>
-                                                @endif
-                                            </td>
-
-                                            <td>
-                                                <a class="btn btn-info py-2 mr-2"
-                                                    href="{{ route('book-borrow.edit', $book->id) }}"><i
-                                                        class="fas fa-edit"></i>
-                                                </a>
-
-                                                <a class="delete-item btn btn-danger py-2"
-                                                    href="{{ route('book.borrow-delete', $book->id) }}"><i
-                                                        class="fas fa-trash"></i></a>
-
+                                                <form id="borrowForm{{ $book->id }}"
+                                                    action="{{ route('book-borrow.updateInfo', $book->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <select name="status" class="form_select"
+                                                        onchange="submitForm({{ $book->id }})">
+                                                        <option disabled>Select One</option>
+                                                        <option value="pending"
+                                                            {{ $book->status == 'pending' ? 'selected' : '' }}>Pending
+                                                        </option>
+                                                        <option value="receive"
+                                                            {{ $book->status == 'receive' ? 'selected' : '' }}>Receive
+                                                        </option>
+                                                        <option value="reject"
+                                                            {{ $book->status == 'reject' ? 'selected' : '' }}>Reject
+                                                        </option>
+                                                        <option value="return"
+                                                            {{ $book->status == 'return' ? 'selected' : '' }}>Return
+                                                        </option>
+                                                    </select>
+                                                </form>
                                             </td>
 
                                         </tr>
@@ -238,4 +256,9 @@
             </div>
         </div>
     </section>
+    <script>
+        function submitForm(bookId) {
+            document.getElementById('borrowForm' + bookId).submit();
+        }
+    </script>
 @endsection
