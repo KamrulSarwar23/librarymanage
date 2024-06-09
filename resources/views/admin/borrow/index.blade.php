@@ -120,11 +120,7 @@
 
                     <div class="card">
 
-
-
                         <li class="d-flex align-items-center ml-auto mr-5">
-
-
 
                             <div class="dropdown">
                                 <button class="btn btn-info dropdown-toggle py-2 mt-3 mr-3" data-bs-toggle="dropdown"
@@ -164,8 +160,6 @@
                             </form>
 
                         </li>
-
-
 
                         <div class="card-body">
                             <div class="table-responsive">

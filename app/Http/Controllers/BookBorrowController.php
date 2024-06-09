@@ -38,83 +38,54 @@ class BookBorrowController extends Controller
 
     public function updateInfo(string $id, Request $request)
     {
-        $borrowRecords = Borrow::findOrFail($id);
-        return view('admin.borrow.edit', compact('borrowRecords'));
-    }
+        try {
+            DB::beginTransaction();
 
+            $borrowRecord = Borrow::findOrFail($id);
+            $status = $request->status;
+            $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
 
-    public function updateInfo(String $id, Request $request)
-    {
-        $borrowRecords = Borrow::findOrFail($id);
-
-        if ($request->status == 'active') {
-
-            $request->validate([
-                'issued_at' => 'required',
-                'due_at' => 'required'
-            ]);
-
-            if (!empty($borrowRecords->issued_at)) {
-                flash()->error('Book Already Approved');
-                return redirect()->back();
+            if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
+                // dd("hewllo");
+                $bookQuantity->decrement('current_qty');
             }
 
-            // Reduce the book quantity
-            $quantityBooks = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->get();
-            $isStockOut = true;
+            $updateData = ['status' => $status];
 
-            foreach ($quantityBooks as $quantityBook) {
-                if ($quantityBook->current_qty > 0) {
-                    $quantityBook->current_qty -= 1;
-                    $quantityBook->save();
-                    $isStockOut = false;
-                    break;
-                }
+            if ($status === "receive") {
+                $updateData['issued_at'] = now('UTC');
+            } elseif ($status === "return") {
+                $updateData['returned_at'] = now('UTC');
+            } else {
+                $updateData['issued_at'] = null;
+                $updateData['returned_at'] = null;
             }
 
-            if ($isStockOut) {
-                flash()->error('Stock Out');
-                return redirect()->back();
+            $borrowRecord->update($updateData);
+
+            if (in_array($status, ["return", "reject"]) && $bookQuantity) {
+                $bookQuantity->increment('current_qty');
             }
 
-            // Update borrow record
-            $borrowRecords->update([
-                'issued_at' => $request->issued_at,
-                'due_at' => $request->due_at,
-                'status' => $request->status,
-            ]);
-
+            // Log::info('Borrow Request Updated Successfully', ['borrow_id' => $id]);
             flash()->success('Borrow Request Updated Successfully');
-            return redirect()->route('book.borrowinfo');
+            DB::commit();
 
-        } elseif ($request->status == 'reject') {
-
-
-            if ($borrowRecords->status == 'active') {
-                $quantityBooks = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->get();
-
-                foreach ($quantityBooks as $quantityBook) {
-                    $quantityBook->current_qty += 1;
-                    $quantityBook->save();
-                    break;
-                }
-            }
-            // Update borrow record to reject
-            $borrowRecords->update([
-                'issued_at' => null,
-                'due_at' => null,
-                'returned_at' => null,
-                'status' => $request->status,
-            ]);
-
-            flash()->success('Borrow Request Updated Successfully');
-            return redirect()->route('book.borrowinfo');
+            return redirect()->back();;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error('Error occurred while updating borrow request', ['borrow_id' => $id, 'exception' => $e]);
+            flash()->error('An error occurred while updating the borrow request.');
+            return redirect()->back();
         }
     }
 
 
-    public function returnBook(string $id, Request $request)
-    {
+
+
+    /*
+        public function returnBook(string $id, Request $request)
+        {
 
             $request->validate([
                 'returned_at' => 'required',
