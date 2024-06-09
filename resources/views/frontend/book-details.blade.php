@@ -251,9 +251,9 @@
 
                                     @auth
                                         @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                            <form action="javascript:;">
+
                                                 <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
-                                            </form>
+
                                         @else
                                             @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -261,9 +261,9 @@
                                                     Booking Request
                                                 </button>
                                             @else
-                                                <form action="javascript:;">
+
                                                     <button type="submit" class="btn btn-danger w-100">Not Available</button>
-                                                </form>
+
                                             @endif
                                         @endif
                                     @endauth
