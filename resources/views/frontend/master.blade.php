@@ -69,6 +69,8 @@
     </script>
 
 
+    @stack('scripts')
+
 <script>
     $(document).ready(function() {
         $.ajaxSetup({

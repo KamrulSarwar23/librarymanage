@@ -5,7 +5,6 @@
         text-decoration: none;
     }
 
-
     .rating {
         direction: rtl;
         unicode-bidi: bidi-override;
@@ -14,7 +13,6 @@
         font-size: 7px;
         margin-left: -15px;
     }
-
 
     .rating input {
         display: none;
@@ -28,7 +26,6 @@
         color: #3a92f7;
         font-size: 7px;
     }
-
 
     .front-stars,
     .back-stars,
@@ -230,7 +227,7 @@
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
+                                    <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
                                 </form>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
@@ -539,12 +536,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary">Submit Request</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
 
     @endsection
 

@@ -50,7 +50,7 @@ class ReviewController extends Controller
     {
         $reviews = Review::findOrFail($id);
         $reviews->delete();
-   
+
         return response()->json(['status' => 'success', 'message' => 'Review Deleted Successfully']);
     }
 
@@ -60,7 +60,7 @@ class ReviewController extends Controller
         if (count($reviews) == null) {
             flash()->error('No Data Found');
         }
-        
+
         return view('admin.review.index', compact('reviews'));
     }
 
@@ -70,7 +70,7 @@ class ReviewController extends Controller
         if (count($reviews) == null) {
             flash()->error('No Data Found');
         }
-        
+
         return view('admin.review.index', compact('reviews'));
     }
 }

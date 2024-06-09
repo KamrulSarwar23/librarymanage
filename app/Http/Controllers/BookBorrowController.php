@@ -33,9 +33,6 @@ class BookBorrowController extends Controller
     }
 
 
-
-
-
     public function updateInfo(string $id, Request $request)
     {
         try {
@@ -44,6 +41,7 @@ class BookBorrowController extends Controller
             $borrowRecord = Borrow::findOrFail($id);
             $status = $request->status;
             $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
+
 
             if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
                 // dd("hewllo");
