@@ -56,17 +56,12 @@
         transition: all 0.5s;
     }
 
-
     .percent {
         color: #bb5252;
         font-size: 1.5em;
     }
 
-    .custom-scrollbar {
-        max-height: 200px;
-        /* Adjust the max-height as needed */
-        overflow-y: auto;
-    }
+
 </style>
 
 
@@ -226,7 +221,10 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
+                             
+
+                                <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -242,11 +240,13 @@
                 </div>
             @endforeach
         </div>
+<div class="row">
+    <div class="mt-3 ml-auto">
+        {{ $books->links() }}
+    </div>
 
-        <div class="pagination ml-auto mt-3">
-            {{ $books->links() }}
-        </div>
-
+</div>
+       
         @if (count($popularBook) > 0)
             <h2>Popular Books</h2>
         @endif
@@ -291,7 +291,11 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                          
+
+                                <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -354,7 +358,9 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                                <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -417,7 +423,9 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
+                   
+                                <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -477,7 +485,10 @@
 
                         @auth
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                               
+
+                                <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -504,7 +515,7 @@
                     <form action="{{ route('book.borrow') }}" method="POST">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Borrow Request</h5>
 
                         </div>
                         <div class="modal-body">
@@ -523,10 +534,12 @@
             </div>
         </div>
 
+        </div>
 
     @endsection
 
     @push('scripts')
+    
         <script>
             // **** Usre id And Book id *****
             document.addEventListener('DOMContentLoaded', function() {
@@ -553,7 +566,11 @@
                 var todayString = today.toISOString().split('T')[0];
 
                 var fiveDaysFromNow = new Date();
+
                 fiveDaysFromNow.setDate(today.getDate() + 5);
+
+                fiveDaysFromNow.setDate(today.getDate() + 3);
+
                 var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
                 dateInput.setAttribute('min', todayString);

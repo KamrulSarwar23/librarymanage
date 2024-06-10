@@ -120,67 +120,75 @@
 
                     <div class="card">
 
-                        <li class="d-flex align-items-center ml-auto mr-5">
+                        @if (!request()->status)
+                            <li class="d-flex align-items-center ml-auto mr-5">
 
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle py-2 mt-3 mr-3" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Filter By Status
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'return' ? 'active' : '' }}"
-                                            href="{{ route('borrow-book-filter-by-status', ['status' => 'return']) }}">Returned</a>
-                                    </li>
+                                <div class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle py-2 mt-3 mr-3" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Filter By Status
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'return' ? 'active' : '' }}"
+                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'return']) }}">Returned</a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'active' ? 'active' : '' }}"
-                                            href="{{ route('borrow-book-filter-by-status', ['status' => 'active']) }}">Active</a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'active' ? 'active' : '' }}"
+                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'active']) }}">Active</a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'pending' ? 'active' : '' }}"
-                                            href="{{ route('borrow-book-filter-by-status', ['status' => 'pending']) }}">Pending</a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'pending' ? 'active' : '' }}"
+                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'pending']) }}">Pending</a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'reject' ? 'active' : '' }}"
-                                            href="{{ route('borrow-book-filter-by-status', ['status' => 'reject']) }}">Rejected</a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'reject' ? 'active' : '' }}"
+                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'reject']) }}">Rejected</a>
+                                        </li>
 
-                                </ul>
+                                    </ul>
 
-                            </div>
+                                </div>
 
-                            <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('book.borrowinfo') }}">Clear Search</a>
-                            <form action="{{ route('book.borrow-search') }}" method="GET" class="d-flex mt-3">
-                                <input class="form-control me-2 mr-2" type="text" placeholder="Search"
-                                    name="search_query">
-                                <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
-                            </form>
+                                <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('book.borrowinfo') }}">Clear
+                                    Search</a>
 
-                        </li>
+                                <form action="{{ route('book.borrow-search') }}" method="GET" class="d-flex mt-3">
+                                    <input class="form-control me-2 mr-2" type="text" placeholder="Search"
+                                        name="search_query">
+                                    <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
+                                </form>
+
+                            </li>
+                        @endif
+
 
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
-
+                                    <th>ID</th>
                                     <th>User Name</th>
                                     <th>User Email</th>
-                                    <th>Book Name</th>
+                                    <th>Book</th>
+                                    <th>Author</th>
+                                    <th>Publisher</th>
                                     <th>Request Time</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
                                     <th style="width: 20%">Status</th>
-                                    {{-- <th>Action</th> --}}
 
-                                    @foreach ($borrowedBooks as $book)
+                                    @foreach ($borrowedBooks as $index => $book)
                                         <tr>
-
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{ $book->user->name }}</td>
                                             <td>{{ $book->user->email }}</td>
                                             <td>{{ $book->book->title }}</td>
+                                            <td>{{ $book->book->author->name }}</td>
+                                            <td>{{ $book->book->publisher->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
                                             </td>
 
@@ -190,11 +198,13 @@
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
 
+
                                             @if ($book->due_at !== null)
                                                 <td>{{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
+
 
                                             @if ($book->returned_at !== null)
                                                 <td>{{ \Carbon\Carbon::parse($book->returned_at)->format('F j, Y') }}
@@ -202,6 +212,7 @@
                                             @else
                                                 <td class="text-danger">Not Return Yet</td>
                                             @endif
+                                            
 
                                             <td>
                                                 <form id="borrowForm{{ $book->id }}"
@@ -209,7 +220,7 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <select name="status" class="form_select"
+                                                    <select class="bg-info p-2 text-white" name="status" class="form_select"
                                                         onchange="submitForm({{ $book->id }})">
                                                         <option disabled>Select One</option>
                                                         <option value="pending"
@@ -250,6 +261,7 @@
             </div>
         </div>
     </section>
+
     <script>
         function submitForm(bookId) {
             document.getElementById('borrowForm' + bookId).submit();

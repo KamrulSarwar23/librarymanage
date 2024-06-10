@@ -97,40 +97,39 @@
                 <ul class="dropdown-menu">
                     <li class="{{ request()->routeIs('book.borrowinfo') && !request('status') ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo') }}" class="nav-link">
-                            <i class="fa-solid fa-tags"></i><span>Borrowing Request</span>
+                            <i class="fa-solid fa-tags"></i><span>All Books Request</span>
                         </a>
                     </li>
 
                     <li
                         class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'pending' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'pending']) }}" class="nav-link">
-                            <i class="fa-solid fa-tags"></i><span>Pending Request</span>
+                            <i class="fa-solid fa-tags"></i><span>Pending Books</span>
                         </a>
                     </li>
                     <li
                         class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'receive' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'receive']) }}" class="nav-link">
-                            <i class="fa-solid fa-tags"></i><span>Receive Request</span>
+                            <i class="fa-solid fa-tags"></i><span>Receive Books</span>
                         </a>
                     </li>
                     <li
                         class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'return' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'return']) }}" class="nav-link">
-                            <i class="fa-solid fa-tags"></i><span>Return Request</span>
+                            <i class="fa-solid fa-tags"></i><span>Return Books</span>
                         </a>
                     </li>
                     <li
                         class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'reject' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'reject']) }}" class="nav-link">
-                            <i class="fa-solid fa-tags"></i><span>Reject Request</span>
+                            <i class="fa-solid fa-tags"></i><span>Reject Books</span>
                         </a>
                     </li>
                 </ul>
             </li>
 
-
-            <li class="dropdown">
-                <a href="#" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>
+            <li class="dropdown {{ setActive(['report']) }}">
+                <a href="{{ route('report') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>
             </li>
 
             <li class="dropdown {{ setActive(['admin.book-review', 'active.review', 'pending.review']) }}">

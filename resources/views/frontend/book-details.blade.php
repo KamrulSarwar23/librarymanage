@@ -101,7 +101,7 @@
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($booksdetails->rating->avg('rating'), 1) }})
                                 </span>
 
-                                <div class="back-stars">
+                                <div class="back-stars mt-1">
                                     @for ($i = 1; $i <= 5; $i++)
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     @endfor
@@ -330,7 +330,7 @@
                     @csrf
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Borrow Request</h5>
                     </div>
 
                     <div class="modal-body">

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Publisher;
 use App\Models\Review;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -28,6 +30,8 @@ class DashboardController extends Controller
         $pendingPublishers = Publisher::where('status', 'inactive')->count();
 
         $allBook = Book::count();
+        $activeBook = Book::where('preview', 'active')->count();
+        $inactiveBook = Book::where('preview', 'inactive')->count();
 
 
         $allReview = Review::count();
@@ -39,6 +43,12 @@ class DashboardController extends Controller
         $pendingUser = User::where('role', 'user')->where('status', 'inactive')->count();
 
         $allMessage = Contact::count();
+
+        $allBorrow = Borrow::count();
+        $receiveBorrow = Borrow::where('status', 'receive')->count();
+        $pendingBorrow = Borrow::where('status', 'pending')->count();
+        $rejectBorrow = Borrow::where('status', 'reject')->count();
+        $returnBorrow = Borrow::where('status', 'return')->count();
 
         return view('admin.dashboard', compact(
             'activeCategory',
@@ -57,7 +67,14 @@ class DashboardController extends Controller
             'activeUser',
             'pendingUser',
             'allMessage',
-            'allBook'
+            'allBook',
+            'activeBook',
+            'allBorrow',
+            'inactiveBook',
+            'receiveBorrow',
+            'pendingBorrow',
+            'rejectBorrow',
+            'returnBorrow'
 
         ));
     }
@@ -66,6 +83,9 @@ class DashboardController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-        return view('user', compact('category', 'author', 'publisher'));
+        $borrowBooks = Borrow::where('user_id', Auth::user()->id)->paginate(5);
+
+
+        return view('user', compact('category', 'author', 'publisher', 'borrowBooks'));
     }
 }

@@ -79,44 +79,6 @@ class BookBorrowController extends Controller
     }
 
 
-
-
-    /*
-        public function returnBook(string $id, Request $request)
-        {
-
-            $request->validate([
-                'returned_at' => 'required',
-            ]);
-
-            $borrowRecords = Borrow::findOrFail($id);
-
-            if (!empty($borrowRecords->returned_at)) {
-                flash()->error('Book already return');
-                return redirect()->back();
-            }
-
-            $borrowRecords->update([
-                'returned_at' => $request->returned_at,
-                'status' =>  $request->status
-            ]);
-
-            $book = BookQuantity::where('book_id', $borrowRecords->book_id)->where('status', 'activate')->first();
-
-            $book->current_qty += 1;
-            $book->save();
-
-            flash()->success('Book Return Successfully');
-            return redirect()->route('book.borrowinfo');
-        }
-
-        public function borrowBookDelete(string $id)
-        {
-            $borrowbook = Borrow::findOrFail($id);
-            $borrowbook->delete();
-            return response()->json(['status' => 'success', 'message' => 'Borrow Request Deleted Successfully']);
-        }
-
         public function borrowBookSearch(Request $request)
         {
             $searchQuery = $request->input('search_query');
@@ -142,7 +104,7 @@ class BookBorrowController extends Controller
 
             return view('admin.borrow.index', compact('borrowedBooks'));
         }
-    */
+   
 
     public function borrowBookFilterByStatus(Request $request)
     {
