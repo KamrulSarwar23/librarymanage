@@ -12,6 +12,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\QuantityController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -114,6 +115,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
+
+    Route::get('/report', [ReportController::class, 'report'])->name('report');
+    Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
 });
 
 
@@ -131,6 +135,4 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Book Borrow Route
     Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
-
-    
 });

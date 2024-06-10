@@ -82,83 +82,85 @@
                                 aria-labelledby="orders-tab">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3>Orders</h3>
+                                        <h3>All Book Request</h3>
                                     </div>
 
                                     @if ($borrowBooks->isNotEmpty())
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Serial</th>
-                                                        <th>Book</th>
-                                                        <th>Author</th>
-                                                        <th>Publisher</th>
-                                                        <th>Issued Date</th>
-                                                        <th>Due Date</th>
-                                                        <th>Return Date</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach ($borrowBooks as $index => $item)
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $index + 1 }}</td>
-
-                                                            <td>{{ $item->book->title }}</td>
-
-                                                            <td>{{ $item->book->author->name }}</td>
-
-                                                            <td>{{ $item->book->publisher->name }}</td>
-
-                                                            @if (!empty($item->issued_at))
-                                                                <td>{{ $item->issued_at }}</td>
-                                                            @else
-                                                                <td>Not Updated Yet</td>
-                                                            @endif
-
-                                                            @if (!empty($item->due_at))
-                                                                <td>{{ $item->due_at }}</td>
-                                                            @else
-                                                                <td>Not Updated Yet</td>
-                                                            @endif
-
-                                                            @if (!empty($item->returned_at))
-                                                                <td>{{ $item->returned_at }}</td>
-                                                            @else
-                                                                <td>Not Updated Yet</td>
-                                                            @endif
-
-                                                            @if ($item->status == 'reject')
-                                                                <td><span class="badge badge-danger">Rejected</span></td>
-                                                            @elseif ($item->status == 'pending')
-                                                                <td><span class="badge badge-info">Pending</span></td>
-                                                            @elseif ($item->status == 'receive')
-                                                                <td><span class="badge badge-success">Active</span></td>
-                                                            @elseif ($item->status == 'return')
-                                                                <td><span class="badge badge-primary">Returned</span></td>
-                                                            @endif
-
-
-                                                            <td><a href="{{ route('book.details', $item->book_id) }}"
-                                                                    class="btn btn-fill-out btn-sm">View Book</a>
-                                                            </td>
+                                                            <th>Serial</th>
+                                                            <th>Book</th>
+                                                            <th>Author</th>
+                                                            <th>Publisher</th>
+                                                            <th>Issued Date</th>
+                                                            <th>Due Date</th>
+                                                            <th>Return Date</th>
+                                                            <th>Status</th>
+                                                            <th>Actions</th>
                                                         </tr>
-                                                    @endforeach
+                                                    </thead>
+                                                    <tbody>
+
+                                                        @foreach ($borrowBooks as $index => $item)
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+
+                                                                <td>{{ $item->book->title }}</td>
+
+                                                                <td>{{ $item->book->author->name }}</td>
+
+                                                                <td>{{ $item->book->publisher->name }}</td>
+
+                                                                @if (!empty($item->issued_at))
+                                                                    <td>{{ $item->issued_at }}</td>
+                                                                @else
+                                                                    <td>Not Updated Yet</td>
+                                                                @endif
+
+                                                                @if (!empty($item->due_at))
+                                                                    <td>{{ $item->due_at }}</td>
+                                                                @else
+                                                                    <td>Not Updated Yet</td>
+                                                                @endif
+
+                                                                @if (!empty($item->returned_at))
+                                                                    <td>{{ $item->returned_at }}</td>
+                                                                @else
+                                                                    <td>Not Updated Yet</td>
+                                                                @endif
+
+                                                                @if ($item->status == 'reject')
+                                                                    <td><span class="badge badge-danger">Rejected</span>
+                                                                    </td>
+                                                                @elseif ($item->status == 'pending')
+                                                                    <td><span class="badge badge-info">Pending</span></td>
+                                                                @elseif ($item->status == 'receive')
+                                                                    <td><span class="badge badge-success">Active</span></td>
+                                                                @elseif ($item->status == 'return')
+                                                                    <td><span class="badge badge-primary">Returned</span>
+                                                                    </td>
+                                                                @endif
 
 
-                                                </tbody>
-                                            </table>
+                                                                <td><a href="{{ route('book.details', $item->book_id) }}"
+                                                                        class="btn btn-fill-out btn-sm">View Book</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
                                     @else
-                                    <h4 class="text-center mt-5 text-primary">You didn't added any books yet</h4>
+                                        <h4 class="text-center mt-5 text-primary">You didn't added any books yet</h4>
                                     @endif
 
-                                
+
 
                                 </div>
                             </div>

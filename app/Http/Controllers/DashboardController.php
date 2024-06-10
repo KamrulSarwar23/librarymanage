@@ -30,6 +30,8 @@ class DashboardController extends Controller
         $pendingPublishers = Publisher::where('status', 'inactive')->count();
 
         $allBook = Book::count();
+        $activeBook = Book::where('preview', 'active')->count();
+        $inactiveBook = Book::where('preview', 'inactive')->count();
 
 
         $allReview = Review::count();
@@ -41,6 +43,12 @@ class DashboardController extends Controller
         $pendingUser = User::where('role', 'user')->where('status', 'inactive')->count();
 
         $allMessage = Contact::count();
+
+        $allBorrow = Borrow::count();
+        $receiveBorrow = Borrow::where('status', 'receive')->count();
+        $pendingBorrow = Borrow::where('status', 'pending')->count();
+        $rejectBorrow = Borrow::where('status', 'reject')->count();
+        $returnBorrow = Borrow::where('status', 'return')->count();
 
         return view('admin.dashboard', compact(
             'activeCategory',
@@ -59,7 +67,14 @@ class DashboardController extends Controller
             'activeUser',
             'pendingUser',
             'allMessage',
-            'allBook'
+            'allBook',
+            'activeBook',
+            'allBorrow',
+            'inactiveBook',
+            'receiveBorrow',
+            'pendingBorrow',
+            'rejectBorrow',
+            'returnBorrow'
 
         ));
     }
