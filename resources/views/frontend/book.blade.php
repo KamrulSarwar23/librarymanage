@@ -261,7 +261,6 @@
         
                                         </div>
 
-
                                         <input type="hidden" name="bookId" value="{{ $book->id }}">
                                         <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
                                     </div>
