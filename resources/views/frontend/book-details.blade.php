@@ -124,23 +124,23 @@
                         </div>
 
                         @auth
-                        @if (App\Helper\AxistBookingRequestHelper::existsForBook($booksdetails->id, auth()->user()->id))
-                            <form action="javascript:;">
-                                <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
-                            </form>
-                        @else
-                            @if (App\Helper\QuantityManage::isQuantityAvailable($booksdetails->id))
-                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-value="{{ $booksdetails->id }}">
-                                    Booking Request
-                                </button>
-                            @else
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($booksdetails->id, auth()->user()->id))
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                    <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
                                 </form>
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($booksdetails->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $booksdetails->id }}">
+                                        Booking Request
+                                    </button>
+                                @else
+                                    <form action="javascript:;">
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                    </form>
+                                @endif
                             @endif
-                        @endif
-                    @endauth
+                        @endauth
 
 
 
@@ -155,7 +155,8 @@
                                     <h3>Reviews</h3>
                                     <div>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
+                                            data-bs-target="#staticBackdrop" id="add-review-btn"
+                                            data-book="{{ $booksdetails->title }}">
                                             Add Review
                                         </button>
 
@@ -251,9 +252,7 @@
 
                                     @auth
                                         @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                                                <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
-
+                                            <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
                                         @else
                                             @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -261,9 +260,7 @@
                                                     Booking Request
                                                 </button>
                                             @else
-
-                                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
-
+                                                <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                             @endif
                                         @endif
                                     @endauth
@@ -282,7 +279,8 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Review for <strong>Atomic Habits</strong>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Review for <strong
+                            id="review-book-title">Atomic Habits</strong>
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -412,6 +410,11 @@
 
             dateInput.setAttribute('min', todayString);
             dateInput.setAttribute('max', fiveDaysFromNowString);
+
+            // showing the corresponding book name in the review modal
+            document.getElementById('add-review-btn').addEventListener('click', function() {
+                document.getElementById('review-book-title').textContent = this.getAttribute('data-book');
+            })
         })
     </script>
 @endpush

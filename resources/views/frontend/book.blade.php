@@ -226,9 +226,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                                    <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
-
+                                <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -236,9 +234,7 @@
                                         Booking Request
                                     </button>
                                 @else
-
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
-
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 @endif
                             @endif
                         @endauth
@@ -295,9 +291,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
-
+                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -360,9 +354,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
-
+                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -370,9 +362,7 @@
                                         Booking Request
                                     </button>
                                 @else
-
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
-
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 @endif
                             @endif
                         @endauth
@@ -427,9 +417,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
-
+                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -437,9 +425,7 @@
                                         Booking Request
                                     </button>
                                 @else
-
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
-
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 @endif
                             @endif
                         @endauth
@@ -491,9 +477,7 @@
 
                         @auth
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
-
+                                <button type="submit" class="btn btn-info w-100">Already Booked</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -501,9 +485,7 @@
                                         Booking Request
                                     </button>
                                 @else
-
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
-
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
                                 @endif
                             @endif
                         @endauth
@@ -545,37 +527,37 @@
     @endsection
 
     @push('scripts')
-    <script>
-        // **** Usre id And Book id *****
-        document.addEventListener('DOMContentLoaded', function() {
-            var exampleModal = document.getElementById('exampleModal');
-            var bookIdInput = exampleModal.querySelector('#book_id');
+        <script>
+            // **** Usre id And Book id *****
+            document.addEventListener('DOMContentLoaded', function() {
+                var exampleModal = document.getElementById('exampleModal');
+                var bookIdInput = exampleModal.querySelector('#book_id');
 
-            exampleModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var value = button.getAttribute('data-bs-value');
-                bookIdInput.value = value;
+                exampleModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var value = button.getAttribute('data-bs-value');
+                    bookIdInput.value = value;
+                });
+
+                exampleModal.addEventListener('hidden.bs.modal', function() {
+                    // Clear the input field
+                    bookIdInput.value = '';
+                });
             });
 
-            exampleModal.addEventListener('hidden.bs.modal', function() {
-                // Clear the input field
-                bookIdInput.value = '';
-            });
-        });
+            // **** Work with date *****
+            document.addEventListener('DOMContentLoaded', function() {
+                var dateInput = document.getElementById('bookingDate');
 
-        // **** Work with date *****
-        document.addEventListener('DOMContentLoaded', function() {
-            var dateInput = document.getElementById('bookingDate');
+                var today = new Date();
+                var todayString = today.toISOString().split('T')[0];
 
-            var today = new Date();
-            var todayString = today.toISOString().split('T')[0];
+                var fiveDaysFromNow = new Date();
+                fiveDaysFromNow.setDate(today.getDate() + 5);
+                var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
-            var fiveDaysFromNow = new Date();
-            fiveDaysFromNow.setDate(today.getDate() + 3);
-            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
-
-            dateInput.setAttribute('min', todayString);
-            dateInput.setAttribute('max', fiveDaysFromNowString);
-        })
-    </script>
+                dateInput.setAttribute('min', todayString);
+                dateInput.setAttribute('max', fiveDaysFromNowString);
+            })
+        </script>
     @endpush

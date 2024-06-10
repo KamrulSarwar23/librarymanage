@@ -26,18 +26,21 @@
                             </div>
 
                             <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                            
-                                    <li class="nav-item {{ request()->routeIs('home.page') ? 'active' : '' }}">
-                                        <a href="{{ route('home.page') }}" class="nav-link">Home</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->routeIs('all.books') ? 'active' : '' }}">
-                                        <a href="{{ route('all.books') }}" class="nav-link">Books</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->routeIs('contact.page') ? 'active' : '' }}">
-                                        <a href="{{ route('contact.page') }}" class="nav-link">Contact</a>
-                                    </li>
-                             
-                                
+
+                                <li class="nav-item {{ request()->routeIs('home.page') ? 'active' : '' }}">
+                                    <a href="{{ route('home.page') }}" class="nav-link">Home</a>
+                                </li>
+                                <li class="nav-item {{ request()->routeIs('all.books') ? 'active' : '' }}">
+                                    <a href="{{ route('all.books') }}" class="nav-link">Books</a>
+                                </li>
+                                <li class="nav-item {{ request()->routeIs('contact.page') ? 'active' : '' }}">
+                                    <a href="{{ route('contact.page') }}" class="nav-link">Contact</a>
+                                </li>
+                                <li class="nav-item" {{ request()->routeIs('policy.page') ? 'active' : '' }}>
+                                    <a href="{{ route('policy.page') }}" class="nav-link">User Policy</a>
+                                </li>
+
+
 
                                 <li>
                                     @if (Route::has('login'))
