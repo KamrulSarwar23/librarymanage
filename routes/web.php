@@ -15,6 +15,7 @@ use App\Http\Controllers\QuantityController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPolicyController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -28,6 +29,8 @@ Route::get('/admin/login', [AdminAuthController::class, 'adminLogin'])->name('ad
 Route::post('/admin/login', [AdminAuthController::class, 'adminLoginSubmit'])->name('admin-login.submit');
 
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact.page');
+
+Route::get('/user-policy', [PageController::class, 'policy'])->name('policy.page');
 
 Route::post('/send-message', [ContactController::class, 'sendMessage'])->name('send.message');
 
@@ -115,9 +118,16 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
+  
 
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
+  
+    //User Policy
+    Route::get('/user-policy', [UserPolicyController::class, 'create'])->name('user-policy.create');
+    Route::post('/user-policy', [UserPolicyController::class, 'store'])->name('user-policy.store');
+
+ 
     
 });
 

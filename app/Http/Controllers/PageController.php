@@ -12,6 +12,7 @@ use App\Models\Publisher;
 use App\Models\BookQuantity;
 use Illuminate\Http\Request;
 use App\Helper\QuantityManage;
+use App\Models\Policy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -333,5 +334,11 @@ class PageController extends Controller
             DB::rollBack();
             dd($e);
         }
+    }
+
+    public function policy()
+    {
+        $policy = Policy::first();
+        return view('frontend.user-policy', compact('policy'));
     }
 }

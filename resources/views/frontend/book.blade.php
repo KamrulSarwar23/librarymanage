@@ -221,7 +221,10 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+                             
+
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -288,7 +291,11 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                          
+
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -351,7 +358,9 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -414,7 +423,9 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+                   
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
+
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -474,6 +485,9 @@
 
                         @auth
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                               
+
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
@@ -552,7 +566,11 @@
                 var todayString = today.toISOString().split('T')[0];
 
                 var fiveDaysFromNow = new Date();
+
+                fiveDaysFromNow.setDate(today.getDate() + 5);
+
                 fiveDaysFromNow.setDate(today.getDate() + 3);
+
                 var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
                 dateInput.setAttribute('min', todayString);

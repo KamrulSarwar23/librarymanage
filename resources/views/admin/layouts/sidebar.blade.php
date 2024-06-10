@@ -90,7 +90,8 @@
             </li>
 
             <li class="dropdown {{ request()->routeIs('book.borrowinfo') ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fa-solid fa-shield-halved"></i>
                     <span>Borrow</span></a>
 
                 <ul class="dropdown-menu">
@@ -100,32 +101,32 @@
                         </a>
                     </li>
 
-                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'pending' ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'pending' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'pending']) }}" class="nav-link">
                             <i class="fa-solid fa-tags"></i><span>Pending Books</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'receive' ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'receive' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'receive']) }}" class="nav-link">
                             <i class="fa-solid fa-tags"></i><span>Receive Books</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'return' ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'return' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'return']) }}" class="nav-link">
                             <i class="fa-solid fa-tags"></i><span>Return Books</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'reject' ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'reject' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'reject']) }}" class="nav-link">
                             <i class="fa-solid fa-tags"></i><span>Reject Books</span>
                         </a>
                     </li>
                 </ul>
             </li>
-
-
-
-
 
             <li class="dropdown {{ setActive(['report']) }}">
                 <a href="{{ route('report') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>
@@ -153,6 +154,12 @@
             <li class="dropdown {{ setActive(['admin.profile']) }}">
                 <a href="{{ route('admin.profile') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Profile</span></a>
+
+            </li>
+
+            <li class="dropdown {{ setActive(['user-policy.create']) }}">
+                <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
+                        Policy</span></a>
 
             </li>
 
