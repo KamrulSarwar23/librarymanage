@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('qty_id')->constrained('book_quantities')->onDelete('cascade');
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
+            $table->boolean('notify')->default(false);
             $table->date('issued_at')->nullable();
             $table->date('due_at')->nullable();
             $table->date('returned_at')->nullable();

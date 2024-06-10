@@ -44,7 +44,24 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
+    <style>
+        body,
+        html {
+            overflow-x: hidden;
+        }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            table-layout: auto;
+            word-wrap: break-word;
+        }
+    </style>
     <!-- /END GA -->
 </head>
 
