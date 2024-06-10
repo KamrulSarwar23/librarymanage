@@ -60,8 +60,6 @@
         color: #bb5252;
         font-size: 1.5em;
     }
-
-
 </style>
 
 
@@ -221,10 +219,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                             
-
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
-
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -240,13 +235,13 @@
                 </div>
             @endforeach
         </div>
-<div class="row">
-    <div class="mt-3 ml-auto">
-        {{ $books->links() }}
-    </div>
+        <div class="row">
+            <div class="mt-3 ml-auto">
+                {{ $books->links() }}
+            </div>
 
-</div>
-       
+        </div>
+
         @if (count($popularBook) > 0)
             <h2>Popular Books</h2>
         @endif
@@ -291,11 +286,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                          
-
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
-
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -358,9 +349,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
-
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -423,9 +412,7 @@
 
 
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                   
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
-
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
@@ -485,9 +472,6 @@
 
                         @auth
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-
-                               
-
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
@@ -534,47 +518,43 @@
             </div>
         </div>
 
-        </div>
+    </div>
 
-    @endsection
+@endsection
 
-    @push('scripts')
-    
-        <script>
-            // **** Usre id And Book id *****
-            document.addEventListener('DOMContentLoaded', function() {
-                var exampleModal = document.getElementById('exampleModal');
-                var bookIdInput = exampleModal.querySelector('#book_id');
+@push('scripts')
+    <script>
+        // **** Usre id And Book id *****
+        document.addEventListener('DOMContentLoaded', function() {
+            var exampleModal = document.getElementById('exampleModal');
+            var bookIdInput = exampleModal.querySelector('#book_id');
 
-                exampleModal.addEventListener('show.bs.modal', function(event) {
-                    var button = event.relatedTarget;
-                    var value = button.getAttribute('data-bs-value');
-                    bookIdInput.value = value;
-                });
-
-                exampleModal.addEventListener('hidden.bs.modal', function() {
-                    // Clear the input field
-                    bookIdInput.value = '';
-                });
+            exampleModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var value = button.getAttribute('data-bs-value');
+                bookIdInput.value = value;
             });
 
-            // **** Work with date *****
-            document.addEventListener('DOMContentLoaded', function() {
-                var dateInput = document.getElementById('bookingDate');
+            exampleModal.addEventListener('hidden.bs.modal', function() {
+                // Clear the input field
+                bookIdInput.value = '';
+            });
+        });
 
-                var today = new Date();
-                var todayString = today.toISOString().split('T')[0];
+        // **** Work with date *****
+        document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.getElementById('bookingDate');
 
-                var fiveDaysFromNow = new Date();
+            var today = new Date();
+            var todayString = today.toISOString().split('T')[0];
 
-                fiveDaysFromNow.setDate(today.getDate() + 5);
+            var fiveDaysFromNow = new Date();
 
-                fiveDaysFromNow.setDate(today.getDate() + 3);
+            fiveDaysFromNow.setDate(today.getDate() + 5);
+            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
-                var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
-
-                dateInput.setAttribute('min', todayString);
-                dateInput.setAttribute('max', fiveDaysFromNowString);
-            })
-        </script>
-    @endpush
+            dateInput.setAttribute('min', todayString);
+            dateInput.setAttribute('max', fiveDaysFromNowString);
+        })
+    </script>
+@endpush

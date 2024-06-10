@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookBorrowController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookInventoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -118,17 +119,16 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
-  
+
+    Route::get('/book/{bookId}/readers', [BookInventoryController::class, 'index'])->name('readers.index');
+
 
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
-  
+
     //User Policy
     Route::get('/user-policy', [UserPolicyController::class, 'create'])->name('user-policy.create');
     Route::post('/user-policy', [UserPolicyController::class, 'store'])->name('user-policy.store');
-
- 
-    
 });
 
 
@@ -146,5 +146,4 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Book Borrow Route
     Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
-   
 });
