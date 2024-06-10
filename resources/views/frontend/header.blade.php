@@ -1,3 +1,13 @@
+<style>
+    .site-navbar-wrap {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        background-color: #1c6dd6;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <div class="site-mobile-menu site-navbar-target">
 
     <div class="site-mobile-menu-header">
@@ -26,19 +36,15 @@
                             </div>
 
                             <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                            
-                                    <li class="nav-item {{ request()->routeIs('home.page') ? 'active' : '' }}">
-                                        <a href="{{ route('home.page') }}" class="nav-link">Home</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->routeIs('all.books') ? 'active' : '' }}">
-                                        <a href="{{ route('all.books') }}" class="nav-link">Books</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->routeIs('contact.page') ? 'active' : '' }}">
-                                        <a href="{{ route('contact.page') }}" class="nav-link">Contact</a>
-                                    </li>
-                             
-                                
-
+                                <li class="nav-item {{ request()->routeIs('home.page') ? 'active' : '' }}">
+                                    <a href="{{ route('home.page') }}" class="nav-link">Home</a>
+                                </li>
+                                <li class="nav-item {{ request()->routeIs('all.books') ? 'active' : '' }}">
+                                    <a href="{{ route('all.books') }}" class="nav-link">Books</a>
+                                </li>
+                                <li class="nav-item {{ request()->routeIs('contact.page') ? 'active' : '' }}">
+                                    <a href="{{ route('contact.page') }}" class="nav-link">Contact</a>
+                                </li>
                                 <li>
                                     @if (Route::has('login'))
                                         <nav class="mx-3 flex flex-1 justify-end">
@@ -62,7 +68,6 @@
                                                     class="btn btn-success text-white mr-2 rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                                     Log in
                                                 </a>
-
                                                 @if (Route::has('register'))
                                                     <a href="{{ route('register') }}"
                                                         class="btn btn-success text-white rounded-md px-3 py-2 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
@@ -73,12 +78,9 @@
                                         </nav>
                                     @endif
                                 </li>
-
                             </ul>
                         </div>
                     </nav>
-
-
                 </div>
             </div>
         </div>

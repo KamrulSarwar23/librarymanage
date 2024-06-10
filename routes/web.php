@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookBorrowController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookInventoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -93,10 +94,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Book Borrow
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
-    // Route::put('/return-borrow/{id}', [BookBorrowController::class, 'returnBook'])->name('book.return');
-    // Route::get('/book-borrow-edit/{id}', [BookBorrowController::class, 'edit'])->name('book-borrow.edit');
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
-    // Route::delete('/book/borrow/delete/{id}', [BookBorrowController::class, 'borrowBookDelete'])->name('book.borrow-delete');
     Route::get('/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
     Route::get('/borrow-book-filter-by-status', [BookBorrowController::class, 'borrowBookFilterByStatus'])->name('borrow-book-filter-by-status');
 
@@ -116,6 +114,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
+
+    //  ====== books Inventory =======
+    Route::get('/book/{bookId}/readers', [BookInventoryController::class, 'index'])->name('readers.index');
 });
 
 

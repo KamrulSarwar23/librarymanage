@@ -225,23 +225,30 @@
                             </div>
                         </div>
 
-
-                        @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                            <form action="javascript:;">
-                                <button type="submit" class="btn btn-primary w-100">Booking Exists</button>
-                            </form>
-                        @else
-                            @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
-                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
-                                    Booking Request
-                                </button>
-                            @else
+                        @auth
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                    <button type="submit" class="btn btn-primary w-100">Already Exists</button>
                                 </form>
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                        Borrow Request
+                                    </button>
+                                @else
+                                    <form action="javascript:;">
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                    </form>
+                                @endif
                             @endif
-                        @endif
+                        @else
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                Borrow Request
+                            </button>
+                        @endauth
+
                     </div>
                 </div>
             @endforeach
@@ -292,22 +299,30 @@
                                 </div>
                             </div>
 
-                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-primary w-100">Booking Exists</button>
-                                </form>
-                            @else
-                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
-                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
-                                        Booking Request
-                                    </button>
-                                @else
+                            @auth
+                                @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                     <form action="javascript:;">
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        <button type="submit" class="btn btn-primary w-100">Already Exists</button>
                                     </form>
+                                @else
+                                    @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                            Borrow Request
+                                        </button>
+                                    @else
+                                        <form action="javascript:;">
+                                            <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        </form>
+                                    @endif
                                 @endif
-                            @endif
+                            @else
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                    Borrow Request
+                                </button>
+                            @endauth
+
                         </div>
                     </a>
                 </div>
@@ -354,22 +369,31 @@
                                 </div>
                             </div>
 
-                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-primary w-100">Booking Exists</button>
-                                </form>
-                            @else
-                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
-                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
-                                        Booking Request
-                                    </button>
-                                @else
+                            @auth
+                                @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                     <form action="javascript:;">
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        <button type="submit" class="btn btn-primary w-100">Already Exists</button>
                                     </form>
+                                @else
+                                    @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                            Borrow Request
+                                        </button>
+                                    @else
+                                        <form action="javascript:;">
+                                            <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        </form>
+                                    @endif
                                 @endif
-                            @endif
+                            @else
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                    Borrow Request
+                                </button>
+                            @endauth
+
+
                         </div>
                     </a>
                 </div>
@@ -417,22 +441,30 @@
                                 </div>
                             </div>
 
-                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-primary w-100">Booking Exists</button>
-                                </form>
-                            @else
-                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
-                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
-                                        Booking Request
-                                    </button>
-                                @else
+                            @auth
+                                @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                     <form action="javascript:;">
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        <button type="submit" class="btn btn-primary w-100">Already Exists</button>
                                     </form>
+                                @else
+                                    @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                            Borrow Request
+                                        </button>
+                                    @else
+                                        <form action="javascript:;">
+                                            <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        </form>
+                                    @endif
                                 @endif
-                            @endif
+                            @else
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                    Borrow Request
+                                </button>
+                            @endauth
+
                         </div>
                     </a>
                 </div>
@@ -481,22 +513,30 @@
                                 </div>
                             </div>
 
-                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-primary w-100">Booking Exists</button>
-                                </form>
-                            @else
-                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
-                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
-                                        Booking Request
-                                    </button>
-                                @else
+                            @auth
+                                @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                     <form action="javascript:;">
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        <button type="submit" class="btn btn-primary w-100">Already Exists</button>
                                     </form>
+                                @else
+                                    @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                            Borrow Request
+                                        </button>
+                                    @else
+                                        <form action="javascript:;">
+                                            <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        </form>
+                                    @endif
                                 @endif
-                            @endif
+                            @else
+                                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                    Borrow Request
+                                </button>
+                            @endauth
+
                         </div>
                     </a>
                 </div>
@@ -511,18 +551,18 @@
                 <form action="{{ route('book.borrow') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Borrow This Book</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input id="book_id" name="bookId" type="">
-                        <input type="" name="userId" value="{{ auth()->check() ? auth()->user()->id : '' }}">
+                        <input type="hidden" id="book_id" name="bookId">
+                        <input type="hidden" name="userId" value="{{ auth()->check() ? auth()->user()->id : '' }}">
                         <label for="bookingDate" class="form-label">Select Your Return Date</label>
                         <input type="date" name="returned_at" id="bookingDate" class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>

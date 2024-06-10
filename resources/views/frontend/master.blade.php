@@ -69,65 +69,65 @@
     </script>
 
 
-<script>
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('body').on('click', '.applied', function(event) {
-            event.preventDefault();
-            let deleteUrl = $(this).attr('href');
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do You want to apply for this Book?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Apply Now'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If user confirms, submit the form
-                    $(this).closest('form').submit();
-
-                    $.ajax({
-                        type: 'POST',
-                        url: deleteUrl,
-
-                        success: function(data) {
-                            if (data.status == 'success') {
-                                Swal.fire(
-                                    'Applied',
-                                    data.message,
-                                    'success'
-                                )
-
-                                window.location.reload();
-
-                            } else if (data.status == 'error') {
-                                Swal.fire(
-                                    'Cant Delete',
-                                    data.message,
-                                    'error'
-                                )
-                            }
-
-                        },
-
-                        error: function(xhr, status, error) {
-                            console.log(error);
-                        }
-                    })
-
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            $('body').on('click', '.applied', function(event) {
+                event.preventDefault();
+                let deleteUrl = $(this).attr('href');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do You want to apply for this Book?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Apply Now'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If user confirms, submit the form
+                        $(this).closest('form').submit();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: deleteUrl,
+
+                            success: function(data) {
+                                if (data.status == 'success') {
+                                    Swal.fire(
+                                        'Applied',
+                                        data.message,
+                                        'success'
+                                    )
+
+                                    window.location.reload();
+
+                                } else if (data.status == 'error') {
+                                    Swal.fire(
+                                        'Cant Delete',
+                                        data.message,
+                                        'error'
+                                    )
+                                }
+
+                            },
+
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                            }
+                        })
+
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

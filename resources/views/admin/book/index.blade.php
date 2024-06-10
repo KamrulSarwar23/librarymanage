@@ -363,7 +363,9 @@
                                                         aria-labelledby="dropdownMenuButton">
                                                         <a class="dropdown-item"
                                                             href="{{ route('quantity.index', $book->id) }}">Add Qty</a>
-                                                        {{-- <a class="dropdown-item" href="#">Book Inventory</a> --}}
+                                                        <a title="Who has borrowe the book right now"
+                                                            class="dropdown-item"
+                                                            href="{{ route('readers.index', $book->id) }}">The Reader</a>
                                                     </div>
                                                 </div>
 

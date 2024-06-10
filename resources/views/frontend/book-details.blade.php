@@ -83,15 +83,15 @@
                         <h2>{{ $booksdetails->title }}</h2>
 
                         @if ($totalCurrentQty !== 0)
-                        <h5 class="text-primary mb-3">Available Book: {{ $totalCurrentQty }}</h5>
+                            <h5 class="text-primary mb-3">Available</h5>
                         @else
-                        <h5 class="text-primary mb-3">Available Book: Stock Out</h5>
+                            <h5 class="text-danger mb-3">Not Available</h5>
                         @endif
-                       
+
                         <p>Book ID: {{ $booksdetails->isbn }}</p>
                         <p>Author: {{ $booksdetails->author->name }}</p>
                         <p>Publication: {{ \Carbon\Carbon::parse($booksdetails->publication_date)->format('F , Y') }}</p>
-                       
+
                         <p>Pages: {{ $booksdetails->number_of_pages }}</p>
                         <p>Category: {{ $booksdetails->category->name }}</p>
                         <p>Publisher: {{ $booksdetails->publisher->name }}</p>
@@ -123,19 +123,33 @@
                             </p>
                         </div>
 
-                        @if ($booksdetails->quantities->sum('current_qty') !== 0)
+
                         @auth
-                        <form action="{{ route('book.borrow') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="bookId" value="{{ $booksdetails->id }}">
-                            <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                            <button type="submit" class="applied btn btn-primary w-100">Borrow This Book</button>
-                        </form>
-                    @endauth
-                    @else
-                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
-                        @endif
-                 
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($booksdetails->id, auth()->user()->id))
+                                <form action="javascript:;">
+                                    <button type="submit" class="btn btn-primary w-100">Already Exists</button>
+                                </form>
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($booksdetails->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $booksdetails->id }}">
+                                        Borrow Request
+                                    </button>
+                                @else
+                                    <form action="javascript:;">
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                    </form>
+                                @endif
+                            @endif
+                        @else
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" data-bs-value="{{ $booksdetails->id }}">
+                                Borrow Request
+                            </button>
+                        @endauth
+
+
+
 
 
                         <div class="col-md-12 pt-2">
@@ -206,11 +220,12 @@
                             <h2 class="h3 mb-4">Readers also enjoyed</h2>
                         </div>
                     @endif
-                
+
                     @foreach ($enjoyedbook as $item)
                         <div class="col-md-4 col-lg-3 mb-4 enjoyedbook mb-5">
-                            <a class="text-dark" href="{{ route('book.details', $item->id) }}">
-                                <div class="card border-0 shadow-lg">
+                            {{-- <a class="text-dark" href="{{ route('book.details', $item->id) }}"> --}}
+                            <div class="card border-0 shadow-lg">
+                                <a class="text-dark" href="{{ route('book.details', $item->id) }}">
                                     <img height="250px" src="{{ asset('storage/book/' . $item->cover_image) }}"
                                         alt="" class="card-img-top">
                                     <div class="card-body">
@@ -240,21 +255,34 @@
                                                 Review)</span>
                                         </div>
                                     </div>
-                                    @auth
-                                    <form class="mb-2" action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $item->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
+                                </a>
+                                @auth
+                                    @if (App\Helper\AxistBookingRequestHelper::existsForBook($item->id, auth()->user()->id))
+                                        <form action="javascript:;">
+                                            <button type="submit" class="btn btn-primary w-100">Already Exists</button>
+                                        </form>
+                                    @else
+                                        @if (App\Helper\QuantityManage::isQuantityAvailable($item->id))
+                                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal" data-bs-value="{{ $item->id }}">
+                                                Borrow Request
+                                            </button>
+                                        @else
+                                            <form action="javascript:;">
+                                                <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                            </form>
+                                        @endif
+                                    @endif
+                                @else
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $booksdetails->id }}">
+                                        Borrow Request
+                                    </button>
                                 @endauth
-                                </div>
-                            </a>
+                            </div>
+
                         </div>
                     @endforeach
-
-
-
                 </div>
             </div>
         </div>
@@ -306,6 +334,60 @@
             </div>
         </div>
     </div>
+
+    {{-- **** Borrow Request Modal ******** --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('book.borrow') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Borrow This Book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Hidden inputs to store bookId and userId -->
+                        <input type="hidden" name="bookId" id="bookId">
+                        <input type="hidden" name="userId" value="{{ auth()->check() ? auth()->user()->id : '' }}">
+
+                        <!-- Date input for selecting return date -->
+                        <label for="bookingDate" class="form-label">Select Your Return Date</label>
+                        <input type="date" name="returned_at" id="bookingDate" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var exampleModal = document.getElementById('exampleModal');
+
+        exampleModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var bookId = button.getAttribute('data-bs-value');
+            var modalInput = exampleModal.querySelector('#bookId');
+            modalInput.value = bookId;
+        });
+
+
+        // **** Work with date *****
+        document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.getElementById('bookingDate');
+
+            var today = new Date();
+            var todayString = today.toISOString().split('T')[0];
+
+            var fiveDaysFromNow = new Date();
+            fiveDaysFromNow.setDate(today.getDate() + 3);
+            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
+
+            dateInput.setAttribute('min', todayString);
+            dateInput.setAttribute('max', fiveDaysFromNowString);
+        })
+    </script>
 @endsection
 
 
