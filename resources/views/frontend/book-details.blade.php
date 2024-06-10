@@ -259,14 +259,14 @@
                                     </div>
                                     </a>
                                     @auth
-                                        @if (App\Helper\AxistBookingRequestHelper::existsForBook($item->id, auth()->user()->id))
+                                        @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                             <form action="javascript:;">
                                                 <button type="submit" class="btn btn-primary w-100">Already Exists</button>
                                             </form>
                                         @else
-                                            @if (App\Helper\QuantityManage::isQuantityAvailable($item->id))
+                                            @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
                                                 <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal" data-bs-value="{{ $item->id }}">
+                                                    data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
                                                     Borrow Request
                                                 </button>
                                             @else

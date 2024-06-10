@@ -551,9 +551,6 @@
             var fiveDaysFromNow = new Date();
 
             fiveDaysFromNow.setDate(today.getDate() + 5);
-
-            fiveDaysFromNow.setDate(today.getDate() + 3);
-
             var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
             dateInput.setAttribute('min', todayString);

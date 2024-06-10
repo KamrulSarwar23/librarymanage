@@ -120,6 +120,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
 
+    Route::get('/book/{bookId}/readers', [BookInventoryController::class, 'index'])->name('readers.index');
+
 
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
