@@ -83,7 +83,7 @@ class DashboardController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-        $borrowBooks = Borrow::where('user_id', Auth::user()->id)->get();
+        $borrowBooks = Borrow::where('user_id', Auth::user()->id)->paginate(5);
 
 
         return view('user', compact('category', 'author', 'publisher', 'borrowBooks'));

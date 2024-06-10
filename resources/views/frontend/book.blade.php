@@ -61,11 +61,7 @@
         font-size: 1.5em;
     }
 
-    .custom-scrollbar {
-        max-height: 200px;
-        /* Adjust the max-height as needed */
-        overflow-y: auto;
-    }
+
 </style>
 
 
@@ -505,7 +501,7 @@
                     <form action="{{ route('book.borrow') }}" method="POST">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Borrow Request</h5>
 
                         </div>
                         <div class="modal-body">
@@ -524,10 +520,12 @@
             </div>
         </div>
 
+        </div>
 
     @endsection
 
     @push('scripts')
+    
         <script>
             // **** Usre id And Book id *****
             document.addEventListener('DOMContentLoaded', function() {

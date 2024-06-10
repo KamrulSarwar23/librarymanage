@@ -169,7 +169,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
-
+                                    <th>ID</th>
                                     <th>User Name</th>
                                     <th>User Email</th>
                                     <th>Book</th>
@@ -198,11 +198,13 @@
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
 
+
                                             @if ($book->due_at !== null)
                                                 <td>{{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
+
 
                                             @if ($book->returned_at !== null)
                                                 <td>{{ \Carbon\Carbon::parse($book->returned_at)->format('F j, Y') }}
@@ -210,6 +212,7 @@
                                             @else
                                                 <td class="text-danger">Not Return Yet</td>
                                             @endif
+                                            
 
                                             <td>
                                                 <form id="borrowForm{{ $book->id }}"
@@ -217,7 +220,7 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <select name="status" class="form_select"
+                                                    <select class="bg-info p-2 text-white" name="status" class="form_select"
                                                         onchange="submitForm({{ $book->id }})">
                                                         <option disabled>Select One</option>
                                                         <option value="pending"
