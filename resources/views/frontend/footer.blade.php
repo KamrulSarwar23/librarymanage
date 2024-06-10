@@ -1,7 +1,7 @@
 <footer class="site-footer">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="col-lg-4 mb-lg-0">
                 <div class="row mb-5">
                     <div class="col-12">
                         <h3 class="footer-heading mb-4">About Us</h3>

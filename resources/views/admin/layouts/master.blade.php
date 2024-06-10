@@ -198,6 +198,8 @@
     </script>
 
 
+
+
     @stack('scripts')
 
 </body>

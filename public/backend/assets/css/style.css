@@ -3693,7 +3693,7 @@ body.layout-3 .main-footer {
     width: 100%;
 }
 .main-sidebar .sidebar-menu li a:hover {
-    background-color: #fcfcfd;
+    background-color: #438f94;
 }
 .main-sidebar .sidebar-menu li.active a {
     color: #ebe7e7;
@@ -3837,7 +3837,7 @@ body:not(.sidebar-mini)
     li
     a {
     padding-left: 61px;
-    background-color: #fff;
+    background-color: #1F5357;
 }
 
 @media (max-width: 1024px) {

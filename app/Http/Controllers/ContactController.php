@@ -32,7 +32,7 @@ class ContactController extends Controller
             'phone' => $request->phone,
             'message' => $request->message,
         ]);
-        
+
         flash()->success('Message Send Successfully');
         return redirect()->back();
     }

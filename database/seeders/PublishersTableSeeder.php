@@ -16,7 +16,7 @@ class PublishersTableSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('publishers')->insert([
                 'name' => $faker->company,
                 'image' => $faker->optional()->imageUrl(640, 480, 'business'),

@@ -22,7 +22,7 @@ class BooksTableSeeder extends Seeder
         $categoryIds = DB::table('categories')->pluck('id')->toArray();
         $publisherIds = DB::table('publishers')->pluck('id')->toArray();
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             DB::table('books')->insert([
                 'title' => $faker->sentence,
                 'author_id' => $faker->randomElement($authorIds),

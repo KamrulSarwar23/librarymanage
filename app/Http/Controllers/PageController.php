@@ -12,6 +12,7 @@ use App\Models\Publisher;
 use App\Models\BookQuantity;
 use Illuminate\Http\Request;
 use App\Helper\QuantityManage;
+use App\Models\Policy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -171,7 +172,6 @@ class PageController extends Controller
     }
 
 
-
     public function bookDetails(string $id)
     {
 
@@ -187,8 +187,6 @@ class PageController extends Controller
 
         // Calculate the sum of current_qty for the active quantities
         $totalCurrentQty = $booksdetails->quantities->where('status', 'activate')->sum('current_qty');
-
-
 
         $booksReview = Review::where('status', 'active')->where('book_id', $id)->orderBy('created_at', 'DESC')->paginate(3);
 
@@ -336,5 +334,11 @@ class PageController extends Controller
             DB::rollBack();
             dd($e);
         }
+    }
+
+    public function policy()
+    {
+        $policy = Policy::first();
+        return view('frontend.user-policy', compact('policy'));
     }
 }
