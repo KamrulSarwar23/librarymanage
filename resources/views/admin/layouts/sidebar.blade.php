@@ -31,7 +31,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a style="font-size: 22px; color:#5C8374" href="javascript:;">LMS</a>
+            <a style="font-size: 22px; color:hsl(154, 15%, 91%)" href="javascript:;">LMS</a>
         </div>
 
 
@@ -83,18 +83,49 @@
                     'active.book',
                     'inactive.book',
                     'books.filterByType',
-                    'quantity.index'
+                    'quantity.index',
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
             </li>
 
+            <li class="dropdown {{ request()->routeIs('book.borrowinfo') ? 'active' : '' }}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i>
+                    <span>Borrow</span></a>
 
-            <li class="dropdown {{ setActive(['book.borrowinfo', 'book-borrow.edit', 'book.borrow-search', 'borrow-book-filter-by-status']) }}">
-                <a href="{{ route('book.borrowinfo') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Borrowing Request</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ request()->routeIs('book.borrowinfo') && !request('status') ? 'active' : '' }}">
+                        <a href="{{ route('book.borrowinfo') }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Borrowing Request</span>
+                        </a>
+                    </li>
 
+                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'pending' ? 'active' : '' }}">
+                        <a href="{{ route('book.borrowinfo', ['status' => 'pending']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Pending Request</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'receive' ? 'active' : '' }}">
+                        <a href="{{ route('book.borrowinfo', ['status' => 'receive']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Receive Request</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'return' ? 'active' : '' }}">
+                        <a href="{{ route('book.borrowinfo', ['status' => 'return']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Return Request</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'reject' ? 'active' : '' }}">
+                        <a href="{{ route('book.borrowinfo', ['status' => 'reject']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Reject Request</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
+
+
+
+
 
             <li class="dropdown">
                 <a href="#" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>

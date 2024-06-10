@@ -16,7 +16,7 @@ class AuthorsTableSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('authors')->insert([
                 'name' => $faker->name,
                 'image' => $faker->optional()->imageUrl(640, 480, 'people'),

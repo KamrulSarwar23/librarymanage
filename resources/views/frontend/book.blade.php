@@ -5,7 +5,6 @@
         text-decoration: none;
     }
 
-
     .rating {
         direction: rtl;
         unicode-bidi: bidi-override;
@@ -14,7 +13,6 @@
         font-size: 7px;
         margin-left: -15px;
     }
-
 
     .rating input {
         display: none;
@@ -28,7 +26,6 @@
         color: #3a92f7;
         font-size: 7px;
     }
-
 
     .front-stars,
     .back-stars,
@@ -224,79 +221,34 @@
                                     class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
                         </div>
-                    @auth
-                    @if ($book->quantities->sum('current_qty') !== 0)
 
-                    
-                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#borrowModal-{{ $book->id }}">
-                                Borrow
-                            </button>
-                      
-                    @else
-                        <button type="button" class="btn btn-danger w-100" disabled>Stock Out</button>
-                    @endif
-                
-                    <!-- Borrow Modal -->
-                    <div class="modal fade" id="borrowModal-{{ $book->id }}" tabindex="-1" aria-labelledby="borrowModalLabel-{{ $book->id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="borrowModalLabel-{{ $book->id }}">Confirm Borrow</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                        @auth
+
+
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                                    <button type="submit" class="btn btn-secondary w-100">Already Send Request</button>
+
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                        Booking Request
                                     </button>
-                                </div>
-                                <form action="{{ route('book.borrow') }}" method="POST">
-                                    @csrf
-                                    <div class="modal-body">
-                                       
-                                        <div class="row">
-                       
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>Return Date</label>
-                                                    <input type="date" class="form-control" name="returned_at" value="">
-                                                </div>
-                                            </div>
-        
-                                        </div>
+                                @else
 
-                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-primary">Confirm</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    @endauth
-                        {{-- @if ($book->quantities->sum('current_qty') !== 0)
-                            @auth
-                                <form action="{{ route('book.borrow') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                    <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                    <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                </form>
-                            @endauth
-                        @else
-                            <form action="javascript:;">
-                                <button type="submit" class="btn btn-danger w-100">Stock Out</button>
-                            </form>
-                        @endif --}}
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
 
-
+                                @endif
+                            @endif
+                        @endauth
                     </div>
                 </div>
             @endforeach
+        </div>
 
-            <div class="pagination ml-auto mt-3">
-                {{ $books->links() }}
-            </div>
-
+        <div class="pagination ml-auto mt-3">
+            {{ $books->links() }}
         </div>
 
         @if (count($popularBook) > 0)
@@ -305,59 +257,64 @@
 
         <div class="row mb-4">
             @foreach ($popularBook as $book)
-                <div class="col-md-4 col-lg-3 mt-4">
-                    <a href="{{ route('book.details', $book->id) }}">
-                        <div class="card shadow-lg p-3 bg-white rounded">
+                <div class="col-md-3 mt-4">
+                    <div class="card shadow-lg p-3 bg-white rounded">
+                        <a href="{{ route('book.details', $book->id) }}">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <a class="text-muted"
-                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
-                                </p>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <a class="text-muted"
+                                    href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                            </p>
 
-
-                                <div class="star-rating d-inline-flex align-items-center"
-                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
-                                    <div class="back-stars">
+                            <div class="star-rating d-inline-flex align-items-center"
+                                title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                <div class="back-stars">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    @endfor
+                                    <div class="front-stars"
+                                        style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
                                         @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @if ($i <= $book->rating->avg('rating') * 20)
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            @else
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            @endif
                                         @endfor
-                                        <div class="front-stars"
-                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $book->rating->avg('rating') * 20)
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                @else
-                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                @endif
-                                            @endfor
-                                        </div>
                                     </div>
-                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span> --}}
-                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
+                                <span
+                                    class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
-
-                            @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
-                                    <form action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
-                                @endauth
-                            @else
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
-                                </form>
-                            @endif
                         </div>
-                    </a>
+
+                        @auth
+
+
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                        Booking Request
+                                    </button>
+                                @else
+                                    <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                @endif
+                            @endif
+                        @endauth
+                    </div>
                 </div>
             @endforeach
+
         </div>
+
 
         @if (count($recommendedBook) > 0)
             <h2>Recommended Books</h2>
@@ -365,59 +322,66 @@
 
         <div class="row mb-4">
             @foreach ($recommendedBook as $book)
-                <div class="col-md-4 col-lg-3 mt-4">
-                    <a href="{{ route('book.details', $book->id) }}">
-                        <div class="card shadow-lg p-3 bg-white rounded">
+                <div class="col-md-3 mt-4">
+                    <div class="card shadow-lg p-3 bg-white rounded">
+                        <a href="{{ route('book.details', $book->id) }}">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <a class="text-muted"
-                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
-                                </p>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <a class="text-muted"
+                                    href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                            </p>
 
-
-                                <div class="star-rating d-inline-flex align-items-center"
-                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
-                                    <div class="back-stars">
+                            <div class="star-rating d-inline-flex align-items-center"
+                                title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                <div class="back-stars">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    @endfor
+                                    <div class="front-stars"
+                                        style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
                                         @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @if ($i <= $book->rating->avg('rating') * 20)
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            @else
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            @endif
                                         @endfor
-                                        <div class="front-stars"
-                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $book->rating->avg('rating') * 20)
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                @else
-                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                @endif
-                                            @endfor
-                                        </div>
                                     </div>
-                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
-                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
+                                <span
+                                    class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
-
-                            @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
-                                    <form action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
-                                @endauth
-                            @else
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
-                                </form>
-                            @endif
                         </div>
-                    </a>
+
+                        @auth
+
+
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                        Booking Request
+                                    </button>
+                                @else
+
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+
+                                @endif
+                            @endif
+                        @endauth
+                    </div>
                 </div>
             @endforeach
+
         </div>
+
 
         @if (count($recentBook) > 0)
             <h2>Recent Books</h2>
@@ -425,57 +389,61 @@
 
         <div class="row mb-4">
             @foreach ($recentBook as $book)
-                <div class="col-md-4 col-lg-3 mt-4">
-                    <a href="{{ route('book.details', $book->id) }}">
-                        <div class="card shadow-lg p-3 bg-white rounded">
+                <div class="col-md-3 mt-4">
+                    <div class="card shadow-lg p-3 bg-white rounded">
+                        <a href="{{ route('book.details', $book->id) }}">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <a class="text-muted"
-                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
-                                </p>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <a class="text-muted"
+                                    href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                            </p>
 
-
-                                <div class="star-rating d-inline-flex align-items-center"
-                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
-                                    <div class="back-stars">
+                            <div class="star-rating d-inline-flex align-items-center"
+                                title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                <div class="back-stars">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    @endfor
+                                    <div class="front-stars"
+                                        style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
                                         @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @if ($i <= $book->rating->avg('rating') * 20)
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            @else
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            @endif
                                         @endfor
-                                        <div class="front-stars"
-                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $book->rating->avg('rating') * 20)
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                @else
-                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                @endif
-                                            @endfor
-                                        </div>
                                     </div>
-                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>  --}}
-
-                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
+                                <span
+                                    class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
-
-                            @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
-                                    <form action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
-                                @endauth
-                            @else
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
-                                </form>
-                            @endif
                         </div>
-                    </a>
+
+                        @auth
+
+
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                        Booking Request
+                                    </button>
+                                @else
+
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+
+                                @endif
+                            @endif
+                        @endauth
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -485,61 +453,129 @@
             <h2>Featured Books</h2>
         @endif
 
-        <div class="row">
+        <div class="row mb-4">
             @foreach ($featuredBook as $book)
-                <div class="col-md-4 col-lg-3 mt-4">
-                    <a href="{{ route('book.details', $book->id) }}">
-                        <div class="card shadow-lg p-3 bg-white rounded">
+                <div class="col-md-3 mt-4">
+                    <div class="card shadow-lg p-3 bg-white rounded">
+                        <a href="{{ route('book.details', $book->id) }}">
                             <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
                                 alt="Book Cover" style="height: 260px; object-fit: cover;">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <a class="text-muted"
-                                        href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
-                                </p>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <a class="text-muted"
+                                    href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                            </p>
 
-
-                                <div class="star-rating d-inline-flex align-items-center"
-                                    title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
-                                    <div class="back-stars">
+                            <div class="star-rating d-inline-flex align-items-center"
+                                title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                <div class="back-stars">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    @endfor
+                                    <div class="front-stars"
+                                        style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
                                         @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @if ($i <= $book->rating->avg('rating') * 20)
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            @else
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            @endif
                                         @endfor
-                                        <div class="front-stars"
-                                            style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $book->rating->avg('rating') * 20)
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                @else
-                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                @endif
-                                            @endfor
-                                        </div>
                                     </div>
-                                    {{-- <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span> --}}
-
-                                    <span class="ml-1 theme-font text-muted">({{ $book->rating->count() }} Reviews)</span>
                                 </div>
+                                <span
+                                    class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                             </div>
-
-                            @if ($book->quantities->sum('current_qty') !== 0)
-                                @auth
-                                    <form action="{{ route('book.borrow') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bookId" value="{{ $book->id }}">
-                                        <input type="hidden" name="userId" value="{{ auth()->user()->id }}">
-                                        <button type="submit" class="applied btn btn-primary w-100">Borrow</button>
-                                    </form>
-                                @endauth
-                            @else
-                                <form action="javascript:;">
-                                    <button type="submit" class="btn btn-danger w-100">Stock Out</button>
-                                </form>
-                            @endif
                         </div>
-                    </a>
+
+                        @auth
+                            @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+
+                                    <button type="submit" class="btn btn-info w-100">Already Booked</button>
+
+                            @else
+                                @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                        Booking Request
+                                    </button>
+                                @else
+
+                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+
+                                @endif
+                            @endif
+                        @endauth
+
+                    </div>
                 </div>
             @endforeach
+
         </div>
-    </div>
-@endsection
+
+        {{-- **** Modal ******** --}}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('book.borrow') }}" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+
+                        </div>
+                        <div class="modal-body">
+                            <input id="book_id" name="bookId" type="hidden">
+                            <input type="hidden" name="userId"
+                                value="{{ auth()->check() ? auth()->user()->id : '' }}">
+                            <label for="bookingDate" class="form-label">Select Your Return Date</label>
+                            <input type="date" name="returned_at" id="bookingDate" class="form-control" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    @endsection
+
+    @push('scripts')
+    <script>
+        // **** Usre id And Book id *****
+        document.addEventListener('DOMContentLoaded', function() {
+            var exampleModal = document.getElementById('exampleModal');
+            var bookIdInput = exampleModal.querySelector('#book_id');
+
+            exampleModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var value = button.getAttribute('data-bs-value');
+                bookIdInput.value = value;
+            });
+
+            exampleModal.addEventListener('hidden.bs.modal', function() {
+                // Clear the input field
+                bookIdInput.value = '';
+            });
+        });
+
+        // **** Work with date *****
+        document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.getElementById('bookingDate');
+
+            var today = new Date();
+            var todayString = today.toISOString().split('T')[0];
+
+            var fiveDaysFromNow = new Date();
+            fiveDaysFromNow.setDate(today.getDate() + 3);
+            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
+
+            dateInput.setAttribute('min', todayString);
+            dateInput.setAttribute('max', fiveDaysFromNowString);
+        })
+    </script>
+    @endpush

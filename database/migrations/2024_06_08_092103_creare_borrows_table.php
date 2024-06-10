@@ -1,10 +1,8 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 
 return new class extends Migration
 {
@@ -16,15 +14,15 @@ return new class extends Migration
         Schema::create('borrows', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('qty_id')->constrained('book_quantities')->onDelete('cascade');
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
             $table->date('issued_at')->nullable();
             $table->date('due_at')->nullable();
             $table->date('returned_at')->nullable();
-            $table->enum('status', ['active', 'pending', 'reject', 'return'])->default('pending');
+            $table->enum('status', ['receive', 'pending', 'reject', 'return'])->default('pending');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

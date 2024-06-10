@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Publisher;
 use App\Models\Review;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -66,6 +68,9 @@ class DashboardController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
-        return view('user', compact('category', 'author', 'publisher'));
+        $borrowBooks = Borrow::where('user_id', Auth::user()->id)->get();
+
+
+        return view('user', compact('category', 'author', 'publisher', 'borrowBooks'));
     }
 }

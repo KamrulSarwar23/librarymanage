@@ -45,7 +45,7 @@ class AdminAuthController extends Controller
         }
     }
 
-  
+
     public function adminDestroy(Request $request)
     {
         Auth::guard('web')->logout();

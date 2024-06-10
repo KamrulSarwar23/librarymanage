@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('newui/css/jquery.fancybox.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('newui/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('userdashboard/style.css') }}" />
 
 </head>
 
@@ -68,6 +69,8 @@
         @endif
     </script>
 
+
+    @stack('scripts')
 
 <script>
     $(document).ready(function() {

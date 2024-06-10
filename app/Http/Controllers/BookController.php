@@ -23,15 +23,15 @@ class BookController extends Controller
         $books = Book::with(['quantities' => function($query){
             $query->where('status', 'activate');
         }])->orderBy('created_at', 'DESC')->paginate(10);
-    
+
         foreach ($books as $book) {
             $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
             $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
         }
-    
+
         return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
     }
-    
+
 
     public function filterByType(Request $request)
     {
