@@ -15,8 +15,6 @@ class BookQuantitiesTableSeeder extends Seeder
     {
         $books = DB::table('books')->get();
 
-
-
         foreach ($books as $book) {
             $quantity = rand(0, 100);
             DB::table('book_quantities')->insert([
