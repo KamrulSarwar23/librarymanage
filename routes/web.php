@@ -118,6 +118,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
+    
 });
 
 
@@ -135,4 +136,5 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Book Borrow Route
     Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
+   
 });

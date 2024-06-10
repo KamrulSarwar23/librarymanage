@@ -57,7 +57,10 @@
 
         th,
         td {
-            font-size: 10px
+            font-size: 11px
+        }
+        th{
+            white-space: nowrap;
         }
 
         .table tr:nth-child(even) {
@@ -111,9 +114,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($borrows as $borrow)
+                @foreach ($borrows as $index => $borrow)
                     <tr>
-                        <td>{{ $borrow->id }}</td>
+                        <td>{{ $index+1 }}</td>
                         <td>{{ $borrow->user->name }}</td>
                         <td>{{ $borrow->book->title }}</td>
                         <td>{{ $borrow->book->author->name }}</td>
