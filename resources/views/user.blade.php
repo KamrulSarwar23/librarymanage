@@ -298,11 +298,13 @@
                                             </div>
                                         </div>
                                     @else
-                                        <h4 class="text-center mt-5 text-primary">You didn't add any books yet</h4>
+                                        <h4 class="text-center mt-3 py-5 text-primary">You didn't add any books yet</h4>
                                     @endif
+
                                     <div>
                                         {{ $borrowBooks->links() }}
                                     </div>
+                                    
                                 </div>
                             </div>
 

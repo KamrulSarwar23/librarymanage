@@ -93,7 +93,7 @@
             <li class="dropdown {{ request()->routeIs('book.borrowinfo') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fa-solid fa-shield-halved"></i>
-                    <span>Borrow</span></a>
+                    <span>Online Book Borrow</span></a>
 
                 <ul class="dropdown-menu">
                     <li class="{{ request()->routeIs('book.borrowinfo') && !request('status') ? 'active' : '' }}">
@@ -128,6 +128,11 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="dropdown {{ setActive(['offline-book-borrow', 'offline-book-borrow-edit']) }}">
+                <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Offline Book Borrow</span></a>
+            </li>
+
 
             <li class="dropdown {{ setActive(['report']) }}">
                 <a href="{{ route('report') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>

@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OfflineBookBorrowController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\QuantityController;
@@ -44,6 +45,7 @@ Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'
 Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');
 
 Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
+
 
 
 
@@ -97,12 +99,20 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('book', BookController::class);
 
 
-    // Book Borrow
+    // Book Borrow offline
+    Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
+    Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
+    Route::get('/book/offline-borrow/system/edit/{id}', [OfflineBookBorrowController::class, 'edit'])->name('offline-book-borrow-edit');
+    Route::put('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
+
+
+    // Book Borrow online
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
     Route::get('/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
     Route::get('/borrow-book-filter-by-status', [BookBorrowController::class, 'borrowBookFilterByStatus'])->name('borrow-book-filter-by-status');
 
+   
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);
@@ -114,21 +124,24 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/messages/destroy/{id}', [MessageController::class, 'destroy'])->name('message.destroy');
 
 
-    //  ====== books quantity Manage =======
+    //  books quantity Manage
     Route::get('/book/{bookId}/quantity', [QuantityController::class, 'index'])->name('quantity.index');
     Route::put('/book/{bookId}/quantity/status', [QuantityController::class, 'changeStatus'])->name('quantity.status');
     Route::post('/book/add_quantity', [QuantityController::class, 'store'])->name('quantity.store');
     Route::delete('/book/quantity/{quantityId}', [QuantityController::class, 'destroy'])->name('quantity.delete');
 
+    // Reader by books
     Route::get('/book/{bookId}/readers', [BookInventoryController::class, 'index'])->name('readers.index');
 
-
+    // reports route
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
 
     //User Policy
     Route::get('/user-policy', [UserPolicyController::class, 'create'])->name('user-policy.create');
     Route::post('/user-policy', [UserPolicyController::class, 'store'])->name('user-policy.store');
+
+
 });
 
 
