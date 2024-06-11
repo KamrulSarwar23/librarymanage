@@ -44,7 +44,7 @@ class BookBorrowController extends Controller
 
 
             if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
-                // dd("hewllo");
+                
                 $bookQuantity->decrement('current_qty');
             }
 

@@ -84,6 +84,7 @@
                     'inactive.book',
                     'books.filterByType',
                     'quantity.index',
+                    'readers.index'
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
@@ -145,6 +146,13 @@
 
             </li>
 
+
+            <li class="dropdown {{ setActive(['user-policy.create']) }}">
+                <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
+                        Policy</span></a>
+
+            </li>
+
             <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
                 <a href="{{ route('user-manage.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Users</span></a>
@@ -157,11 +165,6 @@
 
             </li>
 
-            <li class="dropdown {{ setActive(['user-policy.create']) }}">
-                <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
-                        Policy</span></a>
-
-            </li>
 
         </ul>
 

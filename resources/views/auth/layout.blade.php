@@ -24,6 +24,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/vendor/select2/select2.min.css') }}">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/vendor/daterangepicker/daterangepicker.css') }}">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/css/main.css') }}">
@@ -62,6 +65,15 @@
     <script src="{{ asset('auth/vendor/countdowntime/countdowntime.js') }}"></script>
     <!--===============================================================================================-->
     <script src="{{ asset('auth/js/main.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+    </script>
 
 </body>
 

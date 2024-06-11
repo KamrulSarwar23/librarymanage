@@ -20,7 +20,7 @@ class CategoriesTableSeeder extends Seeder
             DB::table('categories')->insert([
                 'name' => $faker->word,
                 'image' => 'default_image.jpg',
-                'status' => $faker->randomElement(['active', 'inactive']),
+                'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

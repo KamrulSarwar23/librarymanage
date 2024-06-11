@@ -31,10 +31,9 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::user()->status === 'inactive') {
             Auth::guard('web')->logout();
-            flash()->success('Your Account Has Been Banned');
-            return redirect('login')->with(['status' => 'Your Account Has Been Banned']);
+            flash()->success('Your Account Not Approved Yet; Please Contact Us');
+            return redirect('login')->with(['status' => 'Your Account Not Approved Yet; Please Contact Us']);
         }
-
 
         if (Auth::attempt($request->only('email', 'password'))) {
 

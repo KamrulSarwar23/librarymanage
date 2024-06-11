@@ -51,6 +51,10 @@
                     <span class="focus-input100" data-placeholder="Password Confirmation"></span>
                 </div>
 
+                @if (session('register'))
+                <h6 class="text-success mb-2 text-center">{{ session('register') }}</h6>
+                @endif
+
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
@@ -73,4 +77,5 @@
             </form>
         </div>
     </div>
+
 @endsection
