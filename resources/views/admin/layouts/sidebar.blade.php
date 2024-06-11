@@ -84,6 +84,7 @@
                     'inactive.book',
                     'books.filterByType',
                     'quantity.index',
+                    'readers.index'
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
@@ -92,7 +93,7 @@
             <li class="dropdown {{ request()->routeIs('book.borrowinfo') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fa-solid fa-shield-halved"></i>
-                    <span>Borrow</span></a>
+                    <span>Online Book Borrow</span></a>
 
                 <ul class="dropdown-menu">
                     <li class="{{ request()->routeIs('book.borrowinfo') && !request('status') ? 'active' : '' }}">
@@ -128,6 +129,11 @@
                 </ul>
             </li>
 
+            <li class="dropdown {{ setActive(['offline-book-borrow', 'offline-book-borrow-edit']) }}">
+                <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Offline Book Borrow</span></a>
+            </li>
+
+
             <li class="dropdown {{ setActive(['report']) }}">
                 <a href="{{ route('report') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>
             </li>
@@ -145,6 +151,13 @@
 
             </li>
 
+
+            <li class="dropdown {{ setActive(['user-policy.create']) }}">
+                <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
+                        Policy</span></a>
+
+            </li>
+
             <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
                 <a href="{{ route('user-manage.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Users</span></a>
@@ -157,11 +170,6 @@
 
             </li>
 
-            <li class="dropdown {{ setActive(['user-policy.create']) }}">
-                <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
-                        Policy</span></a>
-
-            </li>
 
         </ul>
 

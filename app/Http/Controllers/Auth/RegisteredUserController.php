@@ -44,7 +44,8 @@ class RegisteredUserController extends Controller
         
         event(new Registered($user));
 
+        flash()->success('Your account created successfully; You will received a verification email within 6 hours');
 
-        return redirect()->route('login');
+        return redirect()->route('register')->with('register', 'Your account created successfully; You will received a verification email within 6 hours');
     }
 }

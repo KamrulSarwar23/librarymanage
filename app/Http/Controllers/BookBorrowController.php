@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class BookBorrowController extends Controller
 {
+
     public function index(Request $request)
     {
         // Retrieve the status query parameter
@@ -44,9 +45,10 @@ class BookBorrowController extends Controller
 
 
             if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
-                // dd("hewllo");
+                
                 $bookQuantity->decrement('current_qty');
             }
+            
 
             $updateData = ['status' => $status];
 
@@ -115,4 +117,9 @@ class BookBorrowController extends Controller
 
         return view('admin.borrow.index', compact('borrowedBooks'));
     }
+
+
+    // Offline book borrow logic
+
+
 }

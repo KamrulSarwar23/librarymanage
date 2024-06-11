@@ -550,7 +550,10 @@
 
             var fiveDaysFromNow = new Date();
 
-            fiveDaysFromNow.setDate(today.getDate() + 5);
+             var borrowDays = {{ @$policy->days }};
+
+            fiveDaysFromNow.setDate(today.getDate() + borrowDays);
+
             var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
             dateInput.setAttribute('min', todayString);

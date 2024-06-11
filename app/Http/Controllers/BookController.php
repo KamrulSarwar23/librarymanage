@@ -41,7 +41,15 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::where('type', $type)->orderBy('created_at', 'DESC')->paginate(10);
+        $books = Book::with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->where('type', $type)->orderBy('created_at', 'DESC')->paginate(10);
+
+        foreach ($books as $book) {
+            $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
+            $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
+        }
+
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -57,7 +65,16 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::where('preview', 'active')->orderBy('created_at', 'DESC')->paginate(10);
+
+        $books = Book::with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->where('preview', 'active')->orderBy('created_at', 'DESC')->paginate(10);
+
+        foreach ($books as $book) {
+            $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
+            $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
+        }
+
 
         if (count($books) == null) {
             flash()->error('No Data Found');
@@ -73,7 +90,14 @@ class BookController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
-        $books = Book::where('preview', 'inactive')->paginate(10);
+        $books = Book::with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->where('preview', 'inactive')->orderBy('created_at', 'DESC')->paginate(10);
+
+        foreach ($books as $book) {
+            $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
+            $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
+        }
 
         if (count($books) == null) {
             flash()->error('No Data Found');
@@ -106,7 +130,14 @@ class BookController extends Controller
             $query->whereDate('created_at', $endDate);
         }
 
-        $books = $query->orderBy('created_at', 'DESC')->paginate(10);
+        $books = $query->with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->orderBy('created_at', 'DESC')->paginate(10);
+
+        foreach ($books as $book) {
+            $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
+            $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
+        }
 
         if ($books->isEmpty()) {
             flash()->error('No data found.');
@@ -150,7 +181,15 @@ class BookController extends Controller
             });
         }
 
-        $books = $query->orderBy('created_at', 'DESC')->paginate(12);
+
+        $books = $query->with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->orderBy('created_at', 'DESC')->paginate(10);
+
+        foreach ($books as $book) {
+            $book->quantity = $book->quantities->where('status', 'activate')->sum('quantity');
+            $book->current_qty = $book->quantities->where('status', 'activate')->sum('current_qty');
+        }
 
 
         if ($books->isEmpty()) {

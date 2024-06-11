@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\LoginMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use File;
+use Illuminate\Support\Facades\Mail;
+
 class UserController extends Controller
 {
     /**
@@ -59,9 +62,10 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
 
-        User::findOrFail($id)->update([
+        $user = User::findOrFail($id)->update([
             'status' =>$request->status
         ]);
+
         flash()->success('Status Updated Succesfully');
         return redirect()->route('user-manage.index');
     }
@@ -135,11 +139,17 @@ class UserController extends Controller
 
 
     
-    public function changeStatus(Request $request){
-        $category = User::findOrFail($request->id);
-        $category->status = $request->status == 'true' ? 'active' : 'inactive';
-        $category->save();
+    public function changeStatus(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->status = $request->status == 'true' ? 'active' : 'inactive';
+        $user->save();
 
-        return response()->json(['message' => 'Status has been Updated!']);
+        if ($user->status === 'active') {
+            $email = $user->email;
+            Mail::to($email)->send(new LoginMail($user));
+        }
+
+        return response()->json(['message' => 'Status has been updated!']);
     }
 }

@@ -418,22 +418,21 @@
 
             // **** Work with date *****
             document.addEventListener('DOMContentLoaded', function() {
-                var dateInput = document.getElementById('bookingDate');
+            var dateInput = document.getElementById('bookingDate');
 
-                var today = new Date();
-                var todayString = today.toISOString().split('T')[0];
+            var today = new Date();
+            var todayString = today.toISOString().split('T')[0];
 
-                var fiveDaysFromNow = new Date();
-                fiveDaysFromNow.setDate(today.getDate() + 3);
-                var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
+            var fiveDaysFromNow = new Date();
 
-                dateInput.setAttribute('min', todayString);
-                dateInput.setAttribute('max', fiveDaysFromNowString);
+             var borrowDays = {{ @$policy->days }};
 
-                // showing the corresponding book name in the review modal
-                document.getElementById('add-review-btn').addEventListener('click', function() {
-                    document.getElementById('review-book-title').textContent = this.getAttribute('data-book');
-                })
-            })
+            fiveDaysFromNow.setDate(today.getDate() + borrowDays);
+
+            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
+
+            dateInput.setAttribute('min', todayString);
+            dateInput.setAttribute('max', fiveDaysFromNowString);
+         })
         </script>
     @endpush

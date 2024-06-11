@@ -34,7 +34,7 @@ class BooksTableSeeder extends Seeder
                 'summary' => $faker->paragraph,
                 'cover_image' => 'frontend/images/book.jpg',
                 'type' => $faker->randomElement(['popular', 'recent', 'featured', 'recommended']),
-                'preview' => $faker->randomElement(['active', 'inactive']),
+                'preview' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

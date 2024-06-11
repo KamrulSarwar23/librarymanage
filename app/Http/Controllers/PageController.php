@@ -55,8 +55,10 @@ class PageController extends Controller
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
 
+        $policy = Policy::firstOrFail();
 
-        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
+
+        return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook' ,'policy'));
     }
 
     public function filterByCategory($id)
@@ -203,7 +205,9 @@ class PageController extends Controller
                     ->orWhere('publisher_id', $booksdetails->publisher_id);
             })->take(4)->get();
 
-        return view('frontend.book-details', compact('totalCurrentQty', 'booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating'));
+        $policy = Policy::firstOrFail();
+
+        return view('frontend.book-details', compact('totalCurrentQty', 'booksdetails', 'enjoyedbook', 'category', 'author', 'publisher', 'booksReview', 'totalReviews', 'averageRating', 'policy'));
     }
 
 

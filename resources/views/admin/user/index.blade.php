@@ -69,9 +69,9 @@
 
 
                                             <td>
-                                                <a class="btn btn-info mr-2"
+                                                {{-- <a class="btn btn-info mr-2"
                                                 href="{{ route('user-manage.edit', $user->id) }}"><i class="fas fa-edit"></i>
-                                            </a>
+                                            </a> --}}
                                                 <a class="delete-item btn btn-danger"
                                                     href="{{ route('user-manage.destroy', $user->id) }}"><i class="fas fa-trash"></i></a>
 
