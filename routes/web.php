@@ -47,8 +47,6 @@ Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->
 Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
 
 
-
-
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Dashboard Routes
@@ -65,7 +63,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pending-category', [CategoryController::class, 'pendingCategory'])->name('pending.category');
     Route::put('/category/status', [CategoryController::class, 'changeStatus'])->name('category.status');
     Route::resource('category', CategoryController::class);
-
 
     // Publisher Routes
     Route::get('/active-publishers', [PublisherController::class, 'activePublisher'])->name('active.publisher');
@@ -112,7 +109,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
     Route::get('/borrow-book-filter-by-status', [BookBorrowController::class, 'borrowBookFilterByStatus'])->name('borrow-book-filter-by-status');
 
-   
+
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);

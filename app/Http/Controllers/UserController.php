@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountBanned;
 use App\Mail\LoginMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class UserController extends Controller
     }
 
 
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -29,7 +30,7 @@ class UserController extends Controller
     {
         return view('admin.user.create');
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -138,7 +139,6 @@ class UserController extends Controller
     }
 
 
-    
     public function changeStatus(Request $request)
     {
         $user = User::findOrFail($request->id);
@@ -148,8 +148,12 @@ class UserController extends Controller
         if ($user->status === 'active') {
             $email = $user->email;
             Mail::to($email)->send(new LoginMail($user));
+            return response()->json(['message' => 'Account Activation Email Sent To User']);
+        }else{
+            $email = $user->email;
+            Mail::to($email)->send(new AccountBanned($user));
+            return response()->json(['message' => 'Account Banned Email Sent To User']);
         }
 
-        return response()->json(['message' => 'Status has been updated!']);
     }
 }
