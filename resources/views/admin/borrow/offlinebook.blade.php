@@ -120,7 +120,7 @@
                                                 <td class="text-info">Not Return Yet</td>
                                             @endif
 
-                                            <td><span class="badge rounded-pill bg-info">{{ $item->platform }}</span></td>
+                                            <td><span class="badge rounded-pill bg-primary">{{ $item->platform }}</span></td>
 
                                             <td>
                                                 @if ($item->status == 'return')
@@ -132,14 +132,12 @@
 
 
                                             <td>
-                                                <form action="{{ route('offline-book-borrow-update',$item->id) }}" method="POST">
+                                                <form id="updateForm" action="{{ route('offline-book-borrow-update', $item->id) }}" method="POST">
                                                     @csrf
-                                                    @method('PUT')
 
-                                                  <button type="submit" class="btn btn-primary">Update</button>
+                                                    <button type="submit" class="btn btn-primary applied">Update</button>
                                                 </form>
 
-                                           
                                             </td>
 
                                         </tr>

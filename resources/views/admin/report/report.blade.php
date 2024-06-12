@@ -110,6 +110,7 @@
                     <th>Issued At</th>
                     <th>Due At</th>
                     <th>Returned At</th>
+                    <th>Platform</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -123,7 +124,13 @@
                         <td>{{ $borrow->book->publisher->name }}</td>
                         <td>{{ $borrow->issued_at }}</td>
                         <td>{{ $borrow->due_at }}</td>
+                        @if ($borrow->returned_at)
                         <td>{{ $borrow->returned_at }}</td>
+                        @else
+                        <td>Not Return Yet</td>
+                        @endif
+                        
+                        <td>{{ ucfirst($borrow->platform) }}</td>
                         <td>{{ ucfirst($borrow->status) }}</td>
                     </tr>
                 @endforeach

@@ -61,6 +61,7 @@ class PageController extends Controller
         return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook' ,'policy'));
     }
 
+    
     public function filterByCategory($id)
     {
 

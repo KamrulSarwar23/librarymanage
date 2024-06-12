@@ -25,7 +25,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/', [PageController::class, 'index'])->name('home.page');
 
-Route::get('/all-books', [PageController::class, 'allBook'])->name('all.books');
+Route::get('all-books', [PageController::class, 'allBook'])->name('all.books');
 
 Route::get('/admin/login', [AdminAuthController::class, 'adminLogin'])->name('admin.login');
 
@@ -104,7 +104,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Book Borrow offline
     Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
-    Route::put('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
+    Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
 
 
     // Book Borrow online

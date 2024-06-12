@@ -47,7 +47,7 @@ class OfflineBookBorrowController extends Controller
 
         $bookQuantity = BookQuantity::where('book_id', $request->book_id)->where('current_qty', '>', 0)->first();
 
-        $books = Book::with(['quantities' => function($query){
+        $books = Book::with(['quantities' => function ($query) {
             $query->where('current_qty', '>', 0);
         }])->where('id', $request->book_id)->first();
 
@@ -57,7 +57,7 @@ class OfflineBookBorrowController extends Controller
             return redirect()->back();
         }
 
-        $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id',$request->book_id)->whereNull('returned_at')->count();
+        $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id', $request->book_id)->whereNull('returned_at')->count();
 
         if ($borrowCount) {
             flash()->error('Book Already Added');
@@ -75,8 +75,6 @@ class OfflineBookBorrowController extends Controller
             'platform' => 'offline'
         ]);
 
-     
-
         $bookQuantity->decrement('current_qty');
 
         flash()->success('Submit Successfully');
@@ -88,26 +86,21 @@ class OfflineBookBorrowController extends Controller
     public function update(string $id, Request $request)
     {
         $borrow = Borrow::findOrFail($id);
-        
-        // Update the borrow status and returned_at
+
+        if (!is_null($borrow->returned_at)) {
+            flash()->error('Book Already Returned');
+            return redirect()->back();
+        }
+
         $borrow->update([
             'status' => 'return',
             'returned_at' => now('UTC'),
         ]);
 
-        $alreadyReturn = Borrow::findOrFail($id)->whereNotNull('returned_at');
-
-        if ($alreadyReturn) {
-            flash()->error('Book Already Return');
-            return redirect()->back();
-        }
-    
-        // Increment the current_qty for the borrowed book
         $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);
         $bookQuantity->increment('current_qty');
-    
+
         flash()->success('Book Return Successfully');
         return redirect()->back();
     }
-    
 }

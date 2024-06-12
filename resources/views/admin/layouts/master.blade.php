@@ -194,6 +194,57 @@
                     }
                 });
             });
+
+            $('body').on('click', '.applied', function(event) {
+                event.preventDefault();
+                let deleteUrl = $(this).attr('href');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do You want to Update This Borrow Status",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Update Now'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If user confirms, submit the form
+                        $(this).closest('form').submit();
+
+                        $.ajax({
+                            type: 'DELETE',
+                            url: deleteUrl,
+
+                            success: function(data) {
+                                if (data.status == 'success') {
+                                    Swal.fire(
+                                        'Applied',
+                                        data.message,
+                                        'success'
+                                    )
+
+                                    window.location.reload();
+
+                                } else if (data.status == 'error') {
+                                    Swal.fire(
+                                        'Cant Delete',
+                                        data.message,
+                                        'error'
+                                    )
+                                }
+
+                            },
+
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                            }
+                        })
+
+                    }
+                });
+            });
+
         });
     </script>
 
