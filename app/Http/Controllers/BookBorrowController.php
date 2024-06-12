@@ -22,7 +22,7 @@ class BookBorrowController extends Controller
         $status = $request->query('status');
 
         // Query the Borrow model based on the status parameter
-        $query = Borrow::orderBy('created_at', 'DESC');
+        $query = Borrow::where('platform', 'online')->orderBy('created_at', 'DESC');
 
         if ($status) {
             $query->where('status', $status);
