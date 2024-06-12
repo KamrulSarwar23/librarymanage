@@ -195,7 +195,7 @@
 
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('active.book') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -214,7 +214,7 @@
 
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('inactive.book') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -232,7 +232,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('book.borrowinfo') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -250,7 +250,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('book.borrowinfo') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -268,7 +268,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('book.borrowinfo') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -286,7 +286,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('book.borrowinfo') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -304,7 +304,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.index') }}">
+                <a href="{{ route('book.borrowinfo') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -396,7 +396,7 @@
 
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('user-manage.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
@@ -414,7 +414,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="#">
+                <a href="{{ route('user-manage.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-th-large"></i>
