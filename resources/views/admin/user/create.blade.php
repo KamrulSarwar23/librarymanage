@@ -17,22 +17,34 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="" method="">
-                                
+                            <form action="{{ route('user-manage.store') }}" method="POST">
+                                @csrf
 
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" name="name">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" name="name">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="phone">
+                                        </div>
+                                    </div>
+
                                 </div>
 
 
-                                <div class="form-group">
-                                    <label for="inputState">Status</label>
-                                    <select id="inputState" class="form-control" name="status">
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                </div>
 
                                 <button type="submit" class="btn btn-primary">Create</button>
                             </form>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Account Banned</title>
+    <title>LMS Account Login Info</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,12 +61,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>Your Account Has Been Banned</h2>
+            <h2>Your Account Login Info</h2>
         </div>
         <div class="content">
-            <p>Hello, <strong>{{ $user->name }}</strong></p>
-            <h3>Your Account Has Been Banned</h3>
-            <h3>You cant login in to your account.</h3>
+            <p>Hello, <strong></strong></p>
+
+            <h3>Your Account Info</h3>
+            <h4>Email: {{ $email }}</h4>
+            <h4>Password: {{ $password }}</h4>
         </div>
         <div class="footer">
             <h3>If you have any questions, feel free to <a href="http://127.0.0.1:8000/contact">contact us</a>.</h3>

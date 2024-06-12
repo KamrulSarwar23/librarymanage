@@ -23,12 +23,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        {{-- <div class="card-header">
+                        <div class="card-header">
                             <h4>Create User</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('user-manage.create') }}" class="btn btn-info">Create New</a>
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">

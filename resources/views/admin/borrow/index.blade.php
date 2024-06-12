@@ -175,6 +175,7 @@
                                     <th>Book</th>
                                     <th>Author</th>
                                     <th>Publisher</th>
+                                    <th>Platform</th>
                                     <th>Request Time</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
@@ -189,6 +190,7 @@
                                             <td>{{ $book->book->title }}</td>
                                             <td>{{ $book->book->author->name }}</td>
                                             <td>{{ $book->book->publisher->name }}</td>
+                                            <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
                                             </td>
 

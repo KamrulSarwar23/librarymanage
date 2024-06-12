@@ -239,8 +239,8 @@
             <div class="mt-3 ml-auto">
                 {{ $books->links() }}
             </div>
-
         </div>
+
 
         @if (count($popularBook) > 0)
             <h2>Popular Books</h2>
@@ -301,9 +301,7 @@
                     </div>
                 </div>
             @endforeach
-
         </div>
-
 
         @if (count($recommendedBook) > 0)
             <h2>Recommended Books</h2>

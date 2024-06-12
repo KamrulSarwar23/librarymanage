@@ -17,7 +17,8 @@ class Borrow extends Model
         'qty_id',
         'returned_at',
         'status',
-        'notify'
+        'notify',
+        'platform'
     ];
 
     // Define the relationships with User and Book models

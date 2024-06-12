@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Mail\AccountBanned;
 use App\Mail\LoginMail;
+use App\Mail\UserAccountInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-
+use Str;
 class UserController extends Controller
 {
     /**
@@ -37,7 +40,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+        ]);
+
+        $password = Str::random(10);
+        $Hashpassword = Hash::make($password);
+        $email = $request->email;
+
+        User::create([
+            'name' => $request->name,
+            'email' =>  $email,
+            'phone' => $request->phone,
+            'status' => 'active',
+            'role' => 'user',
+            'password' => $Hashpassword
+        ]);
+
+        Mail::to($email)->send(new UserAccountInfo($email, $password));
+     
+        flash()->success('User Created Successfully & Info Mail Sent');
+        return redirect()->route('user-manage.index');
+
     }
 
     /**
@@ -151,8 +177,12 @@ class UserController extends Controller
             return response()->json(['message' => 'Account Activation Email Sent To User']);
         }else{
             $email = $user->email;
+
             Mail::to($email)->send(new AccountBanned($user));
-            return response()->json(['message' => 'Account Banned Email Sent To User']);
+
+            DB::table('sessions')->where('user_id', $user->id)->delete();
+
+            return response()->json(['message' => 'Account Banned Email Sent To User, User Logged Out']);
         }
 
     }

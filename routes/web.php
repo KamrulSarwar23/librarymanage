@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookBorrowController;
 use App\Http\Controllers\BookController;
@@ -20,7 +19,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPolicyController;
 use Illuminate\Support\Facades\Route;
 
+
 require __DIR__ . '/auth.php';
+
 
 Route::get('/', [PageController::class, 'index'])->name('home.page');
 
@@ -47,7 +48,11 @@ Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->
 Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
 
 
+
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/ajax-books', [OfflineBookBorrowController::class, 'getBooks'])->name('ajax.books');
+    Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users');
 
     // Dashboard Routes
     Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
@@ -99,7 +104,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Book Borrow offline
     Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
-    Route::get('/book/offline-borrow/system/edit/{id}', [OfflineBookBorrowController::class, 'edit'])->name('offline-book-borrow-edit');
     Route::put('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
 
 
@@ -138,7 +142,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/user-policy', [UserPolicyController::class, 'create'])->name('user-policy.create');
     Route::post('/user-policy', [UserPolicyController::class, 'store'])->name('user-policy.store');
 
-
+   
 });
 
 

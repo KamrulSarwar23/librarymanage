@@ -4,154 +4,110 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\BookQuantity;
+use App\Models\Borrow;
 use App\Models\OfflineBookBorrow;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OfflineBookBorrowController extends Controller
 {
+
+    public function getBooks()
+    {
+        $books = Book::where('preview', 'active')->get();
+        return response()->json($books);
+    }
+
+
+    public function getUsers()
+    {
+        $users = User::where('status', 'active')->get();
+        return response()->json($users);
+    }
+
     public function index()
     {
 
-        $books = Book::where('preview', 'active')->get();
-        $offlinebooks = OfflineBookBorrow::orderBy('created_at', 'DESC')->get();
-        return view('admin.borrow.offlinebook', compact('books', 'offlinebooks'));
+        $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->get();
+
+        return view('admin.borrow.offlinebook', compact('offlinebooks'));
     }
 
     public function store(Request $request)
     {
 
-
-        $bookQuantity = BookQuantity::where('book_id', $request->book_id)->where('current_qty', '>', 0)->first();
-
-
         $request->validate([
             'book_id' => 'required',
-            'name' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
-            'phone' => 'required',
+            'user_id' => 'required',
             'issue_date' => 'nullable',
             'due_date' => 'nullable',
             'return_date' => 'nullable',
-            'student_id' => 'required',
         ]);
 
-        OfflineBookBorrow::create([
+
+        $bookQuantity = BookQuantity::where('book_id', $request->book_id)->where('current_qty', '>', 0)->first();
+
+        $books = Book::with(['quantities' => function($query){
+            $query->where('current_qty', '>', 0);
+        }])->where('id', $request->book_id)->first();
+
+
+        if (count($books->quantities) <= 0) {
+            flash()->error('Book Not Available');
+            return redirect()->back();
+        }
+
+        $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id',$request->book_id)->whereNull('returned_at')->count();
+
+        if ($borrowCount) {
+            flash()->error('Book Already Added');
+            return redirect()->back();
+        }
+
+        Borrow::create([
             'book_id' => $request->book_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'issue_date' => null,
-            'due_date' => null,
-            'return_date' => null,
-            'student_id' => $request->student_id,
-            'status' => 'pending',
-            'BookQuantity_id' => $bookQuantity->id
+            'qty_id' => $bookQuantity->id,
+            'user_id' => $request->user_id,
+            'issued_at' => now('UTC'),
+            'due_at' => $request->due_date,
+            'returned_at' => null,
+            'status' => 'receive',
+            'platform' => 'offline'
         ]);
 
+     
+
+        $bookQuantity->decrement('current_qty');
 
         flash()->success('Submit Successfully');
+
         return redirect()->back();
-    }
-
-
-    public function edit(string $id)
-    {
-
-        $books = Book::where('preview', 'active')->get();
-        $offlinebooks = OfflineBookBorrow::findOrFail($id);
-        return view('admin.borrow.updateOfflinebook', compact('books', 'offlinebooks'));
     }
 
 
     public function update(string $id, Request $request)
     {
+        $borrow = Borrow::findOrFail($id);
+        
+        // Update the borrow status and returned_at
+        $borrow->update([
+            'status' => 'return',
+            'returned_at' => now('UTC'),
+        ]);
 
-        if ($request->status == 'return') {
+        $alreadyReturn = Borrow::findOrFail($id)->whereNotNull('returned_at');
 
-            $request->validate([
-                'book_id' => 'required',
-                'name' => 'required',
-                'email' => 'required|email',
-                'address' => 'required',
-                'phone' => 'required',
-                'issue_date' => 'required',
-                'due_date' => 'required',
-                'return_date' => 'required',
-                'student_id' => 'required',
-                'status' => 'nullable'
-            ]);
-
-            $offlineborrow = OfflineBookBorrow::findOrFail($id);
-
-
-            if ($offlineborrow->return_date !== null) {
-                flash()->error('Already Return');
-                return redirect()->back();
-            }
-
-
-            if ($offlineborrow->issue_date == null && $offlineborrow->due_date == null) {
-                flash()->error('Not Activated Yet');
-                return redirect()->back();
-            }
-
-            OfflineBookBorrow::findOrFail($id)->update(
-                [
-                    'return_date' => $request->return_date,
-                    'status' => $request->status,
-                ]
-            );
-
-            $bookQuantity = BookQuantity::where('book_id', $request->book_id)->where('current_qty', '>', 0)->first();
-
-            $bookQuantity->increment('current_qty');
-
-            flash()->success('Submit Successfully');
-            return redirect()->route('offline-book-borrow');
-        } else {
-            $request->validate([
-                'book_id' => 'required',
-                'name' => 'required',
-                'email' => 'required|email',
-                'address' => 'required',
-                'phone' => 'required',
-                'issue_date' => 'required',
-                'due_date' => 'required',
-                'return_date' => 'nullable',
-                'student_id' => 'required',
-                'status' => 'nullable'
-            ]);
-
-            $offlineborrow = OfflineBookBorrow::findOrFail($id);
-
-            if ($offlineborrow->issue_date !== null && $offlineborrow->due_date !== null) {
-                flash()->error('Already Activated');
-                return redirect()->back();
-            }
-
-            OfflineBookBorrow::findOrFail($id)->update(
-                [
-                    'book_id' => $request->book_id,
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'address' => $request->address,
-                    'phone' => $request->phone,
-                    'issue_date' => $request->issue_date,
-                    'due_date' => $request->due_date,
-                    'return_date' => null,
-                    'student_id' => $request->student_id,
-                    'status' => $request->status,
-                ]
-            );
-
-            $bookQuantity = BookQuantity::where('book_id', $request->book_id)->where('current_qty', '>', 0)->first();
-
-            $bookQuantity->decrement('current_qty');
-
-            flash()->success('Submit Successfully');
-            return redirect()->route('offline-book-borrow');
+        if ($alreadyReturn) {
+            flash()->error('Book Already Return');
+            return redirect()->back();
         }
+    
+        // Increment the current_qty for the borrowed book
+        $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);
+        $bookQuantity->increment('current_qty');
+    
+        flash()->success('Book Return Successfully');
+        return redirect()->back();
     }
+    
 }
