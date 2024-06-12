@@ -23,12 +23,12 @@
                             <h4>Offline Book Borrow</h4>
                         </div>
 
-                        <div class="card-header">
+                        {{--  <div class="card-header">
                             <h4>Create New User</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('user-manage.create') }}" class="btn btn-info">Create New User</a>
                             </div>
-                        </div>
+                        </div>  --}}
                         <div class="card-body">
                             <form action="{{ route('offline-book-borrow-store') }}" method="POST">
                                 @csrf

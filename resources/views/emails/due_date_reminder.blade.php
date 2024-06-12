@@ -69,7 +69,7 @@
         }
 
         .btn-custom {
-            background-color: #007bff;
+            background-color: #3ac5e7;
             color: #ffffff;
             padding: 10px 20px;
             border-radius: 5px;
