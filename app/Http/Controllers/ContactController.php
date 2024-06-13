@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Contact;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class ContactController extends Controller
             'message' => 'required|string|max:1000',
         ]);
 
-        Contact::create([
+        $message = Contact::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'email' => $request->email,

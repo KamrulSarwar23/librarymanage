@@ -52,10 +52,9 @@ class BookBorrowController extends Controller
         if ($borrowRecord->issued_at === null && in_array($status, ["return"])) {
 
             flash()->error('Book Not Issued Yet');
+
             return redirect()->back();
         }
-
-
 
         if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
             $bookQuantity->decrement('current_qty');

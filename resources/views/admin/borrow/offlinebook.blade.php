@@ -136,7 +136,6 @@
                                                 @endif
                                             </td>
 
-
                                             <td>
                                                 <form id="updateForm" action="{{ route('offline-book-borrow-update', $item->id) }}" method="POST">
                                                     @csrf

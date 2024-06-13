@@ -296,7 +296,6 @@
                                                         Available</span>
                                                 @endif
 
-
                                             </td>
 
                                             <td>

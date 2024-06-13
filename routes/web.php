@@ -19,7 +19,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPolicyController;
 use Illuminate\Support\Facades\Route;
 
-
 require __DIR__ . '/auth.php';
 
 
@@ -46,8 +45,6 @@ Route::get('/books/by-category/{id}', [PageController::class, 'filterByCategory'
 Route::get('/books/by-author/{id}', [PageController::class, 'filterByAuthor'])->name('book.by-author');
 
 Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublisher'])->name('book.by-publisher');
-
-
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
@@ -98,7 +95,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('book', BookController::class);
 
 
-    
     // Book Borrow offline
     Route::get('/ajax-books', [OfflineBookBorrowController::class, 'getBooks'])->name('ajax.books');
     Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users');
@@ -112,18 +108,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
     Route::get('offline/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
    
-
-
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);
     Route::delete('/user/destroy/{id}', [MessageController::class, 'destroy'])->name('user.destroy');
 
-
     // Message Routes
     Route::get('/messages', [MessageController::class, 'index'])->name('message.index');
     Route::delete('/messages/destroy/{id}', [MessageController::class, 'destroy'])->name('message.destroy');
-
 
     //  books quantity Manage
     Route::get('/book/{bookId}/quantity', [QuantityController::class, 'index'])->name('quantity.index');
@@ -142,9 +134,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/user-policy', [UserPolicyController::class, 'create'])->name('user-policy.create');
     Route::post('/user-policy', [UserPolicyController::class, 'store'])->name('user-policy.store');
 
-   
 });
-
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
