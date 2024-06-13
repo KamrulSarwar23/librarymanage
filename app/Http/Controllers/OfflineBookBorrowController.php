@@ -103,4 +103,31 @@ class OfflineBookBorrowController extends Controller
         flash()->success('Book Return Successfully');
         return redirect()->back();
     }
+
+
+    public function offlineBorrowBookSearch(Request $request)
+        {
+            $searchQuery = $request->input('search_query');
+
+            $query = Borrow::query();
+
+            if (!empty($searchQuery)) {
+                $query->where(function ($query) use ($searchQuery) {
+
+                    $query->where('status', 'like', '%' . $searchQuery . '%')
+
+                        ->orWhereHas('user', function ($q) use ($searchQuery) {
+                            $q->where('name', 'like', '%' . $searchQuery . '%');
+                        })
+
+                        ->orWhereHas('user', function ($q) use ($searchQuery) {
+                            $q->where('email', 'like', '%' . $searchQuery . '%');
+                        });
+                });
+            }
+
+            $offlinebooks = $query->where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(10);
+
+            return view('admin.borrow.offlinebook', compact('offlinebooks'));
+        }
 }

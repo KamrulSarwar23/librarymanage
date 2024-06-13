@@ -79,6 +79,18 @@
                         <div class="card-header">
                             <h4>All Offline Book Borrows</h4>
                         </div>
+                        <li class="d-flex align-items-center ml-auto mr-5">
+
+                            <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('offline-book-borrow') }}">Clear
+                                Search</a>
+
+                            <form action="{{ route('offline-book-borrow-search') }}" method="GET" class="d-flex mt-3">
+                                <input class="form-control me-2 mr-2" type="text" placeholder="Search"
+                                    name="search_query">
+                                <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
+                            </form>
+
+                        </li>
 
                         <div class="card-body">
                             <div class="table-responsive">

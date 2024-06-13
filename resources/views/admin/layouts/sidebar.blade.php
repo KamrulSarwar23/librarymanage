@@ -84,7 +84,7 @@
                     'inactive.book',
                     'books.filterByType',
                     'quantity.index',
-                    'readers.index'
+                    'readers.index',
                 ]) }}">
                 <a href="{{ route('book.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Books</span></a>
@@ -129,13 +129,16 @@
                 </ul>
             </li>
 
-            <li class="dropdown {{ setActive(['offline-book-borrow', 'offline-book-borrow-edit']) }}">
-                <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Offline Book Borrow</span></a>
+            <li
+                class="dropdown {{ setActive(['offline-book-borrow', 'offline-book-borrow-edit', 'offline-book-borrow-search']) }}">
+                <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Offline Book Borrow</span></a>
             </li>
 
 
             <li class="dropdown {{ setActive(['report']) }}">
-                <a href="{{ route('report') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>Report</span></a>
+                <a href="{{ route('report') }}" class="nav-link"><i
+                        class="fa-solid fa-tags"></i><span>Report</span></a>
             </li>
 
             <li class="dropdown {{ setActive(['admin.book-review', 'active.review', 'pending.review']) }}">

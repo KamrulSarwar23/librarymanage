@@ -123,36 +123,6 @@
                         @if (!request()->status)
                             <li class="d-flex align-items-center ml-auto mr-5">
 
-                                <div class="dropdown">
-                                    <button class="btn btn-info dropdown-toggle py-2 mt-3 mr-3" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Filter By Status
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'return' ? 'active' : '' }}"
-                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'return']) }}">Returned</a>
-                                        </li>
-
-                                        <li>
-                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'active' ? 'active' : '' }}"
-                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'active']) }}">Active</a>
-                                        </li>
-
-                                        <li>
-                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'pending' ? 'active' : '' }}"
-                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'pending']) }}">Pending</a>
-                                        </li>
-
-                                        <li>
-                                            <a class="dropdown-item btn-info {{ request()->routeIs('borrow-book-filter-by-status') && request('status') === 'reject' ? 'active' : '' }}"
-                                                href="{{ route('borrow-book-filter-by-status', ['status' => 'reject']) }}">Rejected</a>
-                                        </li>
-
-                                    </ul>
-
-                                </div>
-
                                 <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('book.borrowinfo') }}">Clear
                                     Search</a>
 
@@ -173,8 +143,7 @@
                                     <th>User Name</th>
                                     <th>User Email</th>
                                     <th>Book</th>
-                                    <th>Author</th>
-                                    <th>Publisher</th>
+                                
                                     <th>Platform</th>
                                     <th>Request Time</th>
                                     <th>Issue Date</th>
@@ -188,8 +157,7 @@
                                             <td>{{ $book->user->name }}</td>
                                             <td>{{ $book->user->email }}</td>
                                             <td>{{ $book->book->title }}</td>
-                                            <td>{{ $book->book->author->name }}</td>
-                                            <td>{{ $book->book->publisher->name }}</td>
+                                  
                                             <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
                                             </td>

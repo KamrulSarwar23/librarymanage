@@ -105,13 +105,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
     Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
-
+    Route::get('online/book/borrow/search', [OfflineBookBorrowController::class, 'offlineBorrowBookSearch'])->name('offline-book-borrow-search');
 
     // Book Borrow online
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
-    Route::get('/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
-    Route::get('/borrow-book-filter-by-status', [BookBorrowController::class, 'borrowBookFilterByStatus'])->name('borrow-book-filter-by-status');
+    Route::get('offline/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
+   
 
 
     // User Routes

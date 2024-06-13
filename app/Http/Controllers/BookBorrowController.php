@@ -102,7 +102,7 @@ class BookBorrowController extends Controller
                 });
             }
 
-            $borrowedBooks = $query->orderBy('created_at', 'DESC')->paginate(10);
+            $borrowedBooks = $query->where('platform', 'online')->orderBy('created_at', 'DESC')->paginate(10);
 
             return view('admin.borrow.index', compact('borrowedBooks'));
         }
