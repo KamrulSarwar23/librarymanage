@@ -35,50 +35,107 @@ class BookBorrowController extends Controller
 
 
     public function updateInfo(string $id, Request $request)
-    {
-        try {
-            DB::beginTransaction();
+{
+    try {
+        DB::beginTransaction();
 
-            $borrowRecord = Borrow::findOrFail($id);
-            $status = $request->status;
-            $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
+        $borrowRecord = Borrow::findOrFail($id);
+        $status = $request->status;
+        $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
 
-
-            if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
-                
-                $bookQuantity->decrement('current_qty');
-            }
-            
-
-            $updateData = ['status' => $status];
-
-            if ($status === "receive") {
-                $updateData['issued_at'] = now('UTC');
-            } elseif ($status === "return") {
-                $updateData['returned_at'] = now('UTC');
-            } else {
-                $updateData['issued_at'] = null;
-                $updateData['returned_at'] = null;
-            }
-
-            $borrowRecord->update($updateData);
-
-            if (in_array($status, ["return", "reject"]) && $bookQuantity) {
-                $bookQuantity->increment('current_qty');
-            }
-
-            // Log::info('Borrow Request Updated Successfully', ['borrow_id' => $id]);
-            flash()->success('Borrow Request Updated Successfully');
-            DB::commit();
-
-            return redirect()->back();;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            // Log::error('Error occurred while updating borrow request', ['borrow_id' => $id, 'exception' => $e]);
-            flash()->error('An error occurred while updating the borrow request.');
+        // Check if the current status is "return" and prevent updating to "reject", "pending", or "receive"
+        if ($borrowRecord->status === "return" && in_array($status, ["reject", "pending", "receive"])) {
+            flash()->error('Book Already Return');
             return redirect()->back();
         }
+
+        if ($borrowRecord->issued_at === null && in_array($status, ["return"])) {
+
+            flash()->error('Book Not Issued Yet');
+            return redirect()->back();
+        }
+
+
+
+        if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
+            $bookQuantity->decrement('current_qty');
+        }
+
+        $updateData = ['status' => $status];
+
+        if ($status === "receive") {
+            $updateData['issued_at'] = now('UTC');
+
+        } elseif ($status === "return") {
+            $updateData['returned_at'] = now('UTC');
+        } elseif($status === "reject") {
+            $updateData['issued_at'] = null;
+        }
+
+        $borrowRecord->update($updateData);
+
+        if (in_array($status, ["return", "reject"]) && $bookQuantity) {
+            $bookQuantity->increment('current_qty');
+        }
+
+        flash()->success('Borrow Request Updated Successfully');
+        DB::commit();
+
+        return redirect()->back();
+    } catch (\Exception $e) {
+        DB::rollBack();
+        flash()->error('An error occurred while updating the borrow request.');
+        return redirect()->back();
     }
+}
+
+
+
+    // public function updateInfo(string $id, Request $request)
+    // {
+    //     try {
+    //         DB::beginTransaction();
+
+    //         $borrowRecord = Borrow::findOrFail($id);
+    //         $status = $request->status;
+    //         $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
+
+    
+    //         if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
+                
+    //             $bookQuantity->decrement('current_qty');
+    //         }
+            
+
+    //         $updateData = ['status' => $status];
+
+    //         if ($status === "receive") {
+    //             $updateData['issued_at'] = now('UTC');
+    //         } elseif ($status === "return") {
+    //             $updateData['returned_at'] = now('UTC');
+    //         } else {
+    //             $updateData['issued_at'] = null;
+    //             $updateData['returned_at'] = null;
+    //         }
+
+    //         $borrowRecord->update($updateData);
+
+    //         if (in_array($status, ["return", "reject"]) && $bookQuantity) {
+    //             $bookQuantity->increment('current_qty');
+    //         }
+
+    //         // Log::info('Borrow Request Updated Successfully', ['borrow_id' => $id]);
+    //         flash()->success('Borrow Request Updated Successfully');
+    //         DB::commit();
+
+    //         return redirect()->back();;
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         // Log::error('Error occurred while updating borrow request', ['borrow_id' => $id, 'exception' => $e]);
+    //         flash()->error('An error occurred while updating the borrow request.');
+    //         return redirect()->back();
+    //     }
+    // }
 
 
         public function borrowBookSearch(Request $request)

@@ -190,22 +190,16 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <select class="bg-info p-2 text-white" name="status" class="form_select"
+                                                    <select class="form_select {{ $book->status == 'pending' ? 'bg-secondary text-white' : '' }} {{ $book->status == 'receive' ? 'bg-info text-white' : '' }} {{ $book->status == 'reject' ? 'bg-danger text-white' : '' }} {{ $book->status == 'return' ? 'bg-success text-white' : '' }}"
+                                                        name="status"
                                                         onchange="submitForm({{ $book->id }})">
-                                                        <option disabled>Select One</option>
-                                                        <option value="pending"
-                                                            {{ $book->status == 'pending' ? 'selected' : '' }}>Pending
-                                                        </option>
-                                                        <option value="receive"
-                                                            {{ $book->status == 'receive' ? 'selected' : '' }}>Receive
-                                                        </option>
-                                                        <option value="reject"
-                                                            {{ $book->status == 'reject' ? 'selected' : '' }}>Reject
-                                                        </option>
-                                                        <option value="return"
-                                                            {{ $book->status == 'return' ? 'selected' : '' }}>Return
-                                                        </option>
-                                                    </select>
+                                                    <option disabled>Select One</option>
+                                                    <option value="pending" {{ $book->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                    <option value="receive" {{ $book->status == 'receive' ? 'selected' : '' }}>Receive</option>
+                                                    <option value="reject" {{ $book->status == 'reject' ? 'selected' : '' }}>Reject</option>
+                                                    <option value="return" {{ $book->status == 'return' ? 'selected' : '' }}>Return</option>
+                                                </select>
+                                                
                                                 </form>
                                             </td>
 

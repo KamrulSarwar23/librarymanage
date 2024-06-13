@@ -16,8 +16,7 @@ class ReviewController extends Controller
             'rating' => 'required'
         ]);
 
-
-        $review = Review::create([
+        Review::create([
             'user_id' => Auth::user()->id,
             'book_id' => $request->book_id,
             'comment' => $request->comment,

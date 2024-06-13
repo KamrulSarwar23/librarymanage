@@ -141,7 +141,12 @@
                                                 <form id="updateForm" action="{{ route('offline-book-borrow-update', $item->id) }}" method="POST">
                                                     @csrf
 
-                                                    <button type="submit" class="btn btn-primary applied">Update</button>
+                                                    @if ($item->status=='receive')
+                                                    <button type="submit" class="btn btn-info applied">Update</button>
+                                                    @else
+                                                    <button type="submit" class="btn btn-info">Book Returned</button>
+                                                    @endif
+                                                    
                                                 </form>
 
                                             </td>
@@ -183,7 +188,7 @@
                         dropdown.append('<option value="">Select</option>');
 
                         $.each(data, function(index, book) {
-                            dropdown.append('<option value="' + book.id + '">' + book.title + ' - Quantity: ' + book.total_quantity + '</option>');
+                            dropdown.append('<option value="' + book.id + '">' + book.title + ' (Available Book: ' + book.total_quantity +')' + '</option>');
                         });
                     },
                     error: function(xhr, status, error) {

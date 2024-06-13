@@ -316,7 +316,7 @@ class PageController extends Controller
             if (QuantityManage::isQuantityAvailable($bookId)) {
                 // Fetch the book quantity record
                 $quantityBooks = BookQuantity::where('book_id', $bookId)
-                    ->where('current_qty', '>', 0)
+                    ->where('current_qty', '>', 0)->where('status', 'activate')
                     ->first();
 
                 // Decrement the current quantity by 1

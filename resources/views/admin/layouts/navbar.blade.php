@@ -10,7 +10,9 @@
 
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <img alt="image" src="{{ asset(auth()->user()->image) }}" class="rounded-circle mr-1">
+                <img style="border-radius: 50%" width="55px" height="40px"
+                src="{{ asset(auth()->user()->image ?? 'frontend/images/default-profile-image.jpg') }}"
+                alt="">
                 <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->name }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">

@@ -106,7 +106,7 @@
                     <th>User</th>
                     <th>Book</th>
                     <th>Author</th>
-                    <th>Publisher</th>
+                    <th>Publisher</th>                  
                     <th>Issued At</th>
                     <th>Due At</th>
                     <th>Returned At</th>

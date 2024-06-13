@@ -90,7 +90,7 @@
                         class="fa-solid fa-tags"></i><span>Books</span></a>
             </li>
 
-            <li class="dropdown {{ request()->routeIs('book.borrowinfo') ? 'active' : '' }}">
+            <li class="dropdown {{ request()->routeIs('book.borrowinfo', 'book.borrow-search') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fa-solid fa-shield-halved"></i>
                     <span>Online Book Borrow</span></a>

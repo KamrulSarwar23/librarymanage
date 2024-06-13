@@ -51,9 +51,6 @@ Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublishe
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/ajax-books', [OfflineBookBorrowController::class, 'getBooks'])->name('ajax.books');
-    Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users');
-
     // Dashboard Routes
     Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::post('/logout', [AdminAuthController::class, 'adminDestroy'])->name('admin.logout');
@@ -101,7 +98,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('book', BookController::class);
 
 
+    
     // Book Borrow offline
+    Route::get('/ajax-books', [OfflineBookBorrowController::class, 'getBooks'])->name('ajax.books');
+    Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users');
     Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
     Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
