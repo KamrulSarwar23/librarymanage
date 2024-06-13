@@ -26,9 +26,9 @@ return new class extends Migration
             $table->enum('preview', ['active', 'inactive'])->default('inactive');
             $table->timestamps();
 
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
-            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('authors')->onDelete('restrict');
+            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('restrict');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('restrict');
         });
     }
 

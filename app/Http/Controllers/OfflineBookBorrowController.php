@@ -14,9 +14,24 @@ class OfflineBookBorrowController extends Controller
 
     public function getBooks()
     {
-        $books = Book::where('preview', 'active')->get();
+        $books = Book::with(['quantities' => function($query){
+            $query->where('status', 'activate');
+        }])->where('preview', 'active')->get();
+
+        $books = $books->map(function ($book) {
+            $totalQuantity = $book->quantities->sum('current_qty'); // Assuming 'quantity' is the column name
+            return [
+                'id' => $book->id,
+                'title' => $book->title,
+                'total_quantity' => $totalQuantity,
+                'rating' => $book->rating,
+                'quantities' => $book->quantities,
+            ];
+        });
+
         return response()->json($books);
     }
+
 
 
     public function getUsers()

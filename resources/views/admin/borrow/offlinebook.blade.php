@@ -23,12 +23,6 @@
                             <h4>Offline Book Borrow</h4>
                         </div>
 
-                        <div class="card-header">
-                            <h4>Create New User</h4>
-                            <div class="card-header-action">
-                                <a href="{{ route('user-manage.create') }}" class="btn btn-info">Create New User</a>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <form action="{{ route('offline-book-borrow-store') }}" method="POST">
                                 @csrf
@@ -189,15 +183,15 @@
                         dropdown.append('<option value="">Select</option>');
 
                         $.each(data, function(index, book) {
-                            dropdown.append('<option value="' + book.id + '">' + book.title +
-                                '</option>');
+                            dropdown.append('<option value="' + book.id + '">' + book.title + ' - Quantity: ' + book.total_quantity + '</option>');
                         });
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX Error: ', error);
                     }
                 });
-            };
+            }
+
 
             function loadUsers() {
                 $.ajax({

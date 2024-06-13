@@ -18,10 +18,8 @@ return new class extends Migration
             $table->integer('current_qty')->nullable();
             $table->enum('status', ['activate', 'deactivate'])->default('deactivate');
             $table->timestamps();
-            // Define foreign key constraint 
-            $table->foreign('book_id')->references('id')->on('books')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            // Define foreign key constraint
+            $table->foreign('book_id')->references('id')->on('books')->cascadeOnUpdate()->restrictOnDelete();
         });
     }
 
