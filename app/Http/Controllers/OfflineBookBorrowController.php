@@ -68,14 +68,14 @@ class OfflineBookBorrowController extends Controller
 
 
         if (count($books->quantities) <= 0) {
-            flash()->error('Book Not Available');
+            flash()->warning('This Book Not Available');
             return redirect()->back();
         }
 
         $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id', $request->book_id)->whereNull('returned_at')->count();
 
         if ($borrowCount) {
-            flash()->error('Book Already Added');
+            flash()->error('This Book Already Added');
             return redirect()->back();
         }
 
@@ -103,7 +103,7 @@ class OfflineBookBorrowController extends Controller
         $borrow = Borrow::findOrFail($id);
 
         if (!is_null($borrow->returned_at)) {
-            flash()->error('Book Already Returned');
+            flash()->warning('This Book Already Returned');
             return redirect()->back();
         }
 
@@ -115,7 +115,7 @@ class OfflineBookBorrowController extends Controller
         $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);
         $bookQuantity->increment('current_qty');
 
-        flash()->success('Book Return Successfully');
+        flash()->success('This Book Return Successfully');
         return redirect()->back();
     }
 

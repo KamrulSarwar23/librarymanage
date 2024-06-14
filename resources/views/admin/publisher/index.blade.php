@@ -65,8 +65,7 @@
                                     @foreach ($publishers as $publisher)
                                         <tr>
                                             <td>{{ $publisher->id }}</td>
-                                            <td><img width="80px" height="80px" class="py-2"
-                                                    src="{{ asset('storage/publisher/' . $publisher->image) }}"
+                                            <td class="py-1"><img width="80px" height="80px" src="{{ asset('storage/publisher/' . $publisher->image) }}"
                                                     alt=""> </td>
                                             <td>{{ $publisher->name }}</td>
                                             <td>{{ $publisher->email }}</td>

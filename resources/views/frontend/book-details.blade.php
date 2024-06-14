@@ -127,7 +127,7 @@
                         @auth
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($booksdetails->id, auth()->user()->id))
                                 <form action="javascript:;">
-                                    <button type="submit" class="btn btn-primary w-100">Already Exists</button>
+                                    <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
                                 </form>
                             @else
                                 @if (App\Helper\QuantityManage::isQuantityAvailable($booksdetails->id))

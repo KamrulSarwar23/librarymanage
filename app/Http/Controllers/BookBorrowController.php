@@ -45,13 +45,13 @@ class BookBorrowController extends Controller
 
         // Check if the current status is "return" and prevent updating to "reject", "pending", or "receive"
         if ($borrowRecord->status === "return" && in_array($status, ["reject", "pending", "receive"])) {
-            flash()->error('Book Already Return');
+            flash()->error('This Book Already Return');
             return redirect()->back();
         }
 
         if ($borrowRecord->issued_at === null && in_array($status, ["return"])) {
 
-            flash()->error('Book Not Issued Yet');
+            flash()->warning('Book Not Issued Yet');
 
             return redirect()->back();
         }
@@ -77,7 +77,7 @@ class BookBorrowController extends Controller
             $bookQuantity->increment('current_qty');
         }
 
-        flash()->success('Borrow Request Updated Successfully');
+        flash()->success('This Borrow Request Updated Successfully');
         DB::commit();
 
         return redirect()->back();

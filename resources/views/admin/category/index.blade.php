@@ -58,7 +58,7 @@
                                     @foreach ($categories as $category)
                                         <tr>
                                             <td>{{ $category->id }}</td>
-                                            <td><img width="80px" height="80px" class="py-2"
+                                            <td class="py-1"><img width="80px" height="80px"
                                                     src="{{ asset('storage/category/' . $category->image) }}"
                                                     alt=""> </td>
                                             <td>{{ $category->name }}</td>
