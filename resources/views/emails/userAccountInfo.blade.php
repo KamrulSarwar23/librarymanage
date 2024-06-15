@@ -64,7 +64,7 @@
             <h2>Your Account Login Info</h2>
         </div>
         <div class="content">
-            <p>Hello, <strong></strong></p>
+            <p>Hello, {{ $name }}<strong></strong></p>
 
             <h3>Your Account Info</h3>
             <h4>Email: {{ $email }}</h4>

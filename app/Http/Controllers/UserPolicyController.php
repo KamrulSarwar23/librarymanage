@@ -30,7 +30,6 @@ class UserPolicyController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
-
         if ($validator->fails()) {
             flash()->error('All fields are required');
             return redirect()->back();
@@ -48,9 +47,9 @@ class UserPolicyController extends Controller
             );
 
             if (empty($criteria)) {
-                flash()->success('Policy was ceated successfully!');
+                flash()->success('Policy ceated successfully!');
             } else {
-                flash()->success('Policy was updated successfully!');
+                flash()->success('Policy updated successfully!');
             }
 
             return view("admin.policy.index", compact('policy'));

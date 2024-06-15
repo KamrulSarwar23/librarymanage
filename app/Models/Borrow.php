@@ -21,6 +21,7 @@ class Borrow extends Model
         'platform'
     ];
 
+
     // Define the relationships with User and Book models
     public function user()
     {

@@ -106,7 +106,8 @@
                     <th>User</th>
                     <th>Book</th>
                     <th>Author</th>
-                    <th>Publisher</th>                  
+                    <th>Publisher</th> 
+                    <th>Created At</th>                      
                     <th>Issued At</th>
                     <th>Due At</th>
                     <th>Returned At</th>
@@ -122,6 +123,7 @@
                         <td>{{ $borrow->book->title }}</td>
                         <td>{{ $borrow->book->author->name }}</td>
                         <td>{{ $borrow->book->publisher->name }}</td>
+                        <td>{{ $borrow->created_at }}</td>
                         <td>{{ $borrow->issued_at }}</td>
                         <td>{{ $borrow->due_at }}</td>
                         @if ($borrow->returned_at)

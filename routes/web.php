@@ -150,4 +150,5 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Book Borrow Route
     Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
+    
 });

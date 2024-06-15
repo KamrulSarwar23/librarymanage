@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('qty_id')->constrained('book_quantities')->onDelete('restrict');
             $table->foreignId('book_id')->constrained('books')->onDelete('restrict');
             $table->boolean('notify')->default(false);
-            $table->date('issued_at')->nullable();
-            $table->date('due_at')->nullable();
-            $table->date('returned_at')->nullable();
+            $table->timestamp('issued_at')->nullable();
+            $table->timestamp('due_at')->nullable();
+            $table->timestamp('returned_at')->nullable();
             $table->enum('status', ['receive', 'pending', 'reject', 'return'])->default('pending');
             $table->enum('platform', ['online', 'offline'])->default('online');
             $table->timestamps();

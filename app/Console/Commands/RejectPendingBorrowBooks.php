@@ -34,6 +34,7 @@ class RejectPendingBorrowBooks extends Command
             if (strtotime($borrowBook->created_at) + (5 * 3600) >= strtotime(now())) {
                 Log::info("Borrow ID {$borrowBook->id} is pending but not yet overdue");
                 $bookQuantity = BookQuantity::find($borrowBook->qty_id);
+
                 $bookQuantity->increment('current_qty');
 
                 $borrowBook->update([

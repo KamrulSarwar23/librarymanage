@@ -26,39 +26,34 @@ class PageController extends Controller
     public function allBook()
     {
 
-        
-
         $books = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->with(['quantities' => function ($query) {
             $query->where('status', 'activate');
         }])->where('preview', 'active')->paginate(8);
 
-        
 
         $popularBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'popular')->where('preview', 'active')->get();
 
-        
+
 
         $recentBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'recent')->where('preview', 'active')->get();
-        
+
 
 
         $featuredBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'featured')->where('preview', 'active')->get();
 
-        
-
 
         $recommendedBook = Book::with(['rating' => function ($query) {
             $query->where('status', 'active');
         }])->where('type', 'recommended')->where('preview', 'active')->get();
-        
+
 
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
@@ -70,7 +65,7 @@ class PageController extends Controller
         return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook', 'policy'));
     }
 
-    
+
     public function filterByCategory($id)
     {
 
@@ -280,6 +275,7 @@ class PageController extends Controller
 
         return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
+    
 
 
     public function borrowBook(Request $request)
@@ -300,7 +296,6 @@ class PageController extends Controller
         $bookId = $request->input('bookId');
         $userId = $request->input('userId');
         $returned_at = $request->input('returned_at');
-
 
         // Check if the user has already requested this book
         if (AxistBookingRequestHelper::existsForBook($bookId, $userId)) {

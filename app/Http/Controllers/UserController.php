@@ -46,9 +46,11 @@ class UserController extends Controller
             'phone' => 'required',
         ]);
 
+        $name = $request->name;
         $password = Str::random(10);
         $Hashpassword = Hash::make($password);
         $email = $request->email;
+       
 
         User::create([
             'name' => $request->name,
@@ -59,7 +61,7 @@ class UserController extends Controller
             'password' => $Hashpassword
         ]);
 
-        Mail::to($email)->send(new UserAccountInfo($email, $password));
+        Mail::to($email)->send(new UserAccountInfo($name, $email, $password));
      
         flash()->success('User Created Successfully & Info Mail Sent');
         return redirect()->route('user-manage.index');

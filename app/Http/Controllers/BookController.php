@@ -20,6 +20,7 @@ class BookController extends Controller
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
+        
         $books = Book::with(['quantities' => function($query){
             $query->where('status', 'activate');
         }])->orderBy('created_at', 'DESC')->paginate(10);
@@ -381,8 +382,18 @@ class BookController extends Controller
     public function destroy(string $id)
     {
         $book = Book::findOrFail($id);
-        $book->delete();
-        return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
+
+      if (count($book->quantities) > 0) {
+        return response()->json(['status' => 'error', 'message' => 'Cant Delete! Book Has Quantity']);
+      }
+
+      if (count($book->borrow) > 0) {
+        return response()->json(['status' => 'error', 'message' => 'Cant Delete! Book Has Borrow Request']);
+      }
+
+     $book->delete();
+     return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
+
     }
 
 

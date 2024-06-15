@@ -497,7 +497,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('book.borrow') }}" method="POST">
+                    <form action="{{ route('book.borrow') }}" method="POST" id="submitBorrow">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Borrow Request</h5>
@@ -524,6 +524,8 @@
 @endsection
 
 @push('scripts')
+
+
     <script>
         // **** Usre id And Book id *****
         document.addEventListener('DOMContentLoaded', function() {

@@ -19,28 +19,21 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
         $request->validate([
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
 
-        $startDate = Carbon::parse($request->input('start_date'));
+        $startDate = $request->input('start_date');
 
-        $endDate = Carbon::parse($request->input('end_date'));
-
-        $query = Borrow::query();
-
-        if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        } elseif ($startDate) {
-            $query->whereDate('created_at', $startDate);
-        } elseif ($endDate) {
-            $query->whereDate('created_at', $endDate);
-        }
+        $endDate = $request->input('end_date');
         
-        $borrows = $query->with(['user', 'book'])->get();
+        $toDate = $endDate . ' 23.59.59';
 
-        $borrows = Pdf::loadView('admin.report.report', compact('borrows', 'request'))->setPaper('a4', 'landscape');
+        $borrows = Borrow::with(['user', 'book'])->whereBetween('created_at', [$startDate, $toDate])->get();;
 
-        return $borrows->download('borrow_report.pdf');
+        $pdf = Pdf::loadView('admin.report.report', compact('borrows', 'request'))->setPaper('a4', 'landscape');
+
+        return $pdf->download('borrow_report.pdf');
+
     }
 }

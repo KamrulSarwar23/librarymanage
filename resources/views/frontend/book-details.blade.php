@@ -379,9 +379,9 @@
                         var modal = document.querySelector('.modal');
                         var modalInstance = bootstrap.Modal.getInstance(modal);
                         modalInstance.hide();
-                        toastr.success('Review Sent successfully! Your Review Will Be Added Soon');
                         form[0].reset();
-                      
+
+                        toastr.success('Review Sent successfully! Your Review Will Be Added Soon');
                     },
                     error: function(xhr) {
                         let errors = xhr.responseJSON.errors;

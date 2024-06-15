@@ -32,6 +32,11 @@ class QuantityController extends Controller
     {
 
         $book = BookQuantity::findOrFail($quantityId);
+
+        if (count($book->borrow) > 0) {
+            return response()->json(['status' => 'error', 'message' => 'Cant Delete! It Has Borrow Request']);
+        }
+        
         $book->delete();
         return response()->json(['status' => 'success', 'message' => 'Book Deleted Successfully']);
     }

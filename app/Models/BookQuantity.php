@@ -15,4 +15,9 @@ class BookQuantity extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    public function borrow()
+    {
+        return $this->hasMany(Borrow::class, 'qty_id', 'id');
+    }
 }

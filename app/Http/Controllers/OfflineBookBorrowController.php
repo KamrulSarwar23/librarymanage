@@ -7,6 +7,7 @@ use App\Models\BookQuantity;
 use App\Models\Borrow;
 use App\Models\OfflineBookBorrow;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OfflineBookBorrowController extends Controller
@@ -43,7 +44,7 @@ class OfflineBookBorrowController extends Controller
     public function index()
     {
 
-        $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->get();
+        $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(8);
 
         return view('admin.borrow.offlinebook', compact('offlinebooks'));
     }
@@ -83,7 +84,7 @@ class OfflineBookBorrowController extends Controller
             'book_id' => $request->book_id,
             'qty_id' => $bookQuantity->id,
             'user_id' => $request->user_id,
-            'issued_at' => now('UTC'),
+            'issued_at' => Carbon::now('Asia/Dhaka'),
             'due_at' => $request->due_date,
             'returned_at' => null,
             'status' => 'receive',
@@ -109,7 +110,7 @@ class OfflineBookBorrowController extends Controller
 
         $borrow->update([
             'status' => 'return',
-            'returned_at' => now('UTC'),
+            'returned_at' => Carbon::now('Asia/Dhaka')
         ]);
 
         $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);

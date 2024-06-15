@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('book_quantities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('book_id');
             $table->integer('quantity')->nullable();
+            $table->foreignId('book_id')->constrained('books')->onDelete('restrict');
             $table->integer('current_qty')->nullable();
             $table->enum('status', ['activate', 'deactivate'])->default('deactivate');
             $table->timestamps();
-            // Define foreign key constraint
-            $table->foreign('book_id')->references('id')->on('books')->cascadeOnUpdate()->restrictOnDelete();
+
         });
     }
 

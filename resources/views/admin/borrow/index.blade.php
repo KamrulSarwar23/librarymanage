@@ -159,26 +159,24 @@
                                             <td>{{ $book->book->title }}</td>
                                   
                                             <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
-                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
-                                            </td>
+
+                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}</td>
 
                                             @if ($book->issued_at !== null)
-                                                <td>{{ \Carbon\Carbon::now()->format('F j, Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($book->issued_at)->format('F j, Y, g:i a') }}</td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
 
-
                                             @if ($book->due_at !== null)
-                                                <td>{{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
+                                            <td> {{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
 
 
                                             @if ($book->returned_at !== null)
-                                                <td>{{ \Carbon\Carbon::parse($book->returned_at)->format('F j, Y') }}
-                                                </td>
+                                            <td>{{ \Carbon\Carbon::parse($book->returned_at)->format('F j, Y, g:i a') }}</td>
                                             @else
                                                 <td class="text-danger">Not Return Yet</td>
                                             @endif

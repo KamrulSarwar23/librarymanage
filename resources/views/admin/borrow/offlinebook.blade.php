@@ -105,23 +105,24 @@
                                             <td>{{ $item->user->email }}</td>
                                             <td>{{ $item->book->title }}</td>
 
-
-                                            @if (!empty($item->issued_at))
-                                                <td>{{ $item->issued_at }}</td>
-                                            @else
-                                                <td class="text-info">Not Activate Yet</td>
-                                            @endif
-
+                                            <td>
+                                                @if (!empty($item->issued_at))
+                                                {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
+                                                @else
+                                                    <span class="text-info">Not Activate Yet</span>
+                                                @endif
+                                            </td>
 
                                             @if (!empty($item->due_at))
-                                                <td>{{ $item->due_at }}</td>
+                                                <td> {{ \Carbon\Carbon::parse($item->due_at)->format('F j, Y') }}</td>
+                                               
                                             @else
                                                 <td class="text-info">Not Activate Yet</td>
                                             @endif
 
 
                                             @if (!empty($item->returned_at))
-                                                <td>{{ $item->returned_at }}</td>
+                                            <td> {{ \Carbon\Carbon::parse($item->returned_at)->format('F j, Y, g:i a') }}</td>
                                             @else
                                                 <td class="text-info">Not Return Yet</td>
                                             @endif
@@ -152,13 +153,10 @@
 
                                         </tr>
                                     @endforeach
-
-
-
                                 </table>
 
                                 <div class="pagination">
-
+                                    {{ $offlinebooks->links() }}
                                 </div>
 
                             </div>

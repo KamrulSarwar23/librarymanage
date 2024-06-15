@@ -155,7 +155,7 @@
             </li>
 
 
-            <li class="dropdown {{ setActive(['user-policy.create']) }}">
+            <li class="dropdown {{ setActive(['user-policy.create', 'user-policy.store']) }}">
                 <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
                         Policy</span></a>
 
