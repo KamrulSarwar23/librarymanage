@@ -38,7 +38,7 @@ textarea.form-control {
 
 <div class="site-section mt-5">
     <div class="container bg-color p-5 rounded">
-        <form action="{{ route('send.message') }}" method="POST">
+        <form id="submitForm">
             @csrf
             <div class="row">
                 <div class="col-md-6 form-group mb-4">
@@ -96,3 +96,35 @@ textarea.form-control {
 </div>
 
 @endsection
+
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#submitForm').on('submit', function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "{{ route('send.message') }}",
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    toastr.success('Message sent successfully!');
+                    form[0].reset(); // Clear the form fields
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        toastr.error(value[0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+@endpush

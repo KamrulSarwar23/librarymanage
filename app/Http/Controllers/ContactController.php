@@ -34,7 +34,6 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
 
-        flash()->success('Message Send Successfully');
-        return redirect()->back();
+        return response()->json(['success' => 'Message sent successfully!']);
     }
 }

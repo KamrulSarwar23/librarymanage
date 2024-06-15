@@ -215,197 +215,207 @@
 
             </div>
         </div>
-</div>
+    </div>
 
-<div class="container">
-    <div class="row mt-5">
-        @if (count($enjoyedbook) > 0)
+    <div class="container">
+        <div class="row mt-5">
+            @if (count($enjoyedbook) > 0)
+                <div class="col-md-12">
+                    <h2 class="h3 mb-4">Readers also enjoyed</h2>
+                </div>
+            @endif
+
             <div class="col-md-12">
-                <h2 class="h3 mb-4">Readers also enjoyed</h2>
-            </div>
-        @endif
+                <div class="row mb-4">
+                    @foreach ($enjoyedbook as $book)
+                        <div class="col-md-3 mt-4">
+                            <div class="card shadow-lg p-3 bg-white rounded">
+                                <a href="{{ route('book.details', $book->id) }}">
+                                    <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
+                                        alt="Book Cover" style="height: 260px; object-fit: cover;">
+                                </a>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <a class="text-muted"
+                                            href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
+                                    </p>
 
-        <div class="col-md-12">
-            <div class="row mb-4">
-                @foreach ($enjoyedbook as $book)
-                    <div class="col-md-3 mt-4">
-                        <div class="card shadow-lg p-3 bg-white rounded">
-                            <a href="{{ route('book.details', $book->id) }}">
-                                <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
-                                alt="Book Cover" style="height: 260px; object-fit: cover;">
-                            </a>
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <a class="text-muted" href="{{ route('book.details', $book->id) }}">{{ limitText($book->title, 15) }}</a>
-                                </p>
-
-                                <div class="star-rating d-inline-flex align-items-center" title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
-                                    <div class="back-stars">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                        @endfor
-                                        <div class="front-stars" style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                    <div class="star-rating d-inline-flex align-items-center"
+                                        title="Average Rating: {{ round($book->rating->avg('rating'), 1) }}">
+                                        <div class="back-stars">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                             @endfor
+                                            <div class="front-stars"
+                                                style="width: {{ ($book->rating->avg('rating') / 5) * 100 }}%">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                @endfor
+                                            </div>
                                         </div>
+                                        <span
+                                            class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                                     </div>
-                                    <span class="rating-text theme-font theme-yellow mx-1">({{ round($book->rating->avg('rating'), 1) }})</span>
                                 </div>
-                            </div>
 
-                            @auth
-                                @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
-                                    <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
-                                @else
-                                    @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
-                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
-                                            Booking Request
-                                        </button>
+                                @auth
+                                    @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
+                                        <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
                                     @else
-                                        <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        @if (App\Helper\QuantityManage::isQuantityAvailable($book->id))
+                                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal" data-bs-value="{{ $book->id }}">
+                                                Booking Request
+                                            </button>
+                                        @else
+                                            <button type="submit" class="btn btn-danger w-100">Not Available</button>
+                                        @endif
                                     @endif
-                                @endif
-                            @endauth
+                                @endauth
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Review for <strong
-                                id="review-book-title">Atomic Habits</strong>
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('send.review') }}" method="POST" id="reviewForm">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="review" class="form-label">Review</label>
-                                <textarea name="comment" id="review" class="form-control p-3" cols="5" rows="5"></textarea>
-                            </div>
-                            <div class="rating mb-3 ml-3" style="width: 10rem">
-
-                                <input id="rating-5" type="radio" name="rating" value="5" /><label
-                                    for="rating-5"><i class="fas fa-3x fa-star"></i></label>
-                                <input id="rating-4" type="radio" name="rating" value="4" /><label
-                                    for="rating-4"><i class="fas fa-3x fa-star"></i></label>
-                                <input id="rating-3" type="radio" name="rating" value="3" /><label
-                                    for="rating-3"><i class="fas fa-3x fa-star"></i></label>
-                                <input id="rating-2" type="radio" name="rating" value="2" /><label
-                                    for="rating-2"><i class="fas fa-3x fa-star"></i></label>
-                                <input id="rating-1" type="radio" name="rating" value="1" /><label
-                                    for="rating-1"><i class="fas fa-3x fa-star"></i></label>
-
-                            </div>
-
-
-                            <input type="hidden" name="book_id" value="{{ $booksdetails->id }}">
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-
-                    </div>
-
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Review for <strong
+                            id="review-book-title">Atomic Habits</strong>
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-        </div>
-
-        {{-- **** Modal ******** --}}
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('book.borrow') }}" method="POST">
+                <div class="modal-body">
+                    <form id="submitForm">
                         @csrf
+                        <div class="mb-3">
+                            <label for="review" class="form-label">Review</label>
+                            <textarea name="comment" id="review" class="form-control p-3" cols="5" rows="5"></textarea>
+                        </div>
+                        <div class="rating mb-3 ml-3" style="width: 10rem">
 
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Borrow Request</h5>
+                            <input id="rating-5" type="radio" name="rating" value="5" /><label
+                                for="rating-5"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-4" type="radio" name="rating" value="4" /><label
+                                for="rating-4"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-3" type="radio" name="rating" value="3" /><label
+                                for="rating-3"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-2" type="radio" name="rating" value="2" /><label
+                                for="rating-2"><i class="fas fa-3x fa-star"></i></label>
+                            <input id="rating-1" type="radio" name="rating" value="1" /><label
+                                for="rating-1"><i class="fas fa-3x fa-star"></i></label>
+
                         </div>
 
-                        <div class="modal-body">
-                            <input id="book_id" name="bookId" type="hidden">
-                            <input type="hidden" name="userId"
-                                value="{{ auth()->check() ? auth()->user()->id : '' }}">
-                            <label for="bookingDate" class="form-label">Select Your Return Date</label>
-                            <input type="date" name="returned_at" id="bookingDate" class="form-control" required>
-                        </div>
+
+                        <input type="hidden" name="book_id" value="{{ $booksdetails->id }}">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-
                     </form>
+
                 </div>
+
             </div>
         </div>
+    </div>
+
+    {{-- **** Modal ******** --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('book.borrow') }}" method="POST">
+                    @csrf
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Borrow Request</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        <input id="book_id" name="bookId" type="hidden">
+                        <input type="hidden" name="userId" value="{{ auth()->check() ? auth()->user()->id : '' }}">
+                        <label for="bookingDate" class="form-label">Select Your Return Date</label>
+                        <input type="date" name="returned_at" id="bookingDate" class="form-control" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
 
 
-    @endsection
-
-
-    @push('scripts')
-        <script>
-            document.getElementById('reviewForm').addEventListener('submit', function(event) {
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#submitForm').on('submit', function(event) {
                 event.preventDefault();
 
-                fetch(this.action, {
-                        method: this.method,
-                        body: new FormData(this)
-                    })
-                    .then(response => {
-                        if (response.ok) {
+                let formData = new FormData(this);
 
-                            var modal = document.querySelector('.modal');
-                            var modalInstance = bootstrap.Modal.getInstance(modal);
-                            modalInstance.hide();
+                $.ajax({
+                    url: "{{ route('send.review') }}",
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
 
-                        } else {
-                            console.error('Form submission failed:', response.statusText);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error submitting form:', error);
-                    });
-            });
-        </script>
-
-        <script>
-            // **** Usre id And Book id *****
-            document.addEventListener('DOMContentLoaded', function() {
-
-                var exampleModal = document.getElementById('exampleModal');
-                var bookIdInput = exampleModal.querySelector('#book_id');
-
-                exampleModal.addEventListener('show.bs.modal', function(event) {
-                    var button = event.relatedTarget;
-                    var value = button.getAttribute('data-bs-value');
-                    bookIdInput.value = value;
-                });
-
-                exampleModal.addEventListener('hidden.bs.modal', function() {
-                    // Clear the input field
-                    bookIdInput.value = '';
+                        var modal = document.querySelector('.modal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        toastr.success('Review Sent successfully! Your Review Will Be Added Soon');
+                        form[0].reset();
+                      
+                    },
+                    error: function(xhr) {
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    }
                 });
             });
+        });
+    </script>
 
-            // **** Work with date *****
-            document.addEventListener('DOMContentLoaded', function() {
+
+    <script>
+        // **** Usre id And Book id *****
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var exampleModal = document.getElementById('exampleModal');
+            var bookIdInput = exampleModal.querySelector('#book_id');
+
+            exampleModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var value = button.getAttribute('data-bs-value');
+                bookIdInput.value = value;
+            });
+
+            exampleModal.addEventListener('hidden.bs.modal', function() {
+                // Clear the input field
+                bookIdInput.value = '';
+            });
+        });
+
+        // **** Work with date *****
+        document.addEventListener('DOMContentLoaded', function() {
             var dateInput = document.getElementById('bookingDate');
 
             var today = new Date();
@@ -413,7 +423,7 @@
 
             var fiveDaysFromNow = new Date();
 
-             var borrowDays = {{ @$policy->days }};
+            var borrowDays = {{ @$policy->days }};
 
             fiveDaysFromNow.setDate(today.getDate() + borrowDays);
 
@@ -421,6 +431,6 @@
 
             dateInput.setAttribute('min', todayString);
             dateInput.setAttribute('max', fiveDaysFromNowString);
-         })
-        </script>
-    @endpush
+        })
+    </script>
+@endpush

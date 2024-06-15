@@ -1,16 +1,15 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
-<style>
-      td {
+    <style>
+        td {
             white-space: nowrap;
         }
 
         th {
             white-space: nowrap;
         }
-</style>
+    </style>
 
     <section class="section">
         <div class="section-header">
@@ -38,12 +37,12 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Action</th>
-                                
 
                                     @foreach ($users as $user)
                                         <tr>
                                             <td>{{ $user->id }}</td>
-                                            <td class="py-1"><img width="80px" height="80px" src="{{ asset($user->image) }}" alt=""> </td>
+                                            <td class="py-1"><img width="80px" height="80px"
+                                                    src="{{ asset($user->image) }}" alt=""> </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
@@ -72,7 +71,8 @@
                                                 href="{{ route('user-manage.edit', $user->id) }}"><i class="fas fa-edit"></i>
                                             </a> --}}
                                                 <a class="delete-item btn btn-danger"
-                                                    href="{{ route('user-manage.destroy', $user->id) }}"><i class="fas fa-trash"></i></a>
+                                                    href="{{ route('user-manage.destroy', $user->id) }}"><i
+                                                        class="fas fa-trash"></i></a>
 
                                             </td>
 
@@ -80,9 +80,9 @@
                                     @endforeach
 
                                     @if ($users->isEmpty())
-                                    <div class="alert alert-danger mt-5" role="alert">
-                                        No Data Found
-                                    </div>
+                                        <div class="alert alert-danger mt-5" role="alert">
+                                            No Data Found
+                                        </div>
                                     @endif
 
                                 </table>
