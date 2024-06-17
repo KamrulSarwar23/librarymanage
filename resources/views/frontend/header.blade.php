@@ -23,8 +23,9 @@
     <div class="site-navbar site-navbar-target js-sticky-header">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-3 col-lg-3">
-                    <h1 class="my-0 site-logo"><a href="{{ route('home.page') }}">LMS</a></h1>
+                <div class="col-3 col-lg-3 d-flex">
+                    <img class="my-0 site-logo" width="60px" height="60px" src="{{ asset('logo/LMS-logo.jpeg') }}" alt="">
+                    <h4 class="mt-3 ml-2"><a href="{{ route('home.page') }}">LMS</a></h4>
                 </div>
                 <div class="col-9 col-lg-9">
                     <nav class="site-navigation text-right" role="navigation">
