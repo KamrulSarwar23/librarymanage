@@ -105,6 +105,7 @@ textarea.form-control {
             event.preventDefault();
 
             let formData = new FormData(this);
+            let form = this;
 
             $.ajax({
                 url: "{{ route('send.message') }}",
@@ -114,7 +115,7 @@ textarea.form-control {
                 contentType: false,
                 success: function(response) {
                     toastr.success('Message sent successfully!');
-                    form[0].reset(); // Clear the form fields
+                    form.reset(); // Clear the form fields
                 },
                 error: function(xhr) {
                     let errors = xhr.responseJSON.errors;

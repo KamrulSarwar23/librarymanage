@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\BookQuantity;
 use App\Models\Borrow;
 use App\Models\OfflineBookBorrow;
+use App\Models\Policy;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,8 +46,9 @@ class OfflineBookBorrowController extends Controller
     {
 
         $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(8);
+        $policy = Policy::first();
 
-        return view('admin.borrow.offlinebook', compact('offlinebooks'));
+        return view('admin.borrow.offlinebook', compact('offlinebooks', 'policy'));
     }
 
     public function store(Request $request)

@@ -32,7 +32,7 @@ class BooksTableSeeder extends Seeder
                 'publication_date' => $faker->date(),
                 'number_of_pages' => $faker->numberBetween(50, 1000),
                 'summary' => $faker->paragraph,
-                'cover_image' => 'frontend/images/book.jpg',
+                // 'cover_image' => 'frontend/images/book.jpg',
                 'type' => $faker->randomElement(['popular', 'recent', 'featured', 'recommended']),
                 'preview' => 'active',
                 'created_at' => now(),
