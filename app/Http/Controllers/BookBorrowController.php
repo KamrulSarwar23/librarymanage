@@ -43,10 +43,16 @@ class BookBorrowController extends Controller
         $borrowRecord = Borrow::findOrFail($id);
         $status = $request->status;
         $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
+        $MaxBorrow = Borrow::where('user_id', $borrowRecord->user_id)->whereNotNull('issued_at')->whereNull('returned_at')->count();
 
         // Check if the current status is "return" and prevent updating to "reject", "pending", or "receive"
         if ($borrowRecord->status === "return" && in_array($status, ["reject", "pending", "receive"])) {
             flash()->error('This Book Already Return');
+            return redirect()->back();
+        }
+
+        if (in_array($status, ["receive"]) && $MaxBorrow >= 3) {
+            flash()->warning('Already 3 Books Borrowed');
             return redirect()->back();
         }
 

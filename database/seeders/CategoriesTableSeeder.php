@@ -19,7 +19,7 @@ class CategoriesTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             DB::table('categories')->insert([
                 'name' => $faker->word,
-                'image' => 'default_image.jpg',
+                // 'image' => 'default_image.jpg',
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),

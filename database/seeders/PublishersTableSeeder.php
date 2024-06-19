@@ -19,7 +19,7 @@ class PublishersTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             DB::table('publishers')->insert([
                 'name' => $faker->company,
-                'image' => $faker->imageUrl(640, 480, 'business'),
+                // 'image' => $faker->imageUrl(640, 480, 'business'),
                 'email' => $faker->safeEmail,
                 'phone' => $faker->phoneNumber,
                 'description' => $faker->sentence,

@@ -41,8 +41,8 @@
                                     @foreach ($users as $user)
                                         <tr>
                                             <td>{{ $user->id }}</td>
-                                            <td class="py-1"><img width="80px" height="80px"
-                                                    src="{{ asset($user->image) }}" alt=""> </td>
+                                            <td  class="py-1 "><img style="border-radius: 50%" width="60px" height="60px"
+                                                    src="{{ asset($user->image ?? 'frontend/images/user.png') }}" alt=""> </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>

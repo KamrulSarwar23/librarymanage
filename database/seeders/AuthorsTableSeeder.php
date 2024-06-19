@@ -19,7 +19,7 @@ class AuthorsTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             DB::table('authors')->insert([
                 'name' => $faker->name,
-                'image' => $faker->optional()->imageUrl(640, 480, 'people'),
+                // 'image' => $faker->optional()->imageUrl(640, 480, 'people'),
                 'address' => $faker->address,
                 'date_of_birth' => $faker->date(),
                 'date_of_death' => $faker->date(),

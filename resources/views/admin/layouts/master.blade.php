@@ -202,7 +202,7 @@
 
                 Swal.fire({
                     title: 'Are you sure?',
-                    text: "Do You want to Update This Borrow Status",
+                    text: "Do You want to Update This Borrow Status To Returned",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

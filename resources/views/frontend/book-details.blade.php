@@ -233,8 +233,11 @@
                         <div class="col-md-3 mt-4">
                             <div class="card shadow-lg p-3 bg-white rounded">
                                 <a href="{{ route('book.details', $book->id) }}">
-                                    <img src="{{ asset('storage/book/' . $book->cover_image) }}" class="card-img-top"
-                                        alt="Book Cover" style="height: 260px; object-fit: cover;">
+                                    <img src="{{ $book->cover_image ? asset('storage/book/' . $book->cover_image) : asset('frontend/images/book.jpg') }}"
+                                    class="card-img-top"
+                                    alt="Book Cover"
+                                    style="height: 260px; object-fit: cover;">
+                                   
                                 </a>
                                 <div class="card-body">
                                     <p class="card-text">

@@ -1,11 +1,11 @@
 <style>
-    {{--  .site-navbar-wrap {
+    /* {{--  .site-navbar-wrap {
         position: -webkit-sticky;
         position: sticky;
         top: 0;
         background-color: #1c6dd6;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }  --}}
+    }  --}} */
 </style>
 
 <div class="site-mobile-menu site-navbar-target">
@@ -24,7 +24,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-3 col-lg-3 d-flex">
-                    <img class="my-0 site-logo" width="60px" height="60px" src="{{ asset('logo/LMS-logo.jpeg') }}" alt="">
+                    <img class="my-0 site-logo" width="60px" height="60px" src="{{ asset('logo/LMS-logo.jpeg') }}"
+                        alt="">
                     <h4 class="mt-3 ml-2"><a href="{{ route('home.page') }}">LMS</a></h4>
                 </div>
                 <div class="col-9 col-lg-9">
@@ -58,27 +59,23 @@
                                         <nav class="mx-3 flex flex-1 justify-end">
                                             @auth
                                                 @if (Auth::user()->role == 'admin')
-                                                    <a href="{{ route('admin.dashboard') }}"
-                                                        class="btn btn-primary">
+                                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
                                                         {{ Auth::user()->name }}
                                                     </a>
                                                 @else
-                                                    <a href="{{ route('user.dashboard') }}"
-                                                        class="btn btn-primary ">
+                                                    <a href="{{ route('user.dashboard') }}" class="btn btn-primary ">
                                                         {{ Auth::user()->name }}
                                                         <img style="border-radius: 50%" width="45px" height="45px"
-                                                            src="{{ asset(auth()->user()->image ?? 'frontend/images/default-profile-image.jpg') }}"
+                                                            src="{{ asset(auth()->user()->image ?? 'frontend/images/user.png') }}"
                                                             alt="">
                                                     </a>
                                                 @endif
                                             @else
-                                                <a href="{{ route('login') }}"
-                                                    class="btn btn-success">
+                                                <a href="{{ route('login') }}" class="btn btn-success">
                                                     Log in
                                                 </a>
                                                 @if (Route::has('register'))
-                                                    <a href="{{ route('register') }}"
-                                                        class="btn btn-success">
+                                                    <a href="{{ route('register') }}" class="btn btn-success">
                                                         Register
                                                     </a>
                                                 @endif

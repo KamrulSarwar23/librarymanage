@@ -71,7 +71,7 @@
                                     @foreach ($authors as $author)
                                         <tr>
                                             <td>{{ $author->id }}</td>
-                                            <td class="py-1"><img width="80px" height="80px" src="{{ asset('storage/author/' . $author->image) }}" alt="">
+                                            <td class="py-1"><img width="80px" height="80px" src="{{ $author->image ? asset('storage/book/' . $author->image) : asset('frontend/images/book.jpg') }}" alt="">
                                             </td>
                                             <td>{{ $author->name }}</td>
                                             <td>{{ $author->address }}</td>

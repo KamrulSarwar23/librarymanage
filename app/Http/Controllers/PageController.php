@@ -13,6 +13,7 @@ use App\Models\BookQuantity;
 use Illuminate\Http\Request;
 use App\Helper\QuantityManage;
 use App\Models\Policy;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -296,6 +297,15 @@ class PageController extends Controller
         $bookId = $request->input('bookId');
         $userId = $request->input('userId');
         $returned_at = $request->input('returned_at');
+
+        $MaxBorrow = Borrow::where('user_id', Auth::user()->id)->where('status', ['pending', 'receive'])->whereNull('returned_at')->count();
+
+
+        if ($MaxBorrow >= 3) {
+            flash()->warning('Already 3 Books Added');
+            return redirect()->back();
+        }
+
 
         // Check if the user has already requested this book
         if (AxistBookingRequestHelper::existsForBook($bookId, $userId)) {

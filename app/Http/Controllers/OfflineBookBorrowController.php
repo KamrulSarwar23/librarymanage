@@ -77,8 +77,17 @@ class OfflineBookBorrowController extends Controller
 
         $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id', $request->book_id)->whereNull('returned_at')->count();
 
+        $MaxBorrow = Borrow::where('user_id', $request->user_id)->whereNotNull('due_at')->whereNull('returned_at')->count();
+
+        // dd($MaxBorrow);
+
         if ($borrowCount) {
             flash()->error('This Book Already Added');
+            return redirect()->back();
+        }
+
+        if ($MaxBorrow >= 3) {
+            flash()->warning('Already 3 Books Borrowed');
             return redirect()->back();
         }
 
