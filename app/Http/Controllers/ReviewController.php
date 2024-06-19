@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Borrow;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class ReviewController extends Controller
             'status' => $request->status ?? 'inactive',
         ]);
 
-        return response()->json(['success' => 'Review Sent successfully! Your Review Will Be Added Soon']);
+        return response()->json(['success' => 'Review sent successfully! Your review will be added soon.']);
     }
 
 

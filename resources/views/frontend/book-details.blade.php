@@ -375,13 +375,14 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-
+                       
+                       // Clear the form fields
+                       form.trigger('reset'); /
                         var modal = document.querySelector('.modal');
                         var modalInstance = bootstrap.Modal.getInstance(modal);
+                        
                         modalInstance.hide();
-                        form[0].reset();
-
-                        toastr.success('Review Sent successfully! Your Review Will Be Added Soon');
+                        toastr.success('Review sent successfully!');
                     },
                     error: function(xhr) {
                         let errors = xhr.responseJSON.errors;
