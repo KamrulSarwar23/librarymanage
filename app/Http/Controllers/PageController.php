@@ -306,7 +306,6 @@ class PageController extends Controller
             return redirect()->back();
         }
 
-
         // Check if the user has already requested this book
         if (AxistBookingRequestHelper::existsForBook($bookId, $userId)) {
             flash()->error('You have already sent a request for this book.');
