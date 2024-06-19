@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
     <section class="section">
         <div class="section-header">
             <h1>Admin Dashboard</h1>
@@ -449,6 +450,63 @@
                 </a>
             </div>
 
+        </div>
+    </section>
+
+    <section class="mt-3">
+        <h4>New Book Request</h4>
+        <div class="row">
+
+            @foreach ($newBookRequest as $item)
+            
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('book.borrowinfo') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>{{ $item->user->name }}</h4>
+                            </div>
+                            <div class="card-body">
+                               <p> {{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y, g:i a') }}</p>
+                               <p> <a href="{{ route('book.details',$item->book_id) }}">{{ limitText($item->book->title, 20) }}</a> </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+ 
+        </div>
+    </section>
+
+    <section class="mt-3">
+        <h4>New Users</h4>
+        <div class="row">
+
+            @foreach ($newUsers as $user)
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+
+                <a href="{{ route('user-manage.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-primary">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>{{ $user->name }}</h4>
+                            </div>
+                            <div class="card-body">
+                               <p> {{ $user->email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+ 
         </div>
     </section>
 @endsection

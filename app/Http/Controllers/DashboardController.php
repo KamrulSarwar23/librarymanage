@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function adminDashboard(){
+    public function adminDashboard()
+    {
         $allCategory = Category::count();
         $activeCategory = Category::where('status', 'active')->count();
         $pendingCategory = Category::where('status', 'inactive')->count();
@@ -40,7 +41,20 @@ class DashboardController extends Controller
 
         $allUser = User::where('role', 'user')->count();
         $activeUser = User::where('role', 'user')->where('status', 'active')->count();
+
         $pendingUser = User::where('role', 'user')->where('status', 'inactive')->count();
+
+        $newUsers = User::where('role', 'user')
+            ->where('status', 'inactive')
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
+
+            
+        $newBookRequest = Borrow::where('status', 'pending')
+        ->orderBy('created_at', 'desc')
+        ->take(8)
+        ->get();
 
         $allMessage = Contact::count();
 
@@ -74,12 +88,15 @@ class DashboardController extends Controller
             'receiveBorrow',
             'pendingBorrow',
             'rejectBorrow',
-            'returnBorrow'
+            'returnBorrow',
+            'newUsers',
+            'newBookRequest'
 
         ));
     }
 
-    public function userDashboard(){
+    public function userDashboard()
+    {
         $category = Category::where('status', 'active')->get();
         $author = Author::where('status', 'active')->get();
         $publisher = Publisher::where('status', 'active')->get();
