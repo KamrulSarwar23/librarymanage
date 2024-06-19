@@ -102,11 +102,11 @@ textarea.form-control {
 <script>
     $(document).ready(function() {
         $('#submitForm').on('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-            
-            let form = $(this); // Cache the form element
-            let formData = new FormData(form[0]); // Create FormData object from form
-            
+            event.preventDefault();
+
+            let formData = new FormData(this);
+            let form = this;
+
             $.ajax({
                 url: "{{ route('send.message') }}",
                 method: 'POST',
@@ -115,7 +115,7 @@ textarea.form-control {
                 contentType: false,
                 success: function(response) {
                     toastr.success('Message sent successfully!');
-                    form.trigger('reset'); // Reset the form fields
+                    form.reset(); // Clear the form fields
                 },
                 error: function(xhr) {
                     let errors = xhr.responseJSON.errors;

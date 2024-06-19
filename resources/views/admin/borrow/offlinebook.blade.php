@@ -49,7 +49,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Due Date</label>
-                                            <input type="date" class="form-control" name="due_date"
+                                            <input id="bookingDate" type="date" class="form-control" name="due_date"
                                                 value="{{ old('due_date') }}">
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@
 
                                             @if (!empty($item->due_at))
                                                 <td> {{ \Carbon\Carbon::parse($item->due_at)->format('F j, Y') }}</td>
-                                               
+
                                             @else
                                                 <td class="text-info">Not Activate Yet</td>
                                             @endif
@@ -146,7 +146,7 @@
                                                     @else
                                                     <button type="submit" class="btn btn-info">Book Returned</button>
                                                     @endif
-                                                    
+
                                                 </form>
 
                                             </td>
@@ -218,5 +218,27 @@
             loadBooks();
             loadUsers();
         });
+
+    </script>
+
+    <script>
+           // **** Work with date *****
+           document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.getElementById('bookingDate');
+
+            var today = new Date();
+            var todayString = today.toISOString().split('T')[0];
+
+            var fiveDaysFromNow = new Date();
+
+             var borrowDays = {{ @$policy->days }};
+
+            fiveDaysFromNow.setDate(today.getDate() + borrowDays);
+
+            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
+
+            dateInput.setAttribute('min', todayString);
+            dateInput.setAttribute('max', fiveDaysFromNowString);
+        })
     </script>
 @endpush
