@@ -277,8 +277,6 @@ class PageController extends Controller
         return view('frontend.book', compact('books', 'category', 'author', 'publisher', 'searchQuery', 'popularBook', 'recentBook', 'featuredBook', 'recommendedBook'));
     }
     
-
-
     public function borrowBook(Request $request)
     {
 

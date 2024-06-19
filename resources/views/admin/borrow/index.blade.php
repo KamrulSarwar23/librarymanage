@@ -156,7 +156,8 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $book->user->name }}</td>
                                             <td>{{ $book->user->email }}</td>
-                                            <td>{{ $book->book->title }}</td>
+
+                                            <td> <a href="{{ route('book.details', $book->book_id) }}">{{ limitText( $book->book->title, 20) }}</a> </td>
                                   
                                             <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
 

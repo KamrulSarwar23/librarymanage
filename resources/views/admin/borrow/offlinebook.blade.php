@@ -102,10 +102,11 @@
                                     @foreach ($offlinebooks as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $item->user->email }}</td>
-                                            <td>{{ $item->book->title }}</td>
+                                            <td>{{ $item->user->email }}</td>                                                                                                                                                                                                                                                
+                                            
+                                            <td> <a href="{{ route('book.details', $item->book_id) }}">{{ limitText( $item->book->title, 20) }}</a> </td>
 
-                                            <td>
+                                            <td>                                                                                                                                                        
                                                 @if (!empty($item->issued_at))
                                                 {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
                                                 @else

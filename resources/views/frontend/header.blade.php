@@ -24,7 +24,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-3 col-lg-3 d-flex">
-                    <img class="my-0 site-logo" width="60px" height="60px" src="{{ asset('logo/LMS-logo.jpeg') }}"
+                    <img class="my-0 site-logo" width="70px" height="70px" src="{{ asset('frontend/images/new_logo.png') }}"
                         alt="">
                     <h4 class="mt-3 ml-2"><a href="{{ route('home.page') }}">LMS</a></h4>
                 </div>

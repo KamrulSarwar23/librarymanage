@@ -28,15 +28,25 @@ class RejectPendingBorrowBooks extends Command
      */
     public function handle()
     {
+        // Retrieve borrow records with status 'pending'
         $borrowBooks = Borrow::where('status', 'pending')->get();
 
         foreach ($borrowBooks as $borrowBook) {
-            if (strtotime($borrowBook->created_at) + (5 * 3600) >= strtotime(now())) {
-                Log::info("Borrow ID {$borrowBook->id} is pending but not yet overdue");
+            // Check if the borrow request is older than 5 hours
+            if (strtotime($borrowBook->created_at) + (60) <= strtotime(now())) {
+                Log::info("Borrow ID {$borrowBook->id} is pending and now overdue.");
+
+                // Find the book quantity record associated with the borrow request
                 $bookQuantity = BookQuantity::find($borrowBook->qty_id);
 
-                $bookQuantity->increment('current_qty');
+                if ($bookQuantity) {
+                    // Increment the current quantity of the book
+                    $bookQuantity->increment('current_qty');
+                } else {
+                    Log::warning("BookQuantity ID {$borrowBook->qty_id} not found for Borrow ID {$borrowBook->id}");
+                }
 
+                // Update the borrow request status to 'reject' and reset other fields
                 $borrowBook->update([
                     'status' => 'reject',
                     'issued_at' => null,
@@ -44,7 +54,7 @@ class RejectPendingBorrowBooks extends Command
                 ]);
             }
         }
-
+        
         $this->info('Pending borrow books rejected.');
     }
 }

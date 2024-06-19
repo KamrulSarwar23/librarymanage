@@ -132,8 +132,23 @@
                         <td>Not Return Yet</td>
                         @endif
                         
-                        <td>{{ ucfirst($borrow->platform) }}</td>
-                        <td>{{ ucfirst($borrow->status) }}</td>
+                        @if ($borrow->platform == 'online')
+                        <td> <span style="background: green; padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->platform) }}</span> </td>
+                        @else
+                        <td><span style="background: rgb(31, 181, 192); padding:5px; color:white; border-radius:10%">{{ ucfirst($borrow->platform) }}</span></td>
+                        @endif
+
+                        @if ($borrow->status == 'return')
+                        <td> <span style="background: rgb(10, 189, 212); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span> </td>
+                        @elseif ($borrow->status == 'receive')
+                        <td> <span style="background: rgb(16, 168, 16); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span> </td>
+                        @elseif ($borrow->status == 'pending')
+                        <td> <span style="background: rgb(60, 77, 235); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span> </td>
+                        @else
+                        <td><span style="background: rgb(201, 62, 27); padding:5px; color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span></td>
+                        @endif
+                       
+
                     </tr>
                 @endforeach
 

@@ -29,7 +29,7 @@ class ReportController extends Controller
         
         $toDate = $endDate . ' 23.59.59';
 
-        $borrows = Borrow::with(['user', 'book'])->whereBetween('created_at', [$startDate, $toDate])->get();;
+        $borrows = Borrow::with(['user', 'book'])->whereBetween('created_at', [$startDate, $toDate])->get();
 
         $pdf = Pdf::loadView('admin.report.report', compact('borrows', 'request'))->setPaper('a4', 'landscape');
 
