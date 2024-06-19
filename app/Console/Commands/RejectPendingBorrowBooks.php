@@ -33,7 +33,7 @@ class RejectPendingBorrowBooks extends Command
 
         foreach ($borrowBooks as $borrowBook) {
             // Check if the borrow request is older than 5 hours
-            if (strtotime($borrowBook->created_at) + (60) <= strtotime(now())) {
+            if (strtotime($borrowBook->created_at) + (5 * 3600) <= strtotime(now())) {
                 Log::info("Borrow ID {$borrowBook->id} is pending and now overdue.");
 
                 // Find the book quantity record associated with the borrow request
