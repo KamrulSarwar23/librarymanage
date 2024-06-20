@@ -68,9 +68,9 @@
                                     <th>Action</th>
 
 
-                                    @foreach ($authors as $author)
+                                    @foreach ($authors as $index => $author)
                                         <tr>
-                                            <td>{{ $author->id }}</td>
+                                            <td>{{ $index+1 }}</td>
                                             <td class="py-1"><img width="80px" height="80px" src="{{ $author->image ? asset('storage/book/' . $author->image) : asset('frontend/images/book.jpg') }}" alt="">
                                             </td>
                                             <td>{{ $author->name }}</td>

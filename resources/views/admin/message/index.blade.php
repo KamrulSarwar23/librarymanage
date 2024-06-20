@@ -33,9 +33,9 @@
                                 <th>Message</th>
                                 <th>Recieved Time</th>
                                 <th>Delete</th>
-                                @foreach ($messages as $message)
+                                @foreach ($messages as $index => $message)
                                     <tr>
-                                        <td>{{ $message->id }}</td>
+                                        <td>{{ $index+1 }}</td>
                                         <td>{{ $message->firstName }}</td>
                                         <td>{{ $message->lastName }}</td>
                                         <td>{{ $message->email }}</td>

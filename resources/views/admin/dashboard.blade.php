@@ -453,6 +453,9 @@
         </div>
     </section>
 
+
+    @if (count($newBookRequest) > 0)
+        
     <section class="mt-3">
         <h4>New Book Request</h4>
         <div class="row">
@@ -482,7 +485,9 @@
  
         </div>
     </section>
+    @endif
 
+    @if (count($newUsers) > 0)
     <section class="mt-3">
         <h4>New Users</h4>
         <div class="row">
@@ -510,4 +515,5 @@
  
         </div>
     </section>
+    @endif
 @endsection

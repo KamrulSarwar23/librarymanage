@@ -38,9 +38,9 @@
                                     <th>Status</th>
                                     <th>Action</th>
 
-                                    @foreach ($users as $user)
+                                    @foreach ($users as $index => $user)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
+                                            <td>{{ $index+1 }}</td>
                                             <td  class="py-1 "><img style="border-radius: 50%" width="60px" height="60px"
                                                     src="{{ asset($user->image ?? 'frontend/images/user.png') }}" alt=""> </td>
                                             <td>{{ $user->name }}</td>

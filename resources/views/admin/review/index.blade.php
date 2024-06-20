@@ -108,9 +108,9 @@
                                     <th>Status</th>
                                     <th>Delete</th>
 
-                                    @foreach ($reviews as $review)
+                                    @foreach ($reviews as $index => $review)
                                         <tr>
-                                            <td>{{ $review->id }}</td>
+                                            <td>{{ $index+1 }}</td>
                                             <td>{{ $review->user->name }}</td>
                                             <td><a href="{{ route('book.details',$review->id) }}">{{ $review->book->title }}</a></td>
                                             <td>{{ $review->comment }}</td>

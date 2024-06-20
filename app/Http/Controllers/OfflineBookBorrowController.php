@@ -17,7 +17,7 @@ class OfflineBookBorrowController extends Controller
 
     public function getBooks()
     {
-        $books = Book::with(['quantities' => function($query){
+        $books = Book::with(['quantities' => function ($query) {
             $query->where('status', 'activate');
         }])->where('preview', 'active')->get();
 
@@ -63,7 +63,6 @@ class OfflineBookBorrowController extends Controller
             'return_date' => 'nullable',
         ]);
 
-
         $bookQuantity = BookQuantity::where('book_id', $request->book_id)->where('current_qty', '>', 0)->first();
 
         $books = Book::with(['quantities' => function ($query) {
@@ -79,7 +78,6 @@ class OfflineBookBorrowController extends Controller
         $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id', $request->book_id)->whereNull('returned_at')->count();
 
         $MaxBorrow = Borrow::where('user_id', $request->user_id)->whereNotNull('due_at')->where('status', 'receive')->whereNull('returned_at')->count();
-
 
         if ($borrowCount) {
             flash()->error('This Book Already Added');
@@ -110,28 +108,6 @@ class OfflineBookBorrowController extends Controller
     }
 
 
-    // public function update(string $id, Request $request)
-    // {
-    //     $borrow = Borrow::findOrFail($id);
-
-    //     if (!is_null($borrow->returned_at)) {
-    //         flash()->warning('This Book Already Returned');
-    //         return redirect()->back();
-    //     }
-
-    //     $borrow->update([
-    //         'status' => 'return',
-    //         'returned_at' => Carbon::now('Asia/Dhaka')
-    //     ]);
-
-    //     $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);
-    //     $bookQuantity->increment('current_qty');
-
-    //     flash()->success('This Book Return Successfully');
-    //     return redirect()->back();
-    // }
-
-
     public function updateOfflineInfo(string $id, Request $request)
     {
         try {
@@ -141,7 +117,7 @@ class OfflineBookBorrowController extends Controller
             $status = $request->status;
             $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
             $MaxBorrow = Borrow::where('user_id', $borrowRecord->user_id)->whereNotNull('issued_at')->whereNull('returned_at')->count();
-    
+
 
             // Check if the current status is "return" and prevent updating to "reject", "pending", or "receive"
             if ($borrowRecord->status === "return" && in_array($status, ["reject", "pending", "receive"])) {
@@ -194,28 +170,28 @@ class OfflineBookBorrowController extends Controller
 
 
     public function offlineBorrowBookSearch(Request $request)
-        {
-            $searchQuery = $request->input('search_query');
+    {
+        $searchQuery = $request->input('search_query');
 
-            $query = Borrow::query();
+        $query = Borrow::query();
 
-            if (!empty($searchQuery)) {
-                $query->where(function ($query) use ($searchQuery) {
+        if (!empty($searchQuery)) {
+            $query->where(function ($query) use ($searchQuery) {
 
-                    $query->where('status', 'like', '%' . $searchQuery . '%')
+                $query->where('status', 'like', '%' . $searchQuery . '%')
 
-                        ->orWhereHas('user', function ($q) use ($searchQuery) {
-                            $q->where('name', 'like', '%' . $searchQuery . '%');
-                        })
+                    ->orWhereHas('user', function ($q) use ($searchQuery) {
+                        $q->where('name', 'like', '%' . $searchQuery . '%');
+                    })
 
-                        ->orWhereHas('user', function ($q) use ($searchQuery) {
-                            $q->where('email', 'like', '%' . $searchQuery . '%');
-                        });
-                });
-            }
-
-            $offlinebooks = $query->where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(10);
-
-            return view('admin.borrow.offlinebook', compact('offlinebooks'));
+                    ->orWhereHas('user', function ($q) use ($searchQuery) {
+                        $q->where('email', 'like', '%' . $searchQuery . '%');
+                    });
+            });
         }
+
+        $offlinebooks = $query->where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('admin.borrow.offlinebook', compact('offlinebooks'));
+    }
 }

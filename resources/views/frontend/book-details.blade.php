@@ -292,9 +292,9 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Review for <strong
-                            id="review-book-title">Atomic Habits</strong>
-                    </h1>
+                    <h4 class="modal-title fs-5" id="staticBackdropLabel">Add Review for <strong
+                            id="review-book-title">{{ $booksdetails->title }}</strong>
+                    </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -389,15 +389,20 @@
                     form.reset(); // Clear the form fields
                 },
                 error: function(xhr) {
-                    let errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value[0]);
-                    });
+                    if (xhr.status === 401) { // Unauthorized
+                        toastr.error('Login First');
+                    } else {
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    }
                 }
             });
         });
     });
 </script>
+
 
 
 

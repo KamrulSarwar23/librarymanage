@@ -55,9 +55,9 @@
                                     <th>Action</th>
 
 
-                                    @foreach ($categories as $category)
+                                    @foreach ($categories as $index => $category)
                                         <tr>
-                                            <td>{{ $category->id }}</td>
+                                            <td>{{ $index+1 }}</td>
                                             <td class="py-1"><img width="80px" height="80px"
                                                     src="{{ $category->image ? asset('storage/book/' . $category->image) : asset('frontend/images/book.jpg') }}"
                                                     alt=""> </td>

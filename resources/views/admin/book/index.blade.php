@@ -258,7 +258,7 @@
                             <div class="text-success mt-3 ml-3">
                                 <h6>Search results for: "active"</h6>
                             </div>
-                            @else
+                            @elseif (request()->routeIs('inactive.book'))
                             <div class="text-success mt-3 ml-3">
                                 <h6>Search results for: "inactive"</h6>
                             </div>
