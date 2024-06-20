@@ -204,7 +204,6 @@
                                     </li>
 
 
-
                                 </ul>
                             </div>
 
@@ -248,6 +247,23 @@
                                     <h6>Search results for: "{{ $publisherName->name }}"</h6>
                                 </div>
                             @endif
+
+                            @if (isset($searchQuery))
+                            <div class="text-success mt-3 ml-3">
+                                <h6>Search results for: "{{ $searchQuery }}"</h6>
+                            </div>
+                            @endif
+
+                            @if (request()->routeIs('active.book'))
+                            <div class="text-success mt-3 ml-3">
+                                <h6>Search results for: "active"</h6>
+                            </div>
+                            @else
+                            <div class="text-success mt-3 ml-3">
+                                <h6>Search results for: "inactive"</h6>
+                            </div>
+                            @endif
+
                         </div>
 
                         <div class="card-body shadow-lg p-3 mb-5 bg-body-tertiary rounded">

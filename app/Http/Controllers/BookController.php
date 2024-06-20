@@ -197,7 +197,7 @@ class BookController extends Controller
             flash()->error('No data found.');
         }
 
-        return view('admin.book.index', compact('books', 'category', 'author', 'publisher'));
+        return view('admin.book.index', compact('books', 'category', 'author', 'publisher', 'searchQuery'));
     }
 
     public function filterByCategory($id)

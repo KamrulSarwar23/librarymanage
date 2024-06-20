@@ -468,11 +468,12 @@
                         <div class="card-wrap">
                             <div class="card-header">
                                 <h4>{{ $item->user->name }}</h4>
+                                <p> {{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y, g:i a') }}</p>
+                               <p> <a href="{{ route('book.details',$item->book_id) }}">{{ limitText($item->book->title, 30) }}</a> </p>
                             </div>
-                            <div class="card-body">
-                               <p> {{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y, g:i a') }}</p>
-                               <p> <a href="{{ route('book.details',$item->book_id) }}">{{ limitText($item->book->title, 20) }}</a> </p>
-                            </div>
+                            {{-- <div class="card-body">
+                               
+                            </div> --}}
                         </div>
                     </div>
                 </a>

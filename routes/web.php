@@ -100,10 +100,12 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users');
     Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
-    Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
+    // Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
     Route::get('online/book/borrow/search', [OfflineBookBorrowController::class, 'offlineBorrowBookSearch'])->name('offline-book-borrow-search');
+    Route::put('/offline-book-borrow/update-info/{id}', [OfflineBookBorrowController::class, 'updateOfflineInfo'])->name('book-borrow.updateOfflineInfo');
 
     // Book Borrow online
+
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
     Route::get('offline/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');

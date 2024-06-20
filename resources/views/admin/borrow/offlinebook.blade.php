@@ -6,6 +6,23 @@
         td {
             white-space: nowrap;
         }
+
+        .form_select {
+            padding: 5px 8px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #495057;
+
+        }
+
+        /* Style for the select element when focused */
+        .form_select:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
     </style>
 
     <section class="section">
@@ -96,19 +113,21 @@
                                     <th>Due Date</th>
                                     <th>Return Date</th>
                                     <th>Platform</th>
-                                    <th>Status</th>
+
                                     <th>Action</th>
 
                                     @foreach ($offlinebooks as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $item->user->email }}</td>                                                                                                                                                                                                                                                
-                                            
-                                            <td> <a href="{{ route('book.details', $item->book_id) }}">{{ limitText( $item->book->title, 20) }}</a> </td>
+                                            <td>{{ $item->user->email }}</td>
 
-                                            <td>                                                                                                                                                        
+                                            <td> <a
+                                                    href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
+                                            </td>
+
+                                            <td>
                                                 @if (!empty($item->issued_at))
-                                                {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
+                                                    {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
                                                 @else
                                                     <span class="text-info">Not Activate Yet</span>
                                                 @endif
@@ -116,42 +135,48 @@
 
                                             @if (!empty($item->due_at))
                                                 <td> {{ \Carbon\Carbon::parse($item->due_at)->format('F j, Y') }}</td>
-
                                             @else
                                                 <td class="text-info">Not Activate Yet</td>
                                             @endif
 
 
                                             @if (!empty($item->returned_at))
-                                            <td> {{ \Carbon\Carbon::parse($item->returned_at)->format('F j, Y, g:i a') }}</td>
+                                                <td> {{ \Carbon\Carbon::parse($item->returned_at)->format('F j, Y, g:i a') }}
+                                                </td>
                                             @else
                                                 <td class="text-info">Not Return Yet</td>
                                             @endif
 
-                                            <td><span class="badge rounded-pill bg-primary">{{ $item->platform }}</span></td>
-
-                                            <td>
-                                                @if ($item->status == 'return')
-                                                    <span class="badge rounded-pill bg-info">Return</span>
-                                                @else
-                                                <span class="badge rounded-pill bg-success">Active</span>
-                                                @endif
+                                            <td><span class="badge rounded-pill bg-primary">{{ $item->platform }}</span>
                                             </td>
 
-                                            <td>
-                                                <form id="updateForm" action="{{ route('offline-book-borrow-update', $item->id) }}" method="POST">
-                                                    @csrf
 
-                                                    @if ($item->status=='receive')
-                                                    <button type="submit" class="btn btn-info applied">Update</button>
-                                                    @else
-                                                    <button type="submit" class="btn btn-info">Book Returned</button>
-                                                    @endif
+
+
+                                            <td>
+                                                <form id="borrowForm{{ $item->id }}"
+                                                    action="{{ route('book-borrow.updateOfflineInfo', $item->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <select
+                                                        class="form_select {{ $item->status == 'receive' ? 'bg-info text-white' : '' }} {{ $item->status == 'reject' ? 'bg-danger text-white' : '' }} {{ $item->status == 'return' ? 'bg-success text-white' : '' }}"
+                                                        name="status" onchange="submitForm({{ $item->id }})">
+                                                        <option disabled>Select One</option>
+                                                        {{-- <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>Pending</option> --}}
+                                                        <option value="receive"
+                                                            {{ $item->status == 'receive' ? 'selected' : '' }}>Receive
+                                                        </option>
+                                                        <option value="reject"
+                                                            {{ $item->status == 'reject' ? 'selected' : '' }}>Reject
+                                                        </option>
+                                                        <option value="return"
+                                                            {{ $item->status == 'return' ? 'selected' : '' }}>Return
+                                                        </option>
+                                                    </select>
 
                                                 </form>
-
                                             </td>
-
                                         </tr>
                                     @endforeach
                                 </table>
@@ -169,6 +194,12 @@
         </div>
         </div>
     </section>
+
+    <script>
+        function submitForm(bookId) {
+            document.getElementById('borrowForm' + bookId).submit();
+        }
+    </script>
 @endsection
 
 
@@ -186,7 +217,9 @@
                         dropdown.append('<option value="">Select</option>');
 
                         $.each(data, function(index, book) {
-                            dropdown.append('<option value="' + book.id + '">' + book.title + ' (Available Book: ' + book.total_quantity +')' + '</option>');
+                            dropdown.append('<option value="' + book.id + '">' + book.title +
+                                ' (Available Book: ' + book.total_quantity + ')' +
+                                '</option>');
                         });
                     },
                     error: function(xhr, status, error) {
@@ -219,12 +252,11 @@
             loadBooks();
             loadUsers();
         });
-
     </script>
 
     <script>
-           // **** Work with date *****
-           document.addEventListener('DOMContentLoaded', function() {
+        // **** Work with date *****
+        document.addEventListener('DOMContentLoaded', function() {
             var dateInput = document.getElementById('bookingDate');
 
             var today = new Date();
@@ -232,7 +264,7 @@
 
             var fiveDaysFromNow = new Date();
 
-             var borrowDays = {{ @$policy->days }};
+            var borrowDays = {{ @$policy->days }};
 
             fiveDaysFromNow.setDate(today.getDate() + borrowDays);
 

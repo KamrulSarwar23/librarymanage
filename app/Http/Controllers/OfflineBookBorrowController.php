@@ -10,6 +10,7 @@ use App\Models\Policy;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfflineBookBorrowController extends Controller
 {
@@ -77,9 +78,8 @@ class OfflineBookBorrowController extends Controller
 
         $borrowCount = Borrow::where('user_id', $request->user_id)->where('book_id', $request->book_id)->whereNull('returned_at')->count();
 
-        $MaxBorrow = Borrow::where('user_id', $request->user_id)->whereNotNull('due_at')->whereNull('returned_at')->count();
+        $MaxBorrow = Borrow::where('user_id', $request->user_id)->whereNotNull('due_at')->where('status', 'receive')->whereNull('returned_at')->count();
 
-        // dd($MaxBorrow);
 
         if ($borrowCount) {
             flash()->error('This Book Already Added');
@@ -110,25 +110,86 @@ class OfflineBookBorrowController extends Controller
     }
 
 
-    public function update(string $id, Request $request)
-    {
-        $borrow = Borrow::findOrFail($id);
+    // public function update(string $id, Request $request)
+    // {
+    //     $borrow = Borrow::findOrFail($id);
 
-        if (!is_null($borrow->returned_at)) {
-            flash()->warning('This Book Already Returned');
+    //     if (!is_null($borrow->returned_at)) {
+    //         flash()->warning('This Book Already Returned');
+    //         return redirect()->back();
+    //     }
+
+    //     $borrow->update([
+    //         'status' => 'return',
+    //         'returned_at' => Carbon::now('Asia/Dhaka')
+    //     ]);
+
+    //     $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);
+    //     $bookQuantity->increment('current_qty');
+
+    //     flash()->success('This Book Return Successfully');
+    //     return redirect()->back();
+    // }
+
+
+    public function updateOfflineInfo(string $id, Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $borrowRecord = Borrow::findOrFail($id);
+            $status = $request->status;
+            $bookQuantity = BookQuantity::find($borrowRecord->qty_id);
+            $MaxBorrow = Borrow::where('user_id', $borrowRecord->user_id)->whereNotNull('issued_at')->whereNull('returned_at')->count();
+    
+
+            // Check if the current status is "return" and prevent updating to "reject", "pending", or "receive"
+            if ($borrowRecord->status === "return" && in_array($status, ["reject", "pending", "receive"])) {
+                flash()->warning('This Book Already Return');
+                return redirect()->back();
+            }
+
+            if (in_array($status, ["receive"]) && $MaxBorrow >= 3) {
+                flash()->warning('Already 3 Books Borrowed');
+                return redirect()->back();
+            }
+
+            if ($borrowRecord->issued_at === null && in_array($status, ["return"])) {
+
+                flash()->warning('Book Not Issued Yet');
+
+                return redirect()->back();
+            }
+
+            if (in_array($borrowRecord->status, ["reject", "return"]) && in_array($status, ["receive", "pending"])) {
+                $bookQuantity->decrement('current_qty');
+            }
+
+            $updateData = ['status' => $status];
+
+            if ($status === "receive") {
+                $updateData['issued_at'] = Carbon::now('Asia/Dhaka');
+            } elseif ($status === "return") {
+                $updateData['returned_at'] = Carbon::now('Asia/Dhaka');
+            } elseif ($status === "reject") {
+                $updateData['issued_at'] = null;
+            }
+
+            $borrowRecord->update($updateData);
+
+            if (in_array($status, ["return", "reject"]) && $bookQuantity) {
+                $bookQuantity->increment('current_qty');
+            }
+
+            flash()->success('This Borrow Request Updated Successfully');
+            DB::commit();
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('An error occurred while updating the borrow request.');
             return redirect()->back();
         }
-
-        $borrow->update([
-            'status' => 'return',
-            'returned_at' => Carbon::now('Asia/Dhaka')
-        ]);
-
-        $bookQuantity = BookQuantity::findOrFail($borrow->qty_id);
-        $bookQuantity->increment('current_qty');
-
-        flash()->success('This Book Return Successfully');
-        return redirect()->back();
     }
 
 
