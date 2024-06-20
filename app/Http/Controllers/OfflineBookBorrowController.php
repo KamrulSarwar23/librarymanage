@@ -46,7 +46,7 @@ class OfflineBookBorrowController extends Controller
     public function index()
     {
 
-        $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(8);
+        $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(10);
         $policy = Policy::first();
 
         return view('admin.borrow.offlinebook', compact('offlinebooks', 'policy'));

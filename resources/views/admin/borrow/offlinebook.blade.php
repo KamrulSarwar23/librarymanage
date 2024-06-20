@@ -107,7 +107,8 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <th>Id</th>
-                                    <th>User</th>
+                                    <th>User Name</th>
+                                    <th>User Email</th>
                                     <th>Book</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
@@ -119,6 +120,7 @@
                                     @foreach ($offlinebooks as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->user->email }}</td>
 
                                             <td> <a
