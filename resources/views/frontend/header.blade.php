@@ -24,8 +24,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-3 col-lg-3 d-flex">
-                    <img class="my-0 site-logo" width="70px" height="70px" src="{{ asset('frontend/images/new_logo.png') }}"
-                        alt="">
+                    <img class="my-0 site-logo" width="70px" height="70px"
+                        src="{{ asset('frontend/images/new_logo.png') }}" alt="">
                     <h4 class="mt-3 ml-2"><a href="{{ route('home.page') }}">LMS</a></h4>
                 </div>
                 <div class="col-9 col-lg-9">
@@ -49,9 +49,8 @@
                                     <a href="{{ route('contact.page') }}" class="nav-link">Contact</a>
                                 </li>
                                 <li class="nav-item" {{ request()->routeIs('policy.page') ? 'active' : '' }}>
-                                    <a href="{{ route('policy.page') }}" class="nav-link">User Policy</a>
+                                    <a href="{{ route('policy.page') }}" class="nav-link">Policy</a>
                                 </li>
-
 
 
                                 <li>

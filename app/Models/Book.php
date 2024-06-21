@@ -22,7 +22,10 @@ class Book extends Model
         'status',
         'quantity',
         'type',
-        'preview'
+        'preview',
+        'shelf',
+        'row'
+
     ];
 
 

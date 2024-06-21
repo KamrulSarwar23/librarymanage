@@ -76,8 +76,22 @@
                                     </div>
 
                          
+                                </div>
 
-                    
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Shelf</label>
+                                            <input type="text" class="form-control" name="shelf" value="{{ $book->shelf }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Row</label>
+                                            <input type="text" class="form-control" name="row" value="{{ $book->row }}">
+                                        </div>
+                                    </div>
                                 </div>
 
 

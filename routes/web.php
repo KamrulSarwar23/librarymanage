@@ -109,7 +109,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
     Route::get('offline/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
-   
+
     // User Routes
     Route::put('/user/status', [UserController::class, 'changeStatus'])->name('user.status');
     Route::resource('user-manage', UserController::class);
@@ -135,7 +135,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     //User Policy
     Route::get('/user-policy', [UserPolicyController::class, 'create'])->name('user-policy.create');
     Route::post('/user-policy', [UserPolicyController::class, 'store'])->name('user-policy.store');
-
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
@@ -152,5 +151,4 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Book Borrow Route
     Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');
-    
 });

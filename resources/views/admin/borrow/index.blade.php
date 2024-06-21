@@ -143,12 +143,13 @@
                                     <th>User Name</th>
                                     <th>User Email</th>
                                     <th>Book</th>
-                                
-                                    <th>Platform</th>
+                                    <th>Location</th>
+                                    
                                     <th>Request Time</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
+                                    <th>Platform</th>
                                     <th style="width: 20%">Status</th>
 
                                     @foreach ($borrowedBooks as $index => $book)
@@ -159,7 +160,10 @@
 
                                             <td> <a href="{{ route('book.details', $book->book_id) }}">{{ limitText( $book->book->title, 20) }}</a> </td>
                                   
-                                            <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
+                                            <td><span class="badge badge-info">Shelf: {{ $book->book->shelf }}</span> <span class="badge badge-info">Row: {{ $book->book->row }}</span> </td>
+                                        </td>
+
+                                            
 
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}</td>
 
@@ -182,6 +186,7 @@
                                                 <td class="text-danger">Not Return Yet</td>
                                             @endif
                                             
+                                            <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
 
                                             <td>
                                                 <form id="borrowForm{{ $book->id }}"

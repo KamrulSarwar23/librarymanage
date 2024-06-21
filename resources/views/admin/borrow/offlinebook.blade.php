@@ -110,6 +110,7 @@
                                     <th>User Name</th>
                                     <th>User Email</th>
                                     <th>Book</th>
+                                    <th>Location</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
@@ -126,7 +127,8 @@
                                             <td> <a
                                                     href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
                                             </td>
-
+                                            <td><span class="badge badge-info">Shelf: {{ $item->book->shelf }}</span> <span class="badge badge-info">Row: {{ $item->book->row }}</span> </td>
+                                        </td>
                                             <td>
                                                 @if (!empty($item->issued_at))
                                                     {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}

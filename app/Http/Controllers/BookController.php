@@ -278,6 +278,8 @@ class BookController extends Controller
             'cover_image' => 'required',
             'type' => 'required',
             'preview' => 'required',
+            'shelf' => 'required',
+            'row' => 'required'
         ]);
 
         $imageName = '';
@@ -300,6 +302,8 @@ class BookController extends Controller
             'type' => $request->type,
             'preview' => $request->preview,
             'cover_image' => $imageName,
+            'shelf' => $request->shelf,
+            'row' => $request->row,
         ]);
 
         flash()->success('Book Created Successfully');
@@ -343,6 +347,8 @@ class BookController extends Controller
             'cover_image' => 'nullable|image',
             'type' => 'required',
             'preview' => 'required',
+            'shelf' => 'required',
+            'row' => 'required'
         ]);
 
         $book = Book::findOrFail($id);
@@ -369,6 +375,8 @@ class BookController extends Controller
             'summary' => $request->summary,
             'type' => $request->type,
             'preview' => $request->preview,
+            'shelf' => $request->shelf,
+            'row' => $request->row,
         ]);
 
         flash()->success('Book Updated Successfully');

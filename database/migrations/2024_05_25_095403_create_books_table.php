@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('cover_image')->nullable();
             $table->enum('type', ['popular', 'recent', 'featured', 'recommended'])->default('recent');
             $table->enum('preview', ['active', 'inactive'])->default('inactive');
+            $table->string('shelf')->nullable();
+            $table->string('row')->nullable();
             $table->timestamps();
 
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('restrict');
