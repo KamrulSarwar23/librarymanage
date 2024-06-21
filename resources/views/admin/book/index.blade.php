@@ -273,9 +273,9 @@
                                     <th>Cover Image</th>
                                     <th>Title</th>
                                     <th>Location</th>
-                                    <th>Category Name</th>
-                                    <th>Publisher Name</th>
-                                    <th>Author Name</th>
+                                    {{-- <th>Category Name</th> --}}
+                                    {{-- <th>Publisher Name</th> --}}
+                                    {{-- <th>Author Name</th> --}}
                                     <th>Stock</th>
                                     <th>Current Quantity</th>
                                     <th>Status</th>
@@ -296,12 +296,12 @@
                                             <td><span class="badge badge-info">Shelf: {{ $book->shelf }}</span> <span class="badge badge-info">Row: {{ $book->row }}</span> </td>
                                             </td>
 
-                                            <td>
+                                            {{-- <td>
                                                 <span>{{ $book->category->name }}</span>
-                                            </td>
+                                            </td> --}}
 
-                                            <td>{{ $book->publisher->name }}</td>
-                                            <td>{{ $book->author->name }}</td>
+                                            {{-- <td>{{ $book->publisher->name }}</td> --}}
+                                            {{-- <td>{{ $book->author->name }}</td> --}}
                                             <td>{{ $book->quantity }}</td>
                                             <td>{{ $book->current_qty }}</td>
 
@@ -369,6 +369,9 @@
                                                 <a class="delete-item btn btn-danger mr-2"
                                                     href="{{ route('book.destroy', $book->id) }}"><i
                                                         class="fas fa-trash"></i></a>
+
+                                                        <a class="btn btn-primary mr-2"
+                                                        href="{{ route('book.show', $book->id) }}"><i class="fa-solid fa-eye"></i></a>
 
                                                 {{-- quantity.index --}}
 

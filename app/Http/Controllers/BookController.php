@@ -315,7 +315,18 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-        //
+  
+        // $book = Book::with(['quantities' => function($query){
+        //     $query->where('status', 'activate');
+        // }])->findOrFail($id);
+
+        $book = Book::findOrFail($id);
+
+        
+        $categories = Category::where('status', 'active')->get();
+        $authors = Author::where('status', 'active')->get();
+        $publishers = Publisher::where('status', 'active')->get();
+        return view('admin.book.show', compact('categories', 'authors', 'publishers', 'book'));
     }
 
     /**

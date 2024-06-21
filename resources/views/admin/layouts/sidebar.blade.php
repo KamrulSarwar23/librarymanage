@@ -74,6 +74,7 @@
                     'book.index',
                     'book.create',
                     'book.edit',
+                    'book.show',
                     'admin.book-by-category',
                     'admin.book-by-author',
                     'admin.book-by-publisher',
