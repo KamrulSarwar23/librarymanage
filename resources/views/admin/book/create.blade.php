@@ -76,14 +76,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Shelf</label>
+                                            <label>Shelf <span>(exp: A, B, C)</span></label>
                                             <input type="text" class="form-control" name="shelf">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Row</label>
+                                            <label>Row <span>(exp: 1, 2, 3)</span></label>
                                             <input type="text" class="form-control" name="row">
                                         </div>
                                     </div>
