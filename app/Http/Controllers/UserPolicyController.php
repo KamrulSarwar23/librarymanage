@@ -26,6 +26,7 @@ class UserPolicyController extends Controller
             'id' => 'sometimes|nullable',
             'days' => 'required',
             'policy' => 'required|string',
+            'fine_amount' => 'required|integer',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -43,7 +44,10 @@ class UserPolicyController extends Controller
 
             $policy = Policy::updateOrCreate(
                 $criteria,
-                ['days' => $validatedData['days'], 'policy' => $validatedData['policy']]
+                ['days' => $validatedData['days'], 
+                'policy' => $validatedData['policy'],
+                'fine_amount' => $validatedData['fine_amount']
+                ]
             );
 
             if (empty($criteria)) {

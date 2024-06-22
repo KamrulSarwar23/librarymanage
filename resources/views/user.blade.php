@@ -252,6 +252,7 @@
                                                             <th>Issued Date</th>
                                                             <th>Due Date</th>
                                                             <th>Return Date</th>
+                                                            <th>Late Fine</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -274,11 +275,15 @@
                                                                 @else
                                                                     <td>Not Updated Yet</td>
                                                                 @endif
+
                                                                 @if (!empty($item->returned_at))
                                                                     <td>{{ $item->returned_at }}</td>
                                                                 @else
                                                                     <td>Not Updated Yet</td>
                                                                 @endif
+
+                                                                <td><span class="badge badge-danger">{{ $item->fine }} Taka</span></td>
+
                                                                 @if ($item->status == 'reject')
                                                                     <td><span class="badge badge-danger">Rejected</span>
                                                                     </td>

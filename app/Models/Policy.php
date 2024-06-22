@@ -9,5 +9,5 @@ class Policy extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['days', 'policy'];
+    protected $fillable = ['days', 'policy', 'fine_amount'];
 }

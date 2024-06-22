@@ -25,13 +25,16 @@ class Borrow extends Model
     
     public function calculateFine()
     {
+
+        $policy = Policy::first();
+
         if ($this->due_at) {
             $dueDate = Carbon::parse($this->due_at)->startOfDay(); // Ensure dueDate is at the start of the day
             $currentDate = $this->returned_at ? Carbon::parse($this->returned_at)->startOfDay() : Carbon::now()->startOfDay();
 
             if ($currentDate->greaterThan($dueDate)) {
                 $daysOverdue = $dueDate->diffInDays($currentDate); // Only count full days
-                $finePerDay = 10; // Set your fine amount per day in integer
+                $finePerDay =  $policy->fine_amount; // Set your fine amount per day in integer
                 return $daysOverdue * $finePerDay;
             }
         }

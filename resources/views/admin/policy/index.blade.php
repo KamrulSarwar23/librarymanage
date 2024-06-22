@@ -18,11 +18,23 @@
                             <form action="{{ route('user-policy.store') }}" method="POST">
                                 @csrf
 
-                                <div class="form-group w-25">
-                                    <label>Days</label>
-                                    <input type="text" class="form-control" name="days"
-                                        value="{{ isset($policy) ? $policy->days : '' }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Days</label>
+                                        <input type="text" class="form-control" name="days"
+                                            value="{{ isset($policy) ? $policy->days : '' }}">
+                                    </div>                               
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Per Day Fine Amount</label>
+                                        <input type="text" class="form-control" name="fine_amount"
+                                            value="{{ isset($policy) ? $policy->fine_amount : '' }}">
+                                    </div>
+                                </div>
+                            </div>
 
                                 <div class="form-group">
                                     <label>Policy</label>
