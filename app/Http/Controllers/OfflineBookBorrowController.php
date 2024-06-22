@@ -187,12 +187,16 @@ class OfflineBookBorrowController extends Controller
 
                     ->orWhereHas('user', function ($q) use ($searchQuery) {
                         $q->where('email', 'like', '%' . $searchQuery . '%');
+                    })
+
+                    ->orWhereHas('book', function ($q) use ($searchQuery) {
+                        $q->where('title', 'like', '%' . $searchQuery . '%');
                     });
             });
         }
 
         $offlinebooks = $query->where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(10);
 
-        return view('admin.borrow.offlinebook', compact('offlinebooks'));
+        return view('admin.borrow.offlinebook', compact('offlinebooks', 'searchQuery'));
     }
 }

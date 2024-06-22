@@ -6,7 +6,42 @@
         <div class="section-header">
             <h1>Admin Dashboard</h1>
         </div>
+        @if (count($newBookRequest) > 0)
+        <section class="mt-4">
+            <h4 class="mb-4 text-center">New Book Requests</h4>
+            <div class="row">
 
+                @foreach ($newBookRequest as $item)
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex align-items-center mb-3">
+
+                                    <img style="border-radius: 50%" width="50px" height="50px"
+                                        src="{{ asset($item->user->image ?? 'frontend/images/user.png') }}"
+                                        alt="">
+
+                                    <div class="ms-3">
+                                        <h5 class="card-title mb-0">{{ $item->user->name }}</h5>
+                                        <p class="text-muted card-title mb-0">{{ $item->user->email }}</p>
+                                        <p class="card-subtitle text-muted">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y, g:i a') }}</p>
+                                    </div>
+                                </div>
+
+                                <h6 class="card-text flex-grow-1"><a
+                                        href="{{ route('book.details', $item->book_id) }}">{{ $item->book->title }}</a>
+                                </h6>
+                                <a href="{{ route('book.borrowinfo') }}" class="btn btn-primary mt-auto">View Request</a>
+
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        </section>
+    @endif
         <div class="row">
 
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -454,66 +489,8 @@
     </section>
 
 
-    @if (count($newBookRequest) > 0)
-        
-    <section class="mt-3">
-        <h4>New Book Request</h4>
-        <div class="row">
-
-            @foreach ($newBookRequest as $item)
-            
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{ route('book.borrowinfo') }}">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-success">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>{{ $item->user->name }}</h4>
-                                <p> {{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y, g:i a') }}</p>
-                               <p> <a href="{{ route('book.details',$item->book_id) }}">{{ limitText($item->book->title, 30) }}</a> </p>
-                            </div>
-                            {{-- <div class="card-body">
-                               
-                            </div> --}}
-                        </div>
-                    </div>
-                </a>
-            </div>
-            @endforeach
  
-        </div>
-    </section>
-    @endif
 
-    @if (count($newUsers) > 0)
-    <section class="mt-3">
-        <h4>New Users</h4>
-        <div class="row">
 
-            @foreach ($newUsers as $user)
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
 
-                <a href="{{ route('user-manage.index') }}">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-primary">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>{{ $user->name }}</h4>
-                            </div>
-                            <div class="card-body">
-                               <p> {{ $user->email }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            @endforeach
- 
-        </div>
-    </section>
-    @endif
 @endsection

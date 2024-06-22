@@ -125,7 +125,6 @@
                             </p>
                         </div>
 
-
                         @auth
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($booksdetails->id, auth()->user()->id))
                                 <form action="javascript:;">
@@ -143,12 +142,8 @@
                                     </form>
                                 @endif
                             @endif
-                                                            
+                                                        
                         @endauth
-
-
-
-
 
                         <div class="col-md-12 pt-2">
                             <hr>

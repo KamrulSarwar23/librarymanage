@@ -103,6 +103,12 @@
 
                         </li>
 
+                        <div class="ml-auto mr-5 mt-2">
+                            @if (isset($searchQuery))
+                            <p class="text-info">Search Result For: {{ $searchQuery }}</p>
+                        @endif
+                        </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">

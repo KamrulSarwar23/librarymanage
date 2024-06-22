@@ -99,6 +99,9 @@ class BookBorrowController extends Controller
     {
         $searchQuery = $request->input('search_query');
 
+
+
+
         $query = Borrow::query();
 
         if (!empty($searchQuery)) {
@@ -112,13 +115,17 @@ class BookBorrowController extends Controller
 
                     ->orWhereHas('user', function ($q) use ($searchQuery) {
                         $q->where('email', 'like', '%' . $searchQuery . '%');
+                    })
+
+                    ->orWhereHas('book', function ($q) use ($searchQuery) {
+                        $q->where('title', 'like', '%' . $searchQuery . '%');
                     });
             });
         }
 
         $borrowedBooks = $query->where('platform', 'online')->orderBy('created_at', 'DESC')->paginate(10);
 
-        return view('admin.borrow.index', compact('borrowedBooks'));
+        return view('admin.borrow.index', compact('borrowedBooks', 'searchQuery'));
     }
 
 }

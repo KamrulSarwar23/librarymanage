@@ -132,9 +132,16 @@
                                     <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
                                 </form>
 
+                       
+
                             </li>
                         @endif
 
+                        <div class="ml-auto mr-5 mt-2">
+                            @if (isset($searchQuery))
+                            <p class="text-info">Search Result For: {{ $searchQuery }}</p>
+                        @endif
+                        </div>
 
                         <div class="card-body">
                             <div class="table-responsive">
@@ -144,7 +151,7 @@
                                     <th>User Email</th>
                                     <th>Book</th>
                                     <th>Location</th>
-                                    
+
                                     <th>Request Time</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
@@ -159,37 +166,43 @@
                                             <td>{{ $book->user->name }}</td>
                                             <td>{{ $book->user->email }}</td>
 
-                                            <td> <a href="{{ route('book.details', $book->book_id) }}">{{ limitText( $book->book->title, 20) }}</a> </td>
-                                  
-                                            <td><span class="badge badge-info">Shelf: {{ $book->book->shelf }}</span> <span class="badge badge-info">Row: {{ $book->book->row }}</span> </td>
-                                        </td>
+                                            <td> <a
+                                                    href="{{ route('book.details', $book->book_id) }}">{{ limitText($book->book->title, 20) }}</a>
+                                            </td>
 
-                                            
+                                            <td><span class="badge badge-info">Shelf: {{ $book->book->shelf }}</span> <span
+                                                    class="badge badge-info">Row: {{ $book->book->row }}</span> </td>
+                                            </td>
 
-                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}</td>
+
+
+                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
+                                            </td>
 
                                             @if ($book->issued_at !== null)
-                                            <td>{{ \Carbon\Carbon::parse($book->issued_at)->format('F j, Y, g:i a') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($book->issued_at)->format('F j, Y, g:i a') }}
+                                                </td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
 
                                             @if ($book->due_at !== null)
-                                            <td> {{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
+                                                <td> {{ \Carbon\Carbon::parse($book->due_at)->format('F j, Y') }}</td>
                                             @else
                                                 <td class="text-danger">Need To Approve</td>
                                             @endif
 
 
                                             @if ($book->returned_at !== null)
-                                            <td>{{ \Carbon\Carbon::parse($book->returned_at)->format('F j, Y, g:i a') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($book->returned_at)->format('F j, Y, g:i a') }}
+                                                </td>
                                             @else
                                                 <td class="text-danger">Not Return Yet</td>
                                             @endif
-                                            
+
                                             {{-- <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td> --}}
 
-                                            <td><span class="badge badge-danger">{{ $book->fine}} Taka</span></td>
+                                            <td><span class="badge badge-danger">{{ $book->fine }} Taka</span></td>
 
                                             <td>
                                                 <form id="borrowForm{{ $book->id }}"
@@ -197,16 +210,24 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <select class="form_select {{ $book->status == 'pending' ? 'bg-secondary text-white' : '' }} {{ $book->status == 'receive' ? 'bg-info text-white' : '' }} {{ $book->status == 'reject' ? 'bg-danger text-white' : '' }} {{ $book->status == 'return' ? 'bg-success text-white' : '' }}"
-                                                        name="status"
-                                                        onchange="submitForm({{ $book->id }})">
-                                                    <option disabled>Select One</option>
-                                                    <option value="pending" {{ $book->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                                    <option value="receive" {{ $book->status == 'receive' ? 'selected' : '' }}>Receive</option>
-                                                    <option value="reject" {{ $book->status == 'reject' ? 'selected' : '' }}>Reject</option>
-                                                    <option value="return" {{ $book->status == 'return' ? 'selected' : '' }}>Return</option>
-                                                </select>
-                                                
+                                                    <select
+                                                        class="form_select {{ $book->status == 'pending' ? 'bg-secondary text-white' : '' }} {{ $book->status == 'receive' ? 'bg-info text-white' : '' }} {{ $book->status == 'reject' ? 'bg-danger text-white' : '' }} {{ $book->status == 'return' ? 'bg-success text-white' : '' }}"
+                                                        name="status" onchange="submitForm({{ $book->id }})">
+                                                        <option disabled>Select One</option>
+                                                        <option value="pending"
+                                                            {{ $book->status == 'pending' ? 'selected' : '' }}>Pending
+                                                        </option>
+                                                        <option value="receive"
+                                                            {{ $book->status == 'receive' ? 'selected' : '' }}>Receive
+                                                        </option>
+                                                        <option value="reject"
+                                                            {{ $book->status == 'reject' ? 'selected' : '' }}>Reject
+                                                        </option>
+                                                        <option value="return"
+                                                            {{ $book->status == 'return' ? 'selected' : '' }}>Return
+                                                        </option>
+                                                    </select>
+
                                                 </form>
                                             </td>
 
