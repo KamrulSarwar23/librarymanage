@@ -266,16 +266,16 @@
             var today = new Date();
             var todayString = today.toISOString().split('T')[0];
 
-            var fiveDaysFromNow = new Date();
+            var DaysFromNow = new Date();
 
             var borrowDays = {{ @$policy->days }};
 
-            fiveDaysFromNow.setDate(today.getDate() + borrowDays);
+            DaysFromNow.setDate(today.getDate() + borrowDays);
 
-            var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
+            var DaysFromNowString = DaysFromNow.toISOString().split('T')[0];
 
             dateInput.setAttribute('min', todayString);
-            dateInput.setAttribute('max', fiveDaysFromNowString);
+            dateInput.setAttribute('max', DaysFromNowString);
         })
     </script>
 @endpush
