@@ -222,8 +222,6 @@
                         </div>
 
                         @auth
-
-
                             @if (App\Helper\AxistBookingRequestHelper::existsForBook($book->id, auth()->user()->id))
                                 <button type="submit" class="btn btn-secondary w-100">Request Sent</button>
                             @else

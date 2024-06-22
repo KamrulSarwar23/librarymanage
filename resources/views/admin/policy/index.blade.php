@@ -34,6 +34,7 @@
                                             value="{{ isset($policy) ? $policy->fine_amount : '' }}">
                                     </div>
                                 </div>
+                                
                             </div>
 
                                 <div class="form-group">

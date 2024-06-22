@@ -143,11 +143,7 @@
                                     </form>
                                 @endif
                             @endif
-                        @else
-                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-bs-value="{{ $booksdetails->id }}">
-                                Borrow Request
-                            </button>
+                                                            
                         @endauth
 
 
