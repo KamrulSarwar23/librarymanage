@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('returned_at')->nullable();
             $table->enum('status', ['receive', 'pending', 'reject', 'return'])->default('pending');
             $table->enum('platform', ['online', 'offline'])->default('online');
+            $table->integer('fine')->default(0);
             $table->timestamps();
         });
     }

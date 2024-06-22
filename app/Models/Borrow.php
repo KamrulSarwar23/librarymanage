@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,8 +19,24 @@ class Borrow extends Model
         'returned_at',
         'status',
         'notify',
-        'platform'
+        'platform',
+        'fine'
     ];
+    
+    public function calculateFine()
+    {
+        if ($this->due_at) {
+            $dueDate = Carbon::parse($this->due_at)->startOfDay(); // Ensure dueDate is at the start of the day
+            $currentDate = $this->returned_at ? Carbon::parse($this->returned_at)->startOfDay() : Carbon::now()->startOfDay();
+
+            if ($currentDate->greaterThan($dueDate)) {
+                $daysOverdue = $dueDate->diffInDays($currentDate); // Only count full days
+                $finePerDay = 10; // Set your fine amount per day in integer
+                return $daysOverdue * $finePerDay;
+            }
+        }
+        return 0;
+    }
 
 
     // Define the relationships with User and Book models

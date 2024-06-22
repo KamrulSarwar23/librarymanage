@@ -571,6 +571,7 @@
             var fiveDaysFromNowString = fiveDaysFromNow.toISOString().split('T')[0];
 
             dateInput.setAttribute('min', todayString);
+            
             dateInput.setAttribute('max', fiveDaysFromNowString);
         })
     </script>

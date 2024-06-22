@@ -73,6 +73,7 @@ class BookBorrowController extends Controller
                 $updateData['issued_at'] = Carbon::now('Asia/Dhaka');
             } elseif ($status === "return") {
                 $updateData['returned_at'] = Carbon::now('Asia/Dhaka');
+                $updateData['fine'] = $borrowRecord->calculateFine();
             } elseif ($status === "reject") {
                 $updateData['issued_at'] = null;
             }

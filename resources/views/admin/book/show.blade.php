@@ -25,9 +25,9 @@
                             <div class="row">
                                 <!-- Cover Image -->
                                 <div class="col-md-4 text-center">
-                                    <img width="200px" height="300px"
+                                    <img width="200px" height="250px"
                                         src="{{ $book->cover_image ? asset('storage/book/' . $book->cover_image) : asset('frontend/images/book.jpg') }}"
-                                        alt="Book Cover" class="img-fluid rounded shadow-sm">
+                                        alt="Book Cover" class="shadow-sm">
                                 </div>
 
                                 <!-- Book Details -->

@@ -59,7 +59,8 @@
         td {
             font-size: 11px
         }
-        th{
+
+        th {
             white-space: nowrap;
         }
 
@@ -85,6 +86,11 @@
             border-top-right-radius: 8px;
             border-bottom-right-radius: 8px;
         }
+
+        .fine{
+            white-space: nowrap;
+        }
+
     </style>
 </head>
 
@@ -92,11 +98,11 @@
     <h1>Borrow Report</h1>
 
     @if (!$request->end_date)
-    <p>Date Range: {{ $request->start_date }}</p>
+        <p>Date Range: {{ $request->start_date }}</p>
     @else
-    <p>Date Range: {{ $request->start_date }} to {{ $request->end_date }}</p>
+        <p>Date Range: {{ $request->start_date }} to {{ $request->end_date }}</p>
     @endif
-    
+
 
     <div class="table-container">
         <table class="table">
@@ -106,11 +112,12 @@
                     <th>User</th>
                     <th>Book</th>
                     <th>Author</th>
-                    <th>Publisher</th> 
-                    <th>Created At</th>                      
+                    <th>Publisher</th>
+                    {{-- <th>Created At</th> --}}
                     <th>Issued At</th>
                     <th>Due At</th>
                     <th>Returned At</th>
+                    <th>Fine</th>
                     <th>Platform</th>
                     <th>Status</th>
                 </tr>
@@ -118,36 +125,51 @@
             <tbody>
                 @foreach ($borrows as $index => $borrow)
                     <tr>
-                        <td>{{ $index+1 }}</td>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $borrow->user->name }}</td>
                         <td>{{ $borrow->book->title }}</td>
                         <td>{{ $borrow->book->author->name }}</td>
                         <td>{{ $borrow->book->publisher->name }}</td>
-                        <td>{{ $borrow->created_at }}</td>
+                        {{-- <td>{{ $borrow->created_at }}</td> --}}
                         <td>{{ $borrow->issued_at }}</td>
                         <td>{{ $borrow->due_at }}</td>
                         @if ($borrow->returned_at)
-                        <td>{{ $borrow->returned_at }}</td>
+                            <td>{{ $borrow->returned_at }}</td>
                         @else
-                        <td>Not Return Yet</td>
+                            <td>Not Return Yet</td>
                         @endif
-                        
+
+                        <td class="fine"><span
+                                style="background: rgb(211, 73, 18); padding:5px;color:white; border-radius:10%">{{ $borrow->fine }} Taka</span></td>
+
                         @if ($borrow->platform == 'online')
-                        <td> <span style="background: green; padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->platform) }}</span> </td>
+                            <td> <span
+                                    style="background: green; padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->platform) }}</span>
+                            </td>
                         @else
-                        <td><span style="background: rgb(31, 181, 192); padding:5px; color:white; border-radius:10%">{{ ucfirst($borrow->platform) }}</span></td>
+                            <td><span
+                                    style="background: rgb(31, 181, 192); padding:5px; color:white; border-radius:10%">{{ ucfirst($borrow->platform) }}</span>
+                            </td>
                         @endif
 
                         @if ($borrow->status == 'return')
-                        <td> <span style="background: rgb(10, 189, 212); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span> </td>
+                            <td> <span
+                                    style="background: rgb(10, 189, 212); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span>
+                            </td>
                         @elseif ($borrow->status == 'receive')
-                        <td> <span style="background: rgb(16, 168, 16); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span> </td>
+                            <td> <span
+                                    style="background: rgb(16, 168, 16); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span>
+                            </td>
                         @elseif ($borrow->status == 'pending')
-                        <td> <span style="background: rgb(60, 77, 235); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span> </td>
+                            <td> <span
+                                    style="background: rgb(60, 77, 235); padding:5px;color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span>
+                            </td>
                         @else
-                        <td><span style="background: rgb(201, 62, 27); padding:5px; color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span></td>
+                            <td><span
+                                    style="background: rgb(201, 62, 27); padding:5px; color:white; border-radius:10%">{{ ucfirst($borrow->status) }}</span>
+                            </td>
                         @endif
-                       
+
 
                     </tr>
                 @endforeach

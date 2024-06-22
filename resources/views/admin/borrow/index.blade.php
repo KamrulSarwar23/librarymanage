@@ -149,7 +149,8 @@
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
-                                    <th>Platform</th>
+                                    {{-- <th>Platform</th> --}}
+                                    <th>Fine</th>
                                     <th style="width: 20%">Status</th>
 
                                     @foreach ($borrowedBooks as $index => $book)
@@ -186,7 +187,9 @@
                                                 <td class="text-danger">Not Return Yet</td>
                                             @endif
                                             
-                                            <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td>
+                                            {{-- <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td> --}}
+
+                                            <td><span class="badge badge-danger">{{ $book->fine}} Taka</span></td>
 
                                             <td>
                                                 <form id="borrowForm{{ $book->id }}"
