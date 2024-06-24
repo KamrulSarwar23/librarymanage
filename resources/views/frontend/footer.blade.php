@@ -4,7 +4,7 @@
     .site-wrapper {
         display: flex;
         flex-direction: column;
-        min-height: 50vh;
+        min-height: 60vh;
     }
 
     .site-content {
