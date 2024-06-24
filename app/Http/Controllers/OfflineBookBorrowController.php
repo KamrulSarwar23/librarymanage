@@ -115,7 +115,7 @@ class OfflineBookBorrowController extends Controller
 
         flash()->success('Submit Successfully');
 
-        return redirect()->back();
+        return redirect()->route('offline-book-borrow', ['status' => 'receive']);
     }
 
 

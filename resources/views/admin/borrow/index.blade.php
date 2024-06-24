@@ -158,7 +158,7 @@
                                     <th>Fine</th>
                                     <th>Status</th>
                                     <th>Details</th>
-                                    {{-- <th style="width: 20%">Status</th> --}}
+                                    <th style="width: 20%">Status</th>
 
                                     @foreach ($borrowedBooks as $index => $book)
                                         <tr>
@@ -219,7 +219,7 @@
                                                         class="fa-solid fa-eye"></i></a>
                                             </td>
 
-                                            {{-- <td>
+                                            <td>
                                                 <form id="borrowForm{{ $book->id }}"
                                                     action="{{ route('book-borrow.updateInfo', $book->id) }}"
                                                     method="POST">
@@ -244,7 +244,7 @@
                                                     </select>
 
                                                 </form>
-                                            </td> --}}
+                                            </td>
 
                                         </tr>
                                     @endforeach

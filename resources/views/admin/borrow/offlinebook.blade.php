@@ -37,12 +37,12 @@
             @if (!request()->status)
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card bg-secondary">
                             <div class="card-header">
                                 <h4>Offline Book Borrow</h4>
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body py-5">
                                 <form action="{{ route('offline-book-borrow-store') }}" method="POST">
                                     @csrf
 
@@ -84,97 +84,98 @@
                 </div>
             @endif
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>All Offline Book Borrows</h4>
-                        </div>
-                        <li class="d-flex align-items-center ml-auto mr-5">
+            {{-- @if (request()->status) --}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
 
-                            <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('offline-book-borrow') }}">Clear
-                                Search</a>
+                            <li class="d-flex align-items-center ml-auto mr-5">
 
-                            <form action="{{ route('offline-book-borrow-search') }}" method="GET" class="d-flex mt-3">
-                                <input class="form-control me-2 mr-2" type="text" placeholder="Search"
-                                    name="search_query">
-                                <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
-                            </form>
+                                <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('offline-book-borrow') }}">Clear
+                                    Search</a>
 
-                        </li>
+                                <form action="{{ route('offline-book-borrow-search') }}" method="GET" class="d-flex mt-3">
+                                    <input class="form-control me-2 mr-2" type="text" placeholder="Search"
+                                        name="search_query">
+                                    <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
+                                </form>
 
-                        <div class="ml-auto mr-5 mt-2">
-                            @if (isset($searchQuery))
-                                <p class="text-info">Search Result For: {{ $searchQuery }}</p>
-                            @endif
-                        </div>
+                            </li>
 
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <th>Id</th>
-                                    <th>User Email</th>
-                                    <th>Book</th>
-                                    <th>Issue Date</th>
-                                    <th>Due Date</th>
-                                    <th>Return Date</th>
+                            <div class="ml-auto mr-5 mt-2">
+                                @if (isset($searchQuery))
+                                    <p class="text-info">Search Result For: {{ $searchQuery }}</p>
+                                @endif
+                            </div>
 
-                                    <th>Late Fine</th>
-                                    <th>Status</th>
-                                    <th>Details</th>
-                                    {{-- <th>Action</th> --}}
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <th>Id</th>
+                                        <th>User Email</th>
+                                        <th>Book</th>
+                                        <th>Issue Date</th>
+                                        <th>Due Date</th>
+                                        <th>Return Date</th>
 
-                                    @foreach ($offlinebooks as $index => $item)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
+                                        <th>Late Fine</th>
+                                        {{-- <th>Status</th> --}}
+                                        <th>Details</th>
+                                        <th>Action</th>
 
-                                            <td>{{ $item->user->email }}</td>
+                                        @foreach ($offlinebooks as $index => $item)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
 
-                                            <td> <a
-                                                    href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
-                                            </td>
-                                            {{-- <td><span class="badge badge-info">Shelf: {{ $item->book->shelf }}</span> <span class="badge badge-info">Row: {{ $item->book->row }}</span> </td> --}}
-                                            </td>
-                                            <td>
-                                                @if (!empty($item->issued_at))
-                                                    {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
-                                                @else
-                                                    <span class="text-info">Not Activate Yet</span>
-                                                @endif
-                                            </td>
+                                                <td>{{ $item->user->email }}</td>
 
-                                            @if (!empty($item->due_at))
-                                                <td> {{ \Carbon\Carbon::parse($item->due_at)->format('F j, Y') }}</td>
-                                            @else
-                                                <td class="text-info">Not Activate Yet</td>
-                                            @endif
-
-
-                                            @if (!empty($item->returned_at))
-                                                <td> {{ \Carbon\Carbon::parse($item->returned_at)->format('F j, Y, g:i a') }}
+                                                <td> <a
+                                                        href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
                                                 </td>
-                                            @else
-                                                <td class="text-info">Not Return Yet</td>
-                                            @endif
+                                                {{-- <td><span class="badge badge-info">Shelf: {{ $item->book->shelf }}</span> <span class="badge badge-info">Row: {{ $item->book->row }}</span> </td> --}}
+                                                </td>
+                                                <td>
+                                                    @if (!empty($item->issued_at))
+                                                        {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
+                                                    @else
+                                                        <span class="text-info">Not Activate Yet</span>
+                                                    @endif
+                                                </td>
+
+                                                @if (!empty($item->due_at))
+                                                    <td> {{ \Carbon\Carbon::parse($item->due_at)->format('F j, Y') }}</td>
+                                                @else
+                                                    <td class="text-info">Not Activate Yet</td>
+                                                @endif
 
 
-                                            <td><span class="badge badge-danger">{{ $item->fine }} Taka</span></td>
-
-                                            @if ($item->status == 'reject')
-                                                <td><span class="badge badge-danger">Rejected</span></td>
-                                            @elseif ($item->status == 'receive')
-                                                <td><span class="badge badge-info">Received</span></td>
-                                            @else
-                                                <td><span class="badge badge-success">Returned</span></td>
-                                            @endif
+                                                @if (!empty($item->returned_at))
+                                                    <td> {{ \Carbon\Carbon::parse($item->returned_at)->format('F j, Y, g:i a') }}
+                                                    </td>
+                                                @else
+                                                    <td class="text-info">Not Return Yet</td>
+                                                @endif
 
 
-                                            <td>
-                                                <a class="btn btn-info mr-2"
-                                                    href="{{ route('borrow-book-details', $item->id) }}"><i
-                                                        class="fa-solid fa-eye"></i></a>
-                                            </td>
-                                            {{-- 
+                                                <td><span class="badge badge-danger">{{ $item->fine }} Taka</span></td>
+
+                                                {{-- @if ($item->status == 'reject')
+                                                    <td><span class="badge badge-danger">Rejected</span></td>
+                                                @elseif ($item->status == 'receive')
+                                                    <td><span class="badge badge-info">Received</span></td>
+                                                @else
+                                                    <td><span class="badge badge-success">Returned</span></td>
+                                                @endif --}}
+
+
+                                                <td>
+                                                    <a class="btn btn-info mr-2"
+                                                        href="{{ route('borrow-book-details', $item->id) }}"><i
+                                                            class="fa-solid fa-eye"></i></a>
+                                                </td>
+
+
+                                                
                                             <td>
                                                 <form id="borrowForm{{ $item->id }}"
                                                     action="{{ route('book-borrow.updateOfflineInfo', $item->id) }}"
@@ -198,22 +199,23 @@
                                                     </select>
 
                                                 </form>
-                                            </td> --}}
+                                            </td>
 
-                                        </tr>
-                                    @endforeach
-                                </table>
+                                            </tr>
+                                        @endforeach
+                                    </table>
 
-                                <div class="pagination">
-                                    {{ $offlinebooks->links() }}
+                                    <div class="pagination">
+                                        {{ $offlinebooks->links() }}
+                                    </div>
+
                                 </div>
-
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
+            {{-- @endif --}}
         </div>
         </div>
     </section>
