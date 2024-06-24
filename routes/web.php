@@ -99,11 +99,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/ajax-books', [OfflineBookBorrowController::class, 'getBooks'])->name('ajax.books');
     Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users');
     Route::get('/book/offline-borrow/system', [OfflineBookBorrowController::class, 'index'])->name('offline-book-borrow');
+
+
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
-    // Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
     Route::get('online/book/borrow/search', [OfflineBookBorrowController::class, 'offlineBorrowBookSearch'])->name('offline-book-borrow-search');
     Route::get('borrow-book-details/{id}', [OfflineBookBorrowController::class, 'borrowDetails'])->name('borrow-book-details');
     Route::put('/offline-book-borrow/update-info/{id}', [OfflineBookBorrowController::class, 'updateOfflineInfo'])->name('book-borrow.updateOfflineInfo');
+    
 
 
     // Book Borrow online

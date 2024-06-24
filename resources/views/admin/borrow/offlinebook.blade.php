@@ -33,56 +33,56 @@
 
         <div class="section-body">
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Offline Book Borrow</h4>
-                        </div>
 
-                        <div class="card-body">
-                            <form action="{{ route('offline-book-borrow-store') }}" method="POST">
-                                @csrf
+            @if (!request()->status)
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Offline Book Borrow</h4>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Add Book</label>
-                                            <select name="book_id" id="bookDropdown" class="form-control select2">
-                                                <option value="">Select</option>
-                                            </select>
+                            <div class="card-body">
+                                <form action="{{ route('offline-book-borrow-store') }}" method="POST">
+                                    @csrf
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Add Book</label>
+                                                <select name="book_id" id="bookDropdown" class="form-control select2">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
                                         </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Add User</label>
+                                                <select name="user_id" id="userDropdown" class="form-control select2">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Due Date</label>
+                                                <input id="bookingDate" type="date" class="form-control" name="due_date"
+                                                    value="{{ old('due_date') }}">
+                                            </div>
+                                        </div>
+
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Add User</label>
-                                            <select name="user_id" id="userDropdown" class="form-control select2">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Due Date</label>
-                                            <input id="bookingDate" type="date" class="form-control" name="due_date"
-                                                value="{{ old('due_date') }}">
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            @endif
 
             <div class="row">
                 <div class="col-md-12">

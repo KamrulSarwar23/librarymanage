@@ -91,7 +91,8 @@
                         class="fa-solid fa-tags"></i><span>Books</span></a>
             </li>
 
-            <li class="dropdown {{ request()->routeIs('book.borrowinfo', 'book.borrow-search', 'online-borrow-book-details') ? 'active' : '' }}">
+            <li
+                class="dropdown {{ request()->routeIs('book.borrowinfo', 'book.borrow-search', 'online-borrow-book-details') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fa-solid fa-shield-halved"></i>
                     <span>Online Book Borrow</span></a>
@@ -116,7 +117,7 @@
                         </a>
                     </li>
 
-                
+
                     <li
                         class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'reject' ? 'active' : '' }}">
                         <a href="{{ route('book.borrowinfo', ['status' => 'reject']) }}" class="nav-link">
@@ -125,19 +126,53 @@
                     </li>
 
                     <li
-                    class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'return' ? 'active' : '' }}">
-                    <a href="{{ route('book.borrowinfo', ['status' => 'return']) }}" class="nav-link">
-                        <i class="fa-solid fa-tags"></i><span>Return Books</span>
-                    </a>
-                </li>
+                        class="{{ request()->routeIs('book.borrowinfo') && request('status') == 'return' ? 'active' : '' }}">
+                        <a href="{{ route('book.borrowinfo', ['status' => 'return']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Return Books</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
             <li
                 class="dropdown {{ setActive(['offline-book-borrow', 'offline-book-borrow-edit', 'offline-book-borrow-search', 'borrow-book-details']) }}">
-                <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Offline Book Borrow</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fa-solid fa-shield-halved"></i>
+                    <span>Offline Book Borrow</span></a>
+
+                <ul class="dropdown-menu">
+
+                    <li class="dropdown {{ request()->routeIs('offline-book-borrow') && !request('status') ? 'active' : '' }}">
+                        <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i
+                                class="fa-solid fa-tags"></i><span>Add Books</span></a>
+                    </li>
+
+                    <li
+                        class="{{ request()->routeIs('offline-book-borrow') && request('status') == 'receive' ? 'active' : '' }}">
+                        <a href="{{ route('offline-book-borrow', ['status' => 'receive']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Received Books</span>
+                        </a>
+                    </li>
+
+                    <li
+                        class="{{ request()->routeIs('offline-book-borrow') && request('status') == 'reject' ? 'active' : '' }}">
+                        <a href="{{ route('offline-book-borrow', ['status' => 'reject']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Reject Books</span>
+                        </a>
+                    </li>
+
+                    <li
+                        class="{{ request()->routeIs('offline-book-borrow') && request('status') == 'return' ? 'active' : '' }}">
+                        <a href="{{ route('offline-book-borrow', ['status' => 'return']) }}" class="nav-link">
+                            <i class="fa-solid fa-tags"></i><span>Return Books</span>
+                        </a>
+                    </li>
+
+
+                </ul>
             </li>
+
+
 
 
             <li class="dropdown {{ setActive(['report']) }}">

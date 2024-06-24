@@ -43,14 +43,25 @@ class OfflineBookBorrowController extends Controller
         return response()->json($users);
     }
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $offlinebooks = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC')->paginate(10);
+        $status = $request->query('status');
+
+        $query = Borrow::where('platform', 'offline')->orderBy('created_at', 'DESC');
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $offlinebooks = $query->paginate(10);
+
         $policy = Policy::first();
 
         return view('admin.borrow.offlinebook', compact('offlinebooks', 'policy'));
     }
+
+
 
     public function store(Request $request)
     {
@@ -200,7 +211,8 @@ class OfflineBookBorrowController extends Controller
         return view('admin.borrow.offlinebook', compact('offlinebooks', 'searchQuery'));
     }
 
-    public function borrowDetails(string $id){
+    public function borrowDetails(string $id)
+    {
 
         $borrowBook = Borrow::findOrFail($id);
         return view('admin.borrow.show', compact('borrowBook'));

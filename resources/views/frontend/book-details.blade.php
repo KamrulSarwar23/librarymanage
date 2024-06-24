@@ -72,9 +72,8 @@
                     <div class="col-md-4 cover_image">
                         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                             <img src="{{ $booksdetails->cover_image ? asset('storage/book/' . $booksdetails->cover_image) : asset('frontend/images/book.jpg') }}"
-                            class="card-img-top"
-                            alt="Book Cover"
-                            style="border-radius: 10px; height: 450px; object-fit: cover;">
+                                class="card-img-top" alt="Book Cover"
+                                style="border-radius: 10px; height: 450px; object-fit: cover;">
 
                         </div>
                     </div>
@@ -142,7 +141,7 @@
                                     </form>
                                 @endif
                             @endif
-                                                        
+
                         @endauth
 
                         <div class="col-md-12 pt-2">
@@ -225,10 +224,8 @@
                             <div class="card shadow-lg p-3 bg-white rounded">
                                 <a href="{{ route('book.details', $book->id) }}">
                                     <img src="{{ $book->cover_image ? asset('storage/book/' . $book->cover_image) : asset('frontend/images/book.jpg') }}"
-                                    class="card-img-top"
-                                    alt="Book Cover"
-                                    style="height: 260px; object-fit: cover;">
-                                   
+                                        class="card-img-top" alt="Book Cover" style="height: 260px; object-fit: cover;">
+
                                 </a>
                                 <div class="card-body">
                                     <p class="card-text">
@@ -357,44 +354,42 @@
 
 
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#submitForm').on('submit', function(event) {
+                event.preventDefault();
 
-<script>
-    $(document).ready(function() {
-        $('#submitForm').on('submit', function(event) {
-            event.preventDefault();
+                let formData = new FormData(this);
+                let form = this;
 
-            let formData = new FormData(this);
-            let form = this;
-
-            $.ajax({
-                url: "{{ route('send.review') }}",
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    toastr.success('Review Sent successfully! Your Review Will Be Added Soon');
-                    var modal = document.querySelector('.modal');
-                    var modalInstance = bootstrap.Modal.getInstance(modal);
-                    modalInstance.hide();
-                    form.reset(); // Clear the form fields
-                },
-                error: function(xhr) {
-                    if (xhr.status === 401) { // Unauthorized
-                        toastr.error('Login First');
-                    } else {
-                        let errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            toastr.error(value[0]);
-                        });
+                $.ajax({
+                    url: "{{ route('send.review') }}",
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        toastr.success(
+                            'Review Sent successfully! Your Review Will Be Added Soon');
+                        var modal = document.querySelector('.modal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        form.reset(); // Clear the form fields
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 401) { // Unauthorized
+                            toastr.error('Login First');
+                        } else {
+                            let errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                toastr.error(value[0]);
+                            });
+                        }
                     }
-                }
+                });
             });
         });
-    });
-</script>
-
-
+    </script>
 
 
     <script>
