@@ -105,8 +105,8 @@
 
                         <div class="ml-auto mr-5 mt-2">
                             @if (isset($searchQuery))
-                            <p class="text-info">Search Result For: {{ $searchQuery }}</p>
-                        @endif
+                                <p class="text-info">Search Result For: {{ $searchQuery }}</p>
+                            @endif
                         </div>
 
                         <div class="card-body">
@@ -118,23 +118,23 @@
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
-                                    
-                                   <th>Late Fine</th>
-                                   <th>Status</th>
+
+                                    <th>Late Fine</th>
+                                    <th>Status</th>
                                     <th>Details</th>
                                     {{-- <th>Action</th> --}}
 
                                     @foreach ($offlinebooks as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            
+
                                             <td>{{ $item->user->email }}</td>
 
                                             <td> <a
                                                     href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
                                             </td>
                                             {{-- <td><span class="badge badge-info">Shelf: {{ $item->book->shelf }}</span> <span class="badge badge-info">Row: {{ $item->book->row }}</span> </td> --}}
-                                        </td>
+                                            </td>
                                             <td>
                                                 @if (!empty($item->issued_at))
                                                     {{ \Carbon\Carbon::parse($item->issued_at)->format('F j, Y, g:i a') }}
@@ -157,23 +157,24 @@
                                                 <td class="text-info">Not Return Yet</td>
                                             @endif
 
-                                         
-                                            <td><span class="badge badge-danger">{{ $item->fine}} Taka</span></td>
 
-                                                @if ($item->status == 'reject')
+                                            <td><span class="badge badge-danger">{{ $item->fine }} Taka</span></td>
+
+                                            @if ($item->status == 'reject')
                                                 <td><span class="badge badge-danger">Rejected</span></td>
-                                                @elseif ($item->status == 'receive')
+                                            @elseif ($item->status == 'receive')
                                                 <td><span class="badge badge-info">Received</span></td>
-                                                @else
+                                            @else
                                                 <td><span class="badge badge-success">Returned</span></td>
-                                                @endif
-                                       
+                                            @endif
 
-                                      <td>
-                                        <a class="btn btn-info mr-2"
-                                        href="{{ route('borrow-book-details', $item->id) }}"><i class="fa-solid fa-eye"></i></a>
-                                      </td>
-{{-- 
+
+                                            <td>
+                                                <a class="btn btn-info mr-2"
+                                                    href="{{ route('borrow-book-details', $item->id) }}"><i
+                                                        class="fa-solid fa-eye"></i></a>
+                                            </td>
+                                            {{-- 
                                             <td>
                                                 <form id="borrowForm{{ $item->id }}"
                                                     action="{{ route('book-borrow.updateOfflineInfo', $item->id) }}"
@@ -198,7 +199,7 @@
 
                                                 </form>
                                             </td> --}}
-                                            
+
                                         </tr>
                                     @endforeach
                                 </table>
