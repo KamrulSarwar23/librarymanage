@@ -120,7 +120,7 @@
 
                     <div class="card">
 
-                        @if (!request()->status)
+                      
                             <li class="d-flex align-items-center ml-auto mr-5">
 
                                 <a class=" mt-3 mr-3 btn btn-danger py-2" href="{{ route('book.borrowinfo') }}">Clear
@@ -132,48 +132,47 @@
                                     <button type="submit" class="btn btn-info py-2"><i class="fas fa-search"></i></button>
                                 </form>
 
-                       
+
 
                             </li>
-                        @endif
+                       
 
                         <div class="ml-auto mr-5 mt-2">
                             @if (isset($searchQuery))
-                            <p class="text-info">Search Result For: {{ $searchQuery }}</p>
-                        @endif
+                                <p class="text-info">Search Result For: {{ $searchQuery }}</p>
+                            @endif
                         </div>
 
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <th>ID</th>
-                                    <th>User Name</th>
                                     <th>User Email</th>
                                     <th>Book</th>
-                                    <th>Location</th>
+                                    {{-- <th>Location</th> --}}
 
                                     <th>Request Time</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
-                                    {{-- <th>Platform</th> --}}
                                     <th>Fine</th>
-                                    <th style="width: 20%">Status</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
+                                    {{-- <th style="width: 20%">Status</th> --}}
 
                                     @foreach ($borrowedBooks as $index => $book)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $book->user->name }}</td>
+
                                             <td>{{ $book->user->email }}</td>
 
                                             <td> <a
                                                     href="{{ route('book.details', $book->book_id) }}">{{ limitText($book->book->title, 20) }}</a>
                                             </td>
 
-                                            <td><span class="badge badge-info">Shelf: {{ $book->book->shelf }}</span> <span
+                                            {{-- <td><span class="badge badge-info">Shelf: {{ $book->book->shelf }}</span> <span
                                                     class="badge badge-info">Row: {{ $book->book->row }}</span> </td>
-                                            </td>
-
+                                            </td> --}}
 
 
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
@@ -203,8 +202,24 @@
                                             {{-- <td><span class="badge rounded-pill bg-info">{{ $book->platform }}</span></td> --}}
 
                                             <td><span class="badge badge-danger">{{ $book->fine }} Taka</span></td>
+                                            
+                                            @if ($book->status == 'pending')
+                                            <td><span class="badge badge-secondary">Pending</span></td>
+                                            @elseif ($book->status == 'reject')
+                                            <td><span class="badge badge-danger">Rejected</span></td>
+                                            @elseif ($book->status == 'receive')
+                                            <td><span class="badge badge-info">Received</span></td>
+                                            @else
+                                            <td><span class="badge badge-success">Returned</span></td>
+                                            @endif
 
                                             <td>
+                                                <a class="btn btn-info mr-2"
+                                                    href="{{ route('online-borrow-book-details', $book->id) }}"><i
+                                                        class="fa-solid fa-eye"></i></a>
+                                            </td>
+
+                                            {{-- <td>
                                                 <form id="borrowForm{{ $book->id }}"
                                                     action="{{ route('book-borrow.updateInfo', $book->id) }}"
                                                     method="POST">
@@ -229,7 +244,7 @@
                                                     </select>
 
                                                 </form>
-                                            </td>
+                                            </td> --}}
 
                                         </tr>
                                     @endforeach

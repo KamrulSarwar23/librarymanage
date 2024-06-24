@@ -102,10 +102,12 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/book/offline-borrow/system/submit', [OfflineBookBorrowController::class, 'store'])->name('offline-book-borrow-store');
     // Route::post('/book/offline-borrow/system/update/{id}', [OfflineBookBorrowController::class, 'update'])->name('offline-book-borrow-update');
     Route::get('online/book/borrow/search', [OfflineBookBorrowController::class, 'offlineBorrowBookSearch'])->name('offline-book-borrow-search');
+    Route::get('borrow-book-details/{id}', [OfflineBookBorrowController::class, 'borrowDetails'])->name('borrow-book-details');
     Route::put('/offline-book-borrow/update-info/{id}', [OfflineBookBorrowController::class, 'updateOfflineInfo'])->name('book-borrow.updateOfflineInfo');
 
-    // Book Borrow online
 
+    // Book Borrow online
+    Route::get('online-borrow-book-details/{id}', [BookBorrowController::class, 'onLineborrowDetails'])->name('online-borrow-book-details');
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo');
     Route::put('/book-borrow/update-info/{id}', [BookBorrowController::class, 'updateInfo'])->name('book-borrow.updateInfo');
     Route::get('offline/book/borrow/search', [BookBorrowController::class, 'borrowBookSearch'])->name('book.borrow-search');
@@ -148,6 +150,8 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     // Review Route
     Route::post('/send-review', [ReviewController::class, 'sendReview'])->name('send.review');
+
+    Route::get('user-borrow-book-details/{id}', [UserController::class, 'userborrowDetails'])->name('user-borrow-book-details');
 
     // Book Borrow Route
     Route::post('/book/borrow', [PageController::class, 'borrowBook'])->name('book.borrow');

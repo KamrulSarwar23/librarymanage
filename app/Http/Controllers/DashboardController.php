@@ -105,4 +105,7 @@ class DashboardController extends Controller
 
         return view('user', compact('category', 'author', 'publisher', 'borrowBooks'));
     }
+
+
+  
 }

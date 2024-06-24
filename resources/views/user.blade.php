@@ -247,11 +247,9 @@
                                                         <tr>
                                                             <th>Serial</th>
                                                             <th>Book</th>
-                                                            <th>Author</th>
-                                                            <th>Publisher</th>
-                                                            <th>Issued Date</th>
+                                                            {{-- <th>Issued Date</th>
                                                             <th>Due Date</th>
-                                                            <th>Return Date</th>
+                                                            <th>Return Date</th> --}}
                                                             <th>Late Fine</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
@@ -261,15 +259,16 @@
                                                         @foreach ($borrowBooks as $index => $item)
                                                             <tr>
                                                                 <td>{{ $index + 1 }}</td>
-                                                                <td>{{ $item->book->title }}</td>
-                                                                <td>{{ $item->book->author->name }}</td>
-                                                                <td>{{ $item->book->publisher->name }}</td>
-                                                                @if (!empty($item->issued_at))
+                                                                <td><a
+                                                                        href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
+                                                                </td>
+
+                                                                {{-- @if (!empty($item->issued_at))
                                                                     <td>{{ $item->issued_at }}</td>
                                                                 @else
                                                                     <td>Not Updated Yet</td>
                                                                 @endif
-                                                                
+
                                                                 @if (!empty($item->due_at))
                                                                     <td>{{ $item->due_at }}</td>
                                                                 @else
@@ -280,9 +279,10 @@
                                                                     <td>{{ $item->returned_at }}</td>
                                                                 @else
                                                                     <td>Not Updated Yet</td>
-                                                                @endif
+                                                                @endif --}}
 
-                                                                <td><span class="badge badge-danger">{{ $item->fine }} Taka</span></td>
+                                                                <td><span class="badge badge-danger">{{ $item->fine }}
+                                                                        Taka</span></td>
 
                                                                 @if ($item->status == 'reject')
                                                                     <td><span class="badge badge-danger">Rejected</span>
@@ -290,13 +290,15 @@
                                                                 @elseif ($item->status == 'pending')
                                                                     <td><span class="badge badge-info">Pending</span></td>
                                                                 @elseif ($item->status == 'receive')
-                                                                    <td><span class="badge badge-success">Active</span></td>
+                                                                    <td><span class="badge badge-success">Received</span></td>
                                                                 @elseif ($item->status == 'return')
                                                                     <td><span class="badge badge-primary">Returned</span>
                                                                     </td>
                                                                 @endif
-                                                                <td><a href="{{ route('book.details', $item->book_id) }}"
-                                                                        class="btn btn-fill-out btn-sm">View Book</a></td>
+
+                                                                <td><a href="{{ route('user-borrow-book-details', $item->id) }}"
+                                                                        class="btn btn-fill-out btn-sm"><i
+                                                                            class="fa-solid fa-eye"></i></a></td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -310,7 +312,7 @@
                                     <div>
                                         {{ $borrowBooks->links() }}
                                     </div>
-                                    
+
                                 </div>
                             </div>
 

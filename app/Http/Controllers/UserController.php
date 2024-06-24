@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\AccountBanned;
 use App\Mail\LoginMail;
 use App\Mail\UserAccountInfo;
+use App\Models\Borrow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,12 @@ class UserController extends Controller
     }
 
 
+    public function userborrowDetails(string $id){
+
+        $borrowBook = Borrow::findOrFail($id);
+        return view('frontend.borrowDetails', compact('borrowBook'));
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +41,8 @@ class UserController extends Controller
         return view('admin.user.create');
     }
 
-
+  
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -188,4 +196,7 @@ class UserController extends Controller
         }
 
     }
+
+
+ 
 }

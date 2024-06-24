@@ -113,27 +113,27 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <th>Id</th>
-                                    <th>User Name</th>
                                     <th>User Email</th>
                                     <th>Book</th>
-                                    <th>Location</th>
                                     <th>Issue Date</th>
                                     <th>Due Date</th>
                                     <th>Return Date</th>
-                                    {{-- <th>Platform</th> --}}
-                                    <th>Fine</th>
-                                    <th>Action</th>
+                                    
+                                   <th>Late Fine</th>
+                                   <th>Status</th>
+                                    <th>Details</th>
+                                    {{-- <th>Action</th> --}}
 
                                     @foreach ($offlinebooks as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $item->user->name }}</td>
+                                            
                                             <td>{{ $item->user->email }}</td>
 
                                             <td> <a
                                                     href="{{ route('book.details', $item->book_id) }}">{{ limitText($item->book->title, 20) }}</a>
                                             </td>
-                                            <td><span class="badge badge-info">Shelf: {{ $item->book->shelf }}</span> <span class="badge badge-info">Row: {{ $item->book->row }}</span> </td>
+                                            {{-- <td><span class="badge badge-info">Shelf: {{ $item->book->shelf }}</span> <span class="badge badge-info">Row: {{ $item->book->row }}</span> </td> --}}
                                         </td>
                                             <td>
                                                 @if (!empty($item->issued_at))
@@ -157,12 +157,23 @@
                                                 <td class="text-info">Not Return Yet</td>
                                             @endif
 
-                                            {{-- <td><span class="badge rounded-pill bg-primary">{{ $item->platform }}</span>
-                                            </td> --}}
-
-
+                                         
                                             <td><span class="badge badge-danger">{{ $item->fine}} Taka</span></td>
 
+                                                @if ($item->status == 'reject')
+                                                <td><span class="badge badge-danger">Rejected</span></td>
+                                                @elseif ($item->status == 'receive')
+                                                <td><span class="badge badge-info">Received</span></td>
+                                                @else
+                                                <td><span class="badge badge-success">Returned</span></td>
+                                                @endif
+                                       
+
+                                      <td>
+                                        <a class="btn btn-info mr-2"
+                                        href="{{ route('borrow-book-details', $item->id) }}"><i class="fa-solid fa-eye"></i></a>
+                                      </td>
+{{-- 
                                             <td>
                                                 <form id="borrowForm{{ $item->id }}"
                                                     action="{{ route('book-borrow.updateOfflineInfo', $item->id) }}"
@@ -173,7 +184,7 @@
                                                         class="form_select {{ $item->status == 'receive' ? 'bg-info text-white' : '' }} {{ $item->status == 'reject' ? 'bg-danger text-white' : '' }} {{ $item->status == 'return' ? 'bg-success text-white' : '' }}"
                                                         name="status" onchange="submitForm({{ $item->id }})">
                                                         <option disabled>Select One</option>
-                                                        {{-- <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>Pending</option> --}}
+                                                       
                                                         <option value="receive"
                                                             {{ $item->status == 'receive' ? 'selected' : '' }}>Receive
                                                         </option>
@@ -186,7 +197,8 @@
                                                     </select>
 
                                                 </form>
-                                            </td>
+                                            </td> --}}
+                                            
                                         </tr>
                                     @endforeach
                                 </table>

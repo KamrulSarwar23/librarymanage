@@ -32,7 +32,7 @@
 
                                 <!-- Book Details -->
                                 <div class="col-md-8">
-                                    <table class="table table-borderless">
+                                    <table class="table table-striped">
                                         <tbody>
                                             <tr>
                                                 <th>ID:</th>

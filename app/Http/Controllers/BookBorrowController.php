@@ -128,4 +128,11 @@ class BookBorrowController extends Controller
         return view('admin.borrow.index', compact('borrowedBooks', 'searchQuery'));
     }
 
+
+    public function onLineborrowDetails(string $id){
+
+        $borrowBook = Borrow::findOrFail($id);
+        return view('admin.borrow.onlineBookDetails', compact('borrowBook'));
+    }
+
 }

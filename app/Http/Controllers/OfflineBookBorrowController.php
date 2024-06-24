@@ -199,4 +199,10 @@ class OfflineBookBorrowController extends Controller
 
         return view('admin.borrow.offlinebook', compact('offlinebooks', 'searchQuery'));
     }
+
+    public function borrowDetails(string $id){
+
+        $borrowBook = Borrow::findOrFail($id);
+        return view('admin.borrow.show', compact('borrowBook'));
+    }
 }
