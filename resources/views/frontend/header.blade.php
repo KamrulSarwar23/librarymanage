@@ -70,11 +70,11 @@
                                                     </a>
                                                 @endif
                                             @else
-                                                <a href="{{ route('login') }}" class="btn btn-success">
+                                                <a href="{{ route('login') }}" class="mb-2 btn btn-success">
                                                     Log in
                                                 </a>
                                                 @if (Route::has('register'))
-                                                    <a href="{{ route('register') }}" class="btn btn-success">
+                                                    <a href="{{ route('register') }}" class="mb-2 btn btn-success">
                                                         Register
                                                     </a>
                                                 @endif

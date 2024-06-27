@@ -142,9 +142,10 @@
 
                 <ul class="dropdown-menu">
 
-                    <li class="dropdown {{ request()->routeIs('offline-book-borrow') && !request('status') ? 'active' : '' }}">
+                    <li
+                        class="dropdown {{ request()->routeIs('offline-book-borrow') && !request('status') ? 'active' : '' }}">
                         <a href="{{ route('offline-book-borrow') }}" class="nav-link"><i
-                                class="fa-solid fa-tags"></i><span>Add Books</span></a>
+                                class="fa-solid fa-tags"></i><span>Add Borrow</span></a>
                     </li>
 
                     <li
