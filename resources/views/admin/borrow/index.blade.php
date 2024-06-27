@@ -156,7 +156,7 @@
                                     <th>Due Date</th>
                                     <th>Return Date</th>
                                     <th>Fine</th>
-                                    <th>Status</th>
+                                    {{-- <th>Status</th> --}}
                                     <th>Details</th>
                                     <th style="width: 20%">Status</th>
 
@@ -173,7 +173,6 @@
                                             {{-- <td><span class="badge badge-info">Shelf: {{ $book->book->shelf }}</span> <span
                                                     class="badge badge-info">Row: {{ $book->book->row }}</span> </td>
                                             </td> --}}
-
 
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->format('F j, Y, g:i a') }}
                                             </td>
@@ -203,7 +202,7 @@
 
                                             <td><span class="badge badge-danger">{{ $book->fine }} Taka</span></td>
                                             
-                                            @if ($book->status == 'pending')
+                                            {{-- @if ($book->status == 'pending')
                                             <td><span class="badge badge-secondary">Pending</span></td>
                                             @elseif ($book->status == 'reject')
                                             <td><span class="badge badge-danger">Rejected</span></td>
@@ -211,7 +210,7 @@
                                             <td><span class="badge badge-info">Received</span></td>
                                             @else
                                             <td><span class="badge badge-success">Returned</span></td>
-                                            @endif
+                                            @endif --}}
 
                                             <td>
                                                 <a class="btn btn-info mr-2"
