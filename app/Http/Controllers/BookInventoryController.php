@@ -14,6 +14,7 @@ class BookInventoryController extends Controller
         $readers = Borrow::where("book_id", $bookId)
             ->whereNotNull('issued_at')
             ->whereNull('returned_at')->get();
+            
         $book = Book::find($bookId);
 
         return view('admin.inventory.readers', compact('readers', 'book'));

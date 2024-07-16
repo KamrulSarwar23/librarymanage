@@ -1,14 +1,14 @@
 @extends('admin.layouts.master')
 
 <style>
-    li{
+    li {
         list-style: none;
     }
 
-    td,th {
-            white-space: nowrap;
-        }
-
+    td,
+    th {
+        white-space: nowrap;
+    }
 </style>
 
 @section('content')
@@ -21,15 +21,17 @@
         <div class="section-body">
             <li>
                 <div class="dropdown mt-2 mb-3">
-                    <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Filter Category
                     </button>
 
                     <ul class="dropdown-menu">
-                            <li><a class="dropdown-item btn-info {{ request()->routeIs('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}">All</a></li>
-                            <li><a class="dropdown-item btn-info {{ request()->routeIs('active.category') ? 'active' : '' }}" href="{{ route('active.category') }}">Active</a></li>
-                            <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.category') ? 'active' : '' }}" href="{{ route('pending.category') }}">Pending</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('category.index') ? 'active' : '' }}"
+                                href="{{ route('category.index') }}">All</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('active.category') ? 'active' : '' }}"
+                                href="{{ route('active.category') }}">Active</a></li>
+                        <li><a class="dropdown-item btn-info {{ request()->routeIs('pending.category') ? 'active' : '' }}"
+                                href="{{ route('pending.category') }}">Pending</a></li>
                     </ul>
                 </div>
             </li>
@@ -57,13 +59,13 @@
 
                                     @foreach ($categories as $index => $category)
                                         <tr>
-                                            <td>{{ $index+1 }}</td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td class="py-1"><img width="80px" height="80px"
                                                     src="{{ $category->image ? asset('storage/book/' . $category->image) : asset('frontend/images/book.jpg') }}"
                                                     alt=""> </td>
                                             <td>{{ $category->name }}</td>
                                             <td>
-                                                
+
                                                 @if ($category->status == 'active')
                                                     <label class="custom-switch">
                                                         <input type="checkbox" checked name="custom-switch-checkbox"
@@ -81,6 +83,7 @@
                                                         <span class="custom-switch-indicator"></span>
                                                     </label>
                                                 @endif
+                                                
                                             </td>
 
                                             {{-- <td>
@@ -88,20 +91,22 @@
 
                                             <td>
                                                 <a class="btn btn-info py-2 mr-2"
-                                                href="{{ route('category.edit', $category->id) }}"><i class="fas fa-edit"></i>
+                                                    href="{{ route('category.edit', $category->id) }}"><i
+                                                        class="fas fa-edit"></i>
                                                 </a>
 
                                                 <a class="delete-item btn btn-danger py-2"
-                                                    href="{{ route('category.destroy', $category->id) }}"><i class="fas fa-trash"></i></a>
+                                                    href="{{ route('category.destroy', $category->id) }}"><i
+                                                        class="fas fa-trash"></i></a>
 
                                             </td>
 
                                         </tr>
                                     @endforeach
                                     @if ($categories->isEmpty())
-                                    <div class="alert alert-danger mt-5" role="alert">
-                                       No Data Found
-                                    </div>
+                                        <div class="alert alert-danger mt-5" role="alert">
+                                            No Data Found
+                                        </div>
                                     @endif
 
                                 </table>
@@ -121,33 +126,32 @@
 
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('body').on('click', '.change-status', function() {
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', '.change-status', function() {
 
-            let isChecked = $(this).is(':checked');
-            let id = $(this).data('id');
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
 
-            $.ajax({
-                url: "{{ route('category.status') }}",
-                method: 'PUT',
-                data: {
-                    status: isChecked,
-                    id: id
-                },
-                success: function(data) {
-                    toastr.success(data.message);
-                },
-                error: function(xhr, status, error) {
-                    let errorMessage = 'An error occurred';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        errorMessage = xhr.responseJSON.message;
+                $.ajax({
+                    url: "{{ route('category.status') }}",
+                    method: 'PUT',
+                    data: {
+                        status: isChecked,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        toastr.error(errorMessage);
                     }
-                    toastr.error(errorMessage);
-                }
+                });
             });
         });
-    });
-</script>
-
+    </script>
 @endpush

@@ -1,12 +1,11 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
-<style>
-    th{
-        white-space: nowrap;
-    }
-</style>
+    <style>
+        th {
+            white-space: nowrap;
+        }
+    </style>
     <section class="section">
         <div class="section-header">
             <h1>Book Details</h1>
@@ -104,7 +103,7 @@
                                                 <td>{{ $book->quantities->sum('current_qty') }}</td>
                                             </tr>
 
-                                         
+
                                         </tbody>
                                     </table>
                                 </div>

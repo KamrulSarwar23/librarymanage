@@ -42,55 +42,110 @@
                     <span>Go To Home Page</span>
                 </a></li>
 
-            <li class="dropdown {{ setActive(['admin.dashboard']) }}">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Dashboard</span></a>
+            @can('Dashboard')
+                <li class="dropdown {{ setActive(['admin.dashboard']) }}">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
+                            class="fa-solid fa-tags"></i><span>Dashboard</span></a>
 
-            </li>
+                </li>
+            @endcan
 
-            <li
-                class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit', 'active.category', 'pending.category']) }}">
-                <a href="{{ route('category.index') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Categories</span></a>
 
-            </li>
 
-            <li
-                class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit', 'active.author', 'pending.author']) }}">
-                <a href="{{ route('author.index') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Authors</span></a>
+            @can('Role Permission')
+                <li
+                    class="dropdown {{ setActive(['permissions', 'permissions.create', 'permissions.edit', 'roles', 'roles.create', 'roles.edit', 'users', 'users.create', 'users.edit']) }}">
+                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                            class="fa-solid fa-shield-halved"></i>
+                        <span>Role Permission</span></a>
 
-            </li>
+                    <ul class="dropdown-menu">
 
-            <li
-                class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit', 'active.publisher', 'pending.publisher']) }}">
-                <a href="{{ route('publisher.index') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Publishers</span></a>
+                        <li class="dropdown {{ setActive(['permissions', 'permissions.edit', 'permissions.create']) }}">
+                            <a href="{{ route('permissions') }}" class="nav-link"><i
+                                    class="fa-solid fa-tags"></i><span>Permission</span></a>
+                        </li>
 
-            </li>
 
-            <li
-                class="dropdown {{ setActive([
-                    'book.index',
-                    'book.create',
-                    'book.edit',
-                    'book.show',
-                    'admin.book-by-category',
-                    'admin.book-by-author',
-                    'admin.book-by-publisher',
-                    'books.filterByStatus',
-                    'books.filterByDate',
-                    'books.search-by-query',
-                    'active.book',
-                    'inactive.book',
-                    'books.filterByType',
-                    'quantity.index',
-                    'readers.index',
-                ]) }}">
-                <a href="{{ route('book.index') }}" class="nav-link"><i
-                        class="fa-solid fa-tags"></i><span>Books</span></a>
-            </li>
 
+
+                        <li class="dropdown {{ setActive(['roles', 'roles.create', 'roles.edit']) }}">
+                            <a href="{{ route('roles') }}" class="nav-link">
+                                <i class="fa-solid fa-tags"></i><span>Role</span>
+                            </a>
+                        </li>
+
+
+
+
+                        <li class="dropdown {{ setActive(['users', 'users.create', 'users.edit']) }}">
+                            <a href="{{ route('users') }}" class="nav-link">
+                                <i class="fa-solid fa-tags"></i><span>Assign Role</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            @endcan
+
+
+            @can('Category')
+                <li
+                    class="dropdown {{ setActive(['category.index', 'category.create', 'category.edit', 'active.category', 'pending.category']) }}">
+                    <a href="{{ route('category.index') }}" class="nav-link"><i
+                            class="fa-solid fa-tags"></i><span>Categories</span></a>
+
+                </li>
+            @endcan
+
+            @can('Author')
+                <li
+                    class="dropdown {{ setActive(['author.index', 'author.create', 'author.edit', 'active.author', 'pending.author']) }}">
+                    <a href="{{ route('author.index') }}" class="nav-link"><i
+                            class="fa-solid fa-tags"></i><span>Authors</span></a>
+
+                </li>
+            @endcan
+
+
+            @can('Publisher')
+                <li
+                    class="dropdown {{ setActive(['publisher.index', 'publisher.create', 'publisher.edit', 'active.publisher', 'pending.publisher']) }}">
+                    <a href="{{ route('publisher.index') }}" class="nav-link"><i
+                            class="fa-solid fa-tags"></i><span>Publishers</span></a>
+
+                </li>
+            @endcan
+
+
+            @can('Book')
+                <li
+                    class="dropdown {{ setActive([
+                        'book.index',
+                        'book.create',
+                        'book.edit',
+                        'book.show',
+                        'admin.book-by-category',
+                        'admin.book-by-author',
+                        'admin.book-by-publisher',
+                        'books.filterByStatus',
+                        'books.filterByDate',
+                        'books.search-by-query',
+                        'active.book',
+                        'inactive.book',
+                        'books.filterByType',
+                        'quantity.index',
+                        'readers.index',
+                    ]) }}">
+                    <a href="{{ route('book.index') }}" class="nav-link"><i
+                            class="fa-solid fa-tags"></i><span>Books</span></a>
+                </li>
+            @endcan
+
+
+            @can('Online Book Borrow')
+                
+          
             <li
                 class="dropdown {{ request()->routeIs('book.borrowinfo', 'book.borrow-search', 'online-borrow-book-details') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -133,7 +188,11 @@
                     </li>
                 </ul>
             </li>
+            @endcan
 
+            @can('Offline Book Borrow')
+                
+          
             <li
                 class="dropdown {{ setActive(['offline-book-borrow', 'offline-book-borrow-edit', 'offline-book-borrow-search', 'borrow-book-details']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -172,46 +231,66 @@
 
                 </ul>
             </li>
+            @endcan
 
 
-
+            @can('Report')
+                
+           
 
             <li class="dropdown {{ setActive(['report']) }}">
                 <a href="{{ route('report') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Report</span></a>
             </li>
 
+            @endcan
+
+            @can('Review')
+                
+          
             <li class="dropdown {{ setActive(['admin.book-review', 'active.review', 'pending.review']) }}">
                 <a href="{{ route('admin.book-review') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Reviews</span></a>
 
             </li>
+            @endcan
 
-
+            @can('Message')
+                
             <li class="dropdown {{ setActive(['message.index']) }}">
                 <a href="{{ route('message.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Messages</span></a>
 
             </li>
+            @endcan
 
-
+            @can('Policy')
             <li class="dropdown {{ setActive(['user-policy.create', 'user-policy.store']) }}">
                 <a href="{{ route('user-policy.create') }}" class="nav-link"><i class="fa-solid fa-tags"></i><span>
                         Policy</span></a>
 
             </li>
+            @endcan
 
+            
+            @can('User')
             <li class="dropdown {{ setActive(['user-manage.index', 'user-manage.create', 'user-manage.edit']) }}">
                 <a href="{{ route('user-manage.index') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Users</span></a>
 
             </li>
+            @endcan
 
+   
+
+            @can('Profile')
             <li class="dropdown {{ setActive(['admin.profile']) }}">
                 <a href="{{ route('admin.profile') }}" class="nav-link"><i
                         class="fa-solid fa-tags"></i><span>Profile</span></a>
 
             </li>
+            @endcan
+
 
 
         </ul>
