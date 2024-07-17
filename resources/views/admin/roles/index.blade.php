@@ -25,7 +25,9 @@
                         <div class="card-header">
                             <h4>Create Role</h4>
                             <div class="card-header-action">
+                                 {{-- @can('Create Role') --}}
                                 <a href="{{ route('roles.create') }}" class="btn btn-info">Create New</a>
+                                 {{-- @endcan --}}
                             </div>
                         </div>
                         <div class="card-body">
@@ -37,13 +39,13 @@
                                     <th>Permissons</th>
                                     <th>Created Date</th>
 
-                                    {{-- @can('Edit Role') --}}
+                                    @can('Edit Role')
                                         <th>Roles Edit</th>
-                                    {{-- @endcan --}}
+                                    @endcan
 
-                                    {{-- @can('Delete Role') --}}
+                                    @can('Delete Role')
                                         <th>Roles Delete</th>
-                                    {{-- @endcan --}}
+                                    @endcan
 
 
                                     @foreach ($roles as $role)
@@ -54,15 +56,15 @@
 
                                             <td><span>{{ \Carbon\Carbon::parse($role->created_at)->format('d M, Y') }}</span>
                                             </td>
-                                            {{-- @can('Edit Role') --}}
+                                            @can('Edit Role')
                                                 <td><a class="btn btn-info" href="{{ route('roles.edit', $role->id) }}">Edit</a>
                                                 </td>
-                                            {{-- @endcan --}}
+                                            @endcan
 
-                                            {{-- @can('Delete Role') --}}
+                                            @can('Delete Role')
                                                 <td><a class="btn btn-danger"
                                                         href="{{ route('roles.delete', $role->id) }}">Delete</a></td>
-                                            {{-- @endcan --}}
+                                            @endcan
                                         </tr>
                                     @endforeach
                                 </table>

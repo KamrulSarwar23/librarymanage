@@ -20,12 +20,45 @@ class PermissionController extends Controller
 
         $permissions = [
 
-            'Dashboard',
+            'View Dashboard',
+
             'Role Permission',
-            'Category',
-            'Author',
-            'Publisher',
-            'Book',
+
+            'View Permission',
+            'Create Permission',
+            'Edit Permission',
+            'Delete Permission',
+
+            "View Role",
+            'Create Role',
+            'Edit Role',
+            'Delete Role',
+
+            'View AssignRole',
+            'Create AssignRole',
+            'Edit AssignRole',
+            'Delete AssignRole',
+
+            'View Category',
+            'Create Category',
+            'Edit Category',
+            'Delete Category',
+
+            'View Author',
+            'Create Author',
+            'Edit Author',
+            'Delete Author',
+
+            'View Publisher',
+            'Create Publisher',
+            'Edit Publisher',
+            'Delete Publisher',
+
+            'View Book',
+            'Create Book',
+            'Edit Book',
+            'Delete Book',
+
             'Online Book Borrow',
             'Offline Book Borrow',
             'Report',
@@ -35,11 +68,14 @@ class PermissionController extends Controller
             'User',
             'Profile',
         ];
-        
+
 
         $groupby = [
             'Dashboard',
             'Role Permission',
+            'Permission',
+            'Role',
+            'AssignRole',
             'Category',
             'Author',
             'Publisher',
@@ -84,11 +120,44 @@ class PermissionController extends Controller
         $permissions = [
 
             'Dashboard',
+
             'Role Permission',
+
+            'Permission',
+            'Create Permission',
+            'Edit Permission',
+            'Delete Permission',
+
+            "Role",
+            'Create Role',
+            'Edit Role',
+            'Delete Role',
+
+            'AssignRole',
+            'Create AssignRole',
+            'Edit AssignRole',
+            'Delete AssignRole',
+
             'Category',
+            'Create Category',
+            'Edit Category',
+            'Delete Category',
+
             'Author',
+            'Create Author',
+            'Edit Author',
+            'Delete Author',
+
             'Publisher',
+            'Create Publisher',
+            'Edit Publisher',
+            'Delete Publisher',
+
             'Book',
+            'Create Book',
+            'Edit Book',
+            'Delete Book',
+
             'Online Book Borrow',
             'Offline Book Borrow',
             'Report',
@@ -97,8 +166,6 @@ class PermissionController extends Controller
             'Policy',
             'User',
             'Profile',
-            
-
         ];
 
         $groupby = [

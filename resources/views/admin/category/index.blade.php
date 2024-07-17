@@ -41,7 +41,10 @@
                         <div class="card-header">
                             <h4>Create Category</h4>
                             <div class="card-header-action">
+
                                 <a href="{{ route('category.create') }}" class="btn btn-info">Create New</a>
+
+
                             </div>
                         </div>
                         <div class="card-body">
@@ -52,8 +55,6 @@
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Status</th>
-
-                                    {{-- <th>Edit</th> --}}
                                     <th>Action</th>
 
 
@@ -83,11 +84,7 @@
                                                         <span class="custom-switch-indicator"></span>
                                                     </label>
                                                 @endif
-                                                
                                             </td>
-
-                                            {{-- <td>
-                                            </td> --}}
 
                                             <td>
                                                 <a class="btn btn-info py-2 mr-2"

@@ -5,11 +5,7 @@
         li {
             list-style: none;
         }
-
-        td,
-        th {
-            white-space: nowrap;
-        }
+  
     </style>
 
     <section class="section">
@@ -25,7 +21,11 @@
                         <div class="card-header">
                             <h4>Assign Role</h4>
                             <div class="card-header-action">
+
+                                @can('Create AssignRole')
                                 <a href="{{ route('users.create') }}" class="btn btn-info">Create New</a>
+                                @endcan
+                               
                             </div>
                         </div>
                         <div class="card-body">
@@ -35,34 +35,45 @@
                                 <table class="table table-striped">
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Role</th> 
+                                    <th>Permission</th> 
                                     <th>Created Date</th>
 
-                                    {{-- @can('Edit User') --}}
+                                    @can('Edit AssignRole')
                                         <th>Edit</th>
-                                    {{-- @endcan --}}
+                                    @endcan
 
-                                    {{-- @can('Delete User') --}}
+                                    @can('Delete AssignRole')
                                         <th>Delete</th>
-                                    {{-- @endcan --}}
+                                    @endcan
 
                                     @foreach ($users as $users)
                                         <tr>
                                             <td><span>{{ $users->name }}</span></td>
                                             <td><span>{{ $users->email }}</span></td>
+                                            <td>
+                                                <span>
+                                                    @php
+                                                        $permissions = $users->roles->flatMap(function ($role) {
+                                                            return $role->permissions;
+                                                        })->unique('name');
+                                                    @endphp
+                                                    {{ $permissions->pluck('name')->implode(', ') }}
+                                                </span>
+                                            </td>
                                             <td><span>{{ $users->roles->pluck('name')->implode(',') }}</span></td>
                                             <td><span>{{ \Carbon\Carbon::parse($users->created_at)->format('d M, Y') }}</span>
                                             </td>
 
-                                            {{-- @can('Edit User') --}}
+                                            {{-- @can('Edit AssignRole') --}}
                                                 <td><a class="btn btn-info" href="{{ route('users.edit', $users->id) }}">Edit
                                                         Role</a></td>
                                             {{-- @endcan --}}
 
-                                            {{-- @can('Delete User') --}}
+                                            @can('Delete AssignRole')
                                                 <td><a class="btn btn-danger"
                                                         href="{{ route('users.delete', $users->id) }}">Delete User</a></td>
-                                            {{-- @endcan --}}
+                                            @endcan
 
                                         </tr>
                                     @endforeach

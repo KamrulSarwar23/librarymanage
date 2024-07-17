@@ -27,7 +27,10 @@
                         <div class="card-header">
                             <h4>Create Permission</h4>
                             <div class="card-header-action">
+                                {{-- @can('Create Permission') --}}
                                 <a href="{{ route('permissions.create') }}" class="btn btn-info">Create New</a>
+                                {{-- @endcan --}}
+                               
                             </div>
                         </div>
                         <div class="card-body">
@@ -38,13 +41,13 @@
                                     <th>Permission Group</th>
                                     <th>Created Date</th>
                                     
-                                    {{-- @can('Edit Role') --}}
+                                    @can('Edit Permission')
                                     <th>Permission Edit</th>
-                                    {{-- @endcan --}}
+                                    @endcan
                     
-                                    {{-- @can('Delete Role') --}}
+                                    @can('Delete Permission')
                                     <th>Permission Delete</th>
-                                    {{-- @endcan --}}
+                                    @endcan
 
                     
                                    
