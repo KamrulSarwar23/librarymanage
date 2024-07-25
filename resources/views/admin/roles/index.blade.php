@@ -62,7 +62,7 @@
                                             @endcan
 
                                             @can('Delete Role')
-                                                <td><a class="btn btn-danger"
+                                                <td><a class="btn btn-danger delete-item"
                                                         href="{{ route('roles.delete', $role->id) }}">Delete</a></td>
                                             @endcan
                                         </tr>

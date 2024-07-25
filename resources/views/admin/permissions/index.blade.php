@@ -62,7 +62,7 @@
                                     {{-- @endcan --}}
                                    
                                     {{-- @can('Delete Permission') --}}
-                                    <td><a class="btn btn-danger" href="{{ route('permissions.delete', $permission->id) }}">Delete</a></td>
+                                    <td><a class="btn btn-danger delete-item" href="{{ route('permissions.delete', $permission->id) }}">Delete</a></td>
                                     {{-- @endcan --}}
                     
                             

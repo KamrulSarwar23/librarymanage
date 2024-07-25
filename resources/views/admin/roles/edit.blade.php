@@ -158,6 +158,12 @@
                     updateSelectAllCheckboxes();
                 });
             });
+
+            selectGroupCheckboxes.forEach(permissionCheckbox => {
+                permissionCheckbox.addEventListener('change', function() {
+                    updateSelectAllCheckboxes();
+                });
+            });
         });
     </script>
 @endsection

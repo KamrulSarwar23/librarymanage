@@ -54,13 +54,13 @@ Route::get('/books/by-publisher/{id}', [PageController::class, 'filterByPublishe
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Role & Permission
-    
+
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions')->middleware('permission:View Permission');
     Route::get('/permissions/create', [PermissionController::class, 'create'])->name('permissions.create')->middleware('permission:Create Permission');
     Route::post('/permissions/store', [PermissionController::class, 'store'])->name('permissions.store')->middleware('permission:Create Permission');
     Route::get('/permissions/edit/{id}', [PermissionController::class, 'edit'])->name('permissions.edit')->middleware('permission:Edit Permission');
     Route::put('/permissions/update/{id}', [PermissionController::class, 'update'])->name('permissions.update')->middleware('permission:Edit Permission');
-    Route::get('/permissions/delete/{id}', [PermissionController::class, 'destroy'])->name('permissions.delete')->middleware('permission:Delete Permission');
+    Route::delete('/permissions/delete/{id}', [PermissionController::class, 'destroy'])->name('permissions.delete')->middleware('permission:Delete Permission');
 
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles')->middleware('permission:View Role');
@@ -68,7 +68,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store')->middleware('permission:Create Role');
     Route::get('/roles/edit/{id}', [RoleController::class, 'edit'])->name('roles.edit')->middleware('permission:Edit Role');
     Route::put('/roles/update/{id}', [RoleController::class, 'update'])->name('roles.update')->middleware('permission:Edit Role');
-    Route::get('/roles/delete/{id}', [RoleController::class, 'destroy'])->name('roles.delete')->middleware('permission:Delete Role');
+    Route::delete('/roles/delete/{id}', [RoleController::class, 'destroy'])->name('roles.delete')->middleware('permission:Delete Role');
 
 
     Route::get('/users', [AssignRoleController::class, 'index'])->name('users')->middleware('permission:View AssignRole');
@@ -76,7 +76,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/users/store', [AssignRoleController::class, 'store'])->name('users.store')->middleware('permission:Create AssignRole');
     Route::get('/users/edit/{id}', [AssignRoleController::class, 'edit'])->name('users.edit')->middleware('permission:Edit AssignRole');
     Route::put('/users/update/{id}', [AssignRoleController::class, 'update'])->name('users.update')->middleware('permission:Edit AssignRole');
-    Route::get('/users/delete/{id}', [AssignRoleController::class, 'destroy'])->name('users.delete')->middleware('permission:Delete AssignRole');
+    Route::delete('/users/delete/{id}', [AssignRoleController::class, 'destroy'])->name('users.delete')->middleware('permission:Delete AssignRole');
 
 
     // Dashboard Routes
@@ -118,7 +118,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/books/by-author/{id}', [BookController::class, 'filterByAuthor'])->name('admin.book-by-author')->middleware('permission:View Book');
     Route::get('/books/by-publisher/{id}', [BookController::class, 'filterByPublisher'])->name('admin.book-by-publisher')->middleware('permission:View Book');
     Route::get('/books/by-publisher/{id}', [BookController::class, 'filterByPublisher'])->name('admin.book-by-publisher')->middleware('permission:View Book');
-    Route::resource('book', BookController::class)->middleware('permission:View Book'); 
+    Route::resource('book', BookController::class)->middleware('permission:View Book');
 
     // Review Routes
     Route::get('/book-reviews', [ReviewController::class, 'bookReview'])->name('admin.book-review')->middleware('permission:Review');
@@ -126,7 +126,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/book-reviews/delete/{id}', [ReviewController::class, 'destroy'])->name('book-reviews.delete')->middleware('permission:Review');
     Route::get('/active-review', [ReviewController::class, 'activeReview'])->name('active.review')->middleware('permission:Review');
     Route::get('/pending-review', [ReviewController::class, 'pendingReview'])->name('pending.review')->middleware('permission:Review');
-  
+
     // Book Borrow offline
     Route::get('/ajax-books', [OfflineBookBorrowController::class, 'getBooks'])->name('ajax.books')->middleware('permission:Offline Book Borrow');
     Route::get('/ajax-users', [OfflineBookBorrowController::class, 'getUsers'])->name('ajax.users')->middleware('permission:Offline Book Borrow');
@@ -137,7 +137,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('online/book/borrow/search', [OfflineBookBorrowController::class, 'offlineBorrowBookSearch'])->name('offline-book-borrow-search')->middleware('permission:Offline Book Borrow');
     Route::get('borrow-book-details/{id}', [OfflineBookBorrowController::class, 'borrowDetails'])->name('borrow-book-details')->middleware('permission:Offline Book Borrow');
     Route::put('/offline-book-borrow/update-info/{id}', [OfflineBookBorrowController::class, 'updateOfflineInfo'])->name('book-borrow.updateOfflineInfo')->middleware('permission:Offline Book Borrow');
-    
+
     // Book Borrow online
     Route::get('online-borrow-book-details/{id}', [BookBorrowController::class, 'onLineborrowDetails'])->name('online-borrow-book-details')->middleware('permission:Online Book Borrow');
     Route::get('/book-borrow', [BookBorrowController::class, 'index'])->name('book.borrowinfo')->middleware('permission:Online Book Borrow');

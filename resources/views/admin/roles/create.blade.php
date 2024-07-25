@@ -88,12 +88,38 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            
             const selectAllCheckbox = document.getElementById('select-all-permissions');
             const selectGroupCheckboxes = document.querySelectorAll('.select-group');
             const permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
 
-            // Select all permissions
+            // Function to update "Select All" checkboxes based on permission checkboxes state
+            function updateSelectAllCheckboxes() {
+                let allPermissionsChecked = true;
+                permissionCheckboxes.forEach(checkbox => {
+                    if (!checkbox.checked) {
+                        allPermissionsChecked = false;
+                    }
+                });
+                selectAllCheckbox.checked = allPermissionsChecked;
+           
+
+                selectGroupCheckboxes.forEach(groupCheckbox => {
+                    const group = groupCheckbox.id.replace('select-group-', '');
+                    let allGroupChecked = true;
+                    document.querySelectorAll(`.permission-checkbox[data-group="${group}"]`).forEach(
+                        checkbox => {
+                            if (!checkbox.checked) {
+                                allGroupChecked = false;
+                            }
+                        });
+                    groupCheckbox.checked = allGroupChecked;
+                });
+            }
+
+            // Initial update on page load
+            updateSelectAllCheckboxes();
+
+            // Event listener for "Select All Permissions" checkbox
             selectAllCheckbox.addEventListener('change', function() {
                 const isChecked = this.checked;
                 permissionCheckboxes.forEach(checkbox => {
@@ -104,7 +130,7 @@
                 });
             });
 
-            // Select group permissions
+            // Event listener for group checkboxes
             selectGroupCheckboxes.forEach(groupCheckbox => {
                 groupCheckbox.addEventListener('change', function() {
                     const group = this.id.replace('select-group-', '');
@@ -116,14 +142,17 @@
                 });
             });
 
-            // Deselect the "Select All" if any permission is unchecked
+            // Event listener for permission checkboxes
             permissionCheckboxes.forEach(permissionCheckbox => {
                 permissionCheckbox.addEventListener('change', function() {
-                    if (!this.checked) {
-                        selectAllCheckbox.checked = false;
-                        const group = this.dataset.group;
-                        document.getElementById(`select-group-${group}`).checked = false;
-                    }
+                    updateSelectAllCheckboxes();
+                });
+            });
+
+
+            selectGroupCheckboxes.forEach(permissionCheckbox => {
+                permissionCheckbox.addEventListener('change', function() {
+                    updateSelectAllCheckboxes();
                 });
             });
         });

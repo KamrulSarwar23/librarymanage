@@ -22,7 +22,102 @@ class PermissionController extends Controller
 
             'View Dashboard',
 
-            'Role Permission',
+            'View Permission',
+            'Create Permission',
+            'Edit Permission',
+            'Delete Permission',
+
+            "View Role",
+            'Create Role',
+            'Edit Role',
+            'Delete Role',
+
+            'View AssignRole',
+            'Create AssignRole',
+            'Edit AssignRole',
+            'Delete AssignRole',
+
+            'View Category',
+            'Create Category',
+            'Edit Category',
+            'Delete Category',
+
+            'View Author',
+            'Create Author',
+            'Edit Author',
+            'Delete Author',
+
+            'View Publisher',
+            'Create Publisher',
+            'Edit Publisher',
+            'Delete Publisher',
+
+            'View Book',
+            'Create Book',
+            'Edit Book',
+            'Delete Book',
+
+            'Online Book Borrow',
+            'Offline Book Borrow',
+            'Report',
+            'Review',
+            'Message',
+            'Policy',
+            'User',
+            'Profile',
+        ];
+
+
+        $groupby = [
+            'Dashboard',
+            'Permission',
+            'Role',
+            'AssignRole',
+            'Category',
+            'Author',
+            'Publisher',
+            'Book',
+            'Online Book Borrow',
+            'Offline Book Borrow',
+            'Report',
+            'Review',
+            'Message',
+            'Policy',
+            'User',
+            'Profile'
+        ];
+
+        return view('admin.permissions.create', compact('permissions', 'groupby'));
+    }
+
+    public function store(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:permissions,name|min:3',
+            'groupby' => 'required'
+        ]);
+
+
+        if ($validator->passes()) {
+            Permission::create([
+                'name' => $request->name,
+                'groupby' => $request->groupby
+            ]);
+
+            return redirect()->route('permissions')->with('success', 'Permission Create');
+        } else {
+            return redirect()->route('permissions.create')->withInput()->withErrors($validator);
+        }
+    }
+
+    public function edit(string $id)
+    {
+
+       
+        $permissions = [
+
+            'View Dashboard',
 
             'View Permission',
             'Create Permission',
@@ -72,105 +167,9 @@ class PermissionController extends Controller
 
         $groupby = [
             'Dashboard',
-            'Role Permission',
             'Permission',
             'Role',
             'AssignRole',
-            'Category',
-            'Author',
-            'Publisher',
-            'Book',
-            'Online Book Borrow',
-            'Offline Book Borrow',
-            'Report',
-            'Review',
-            'Message',
-            'Policy',
-            'User',
-            'Profile'
-        ];
-
-        return view('admin.permissions.create', compact('permissions', 'groupby'));
-    }
-
-    public function store(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:permissions,name|min:3',
-            'groupby' => 'required'
-        ]);
-
-
-        if ($validator->passes()) {
-            Permission::create([
-                'name' => $request->name,
-                'groupby' => $request->groupby
-            ]);
-
-            return redirect()->route('permissions')->with('success', 'Permission Create');
-        } else {
-            return redirect()->route('permissions.create')->withInput()->withErrors($validator);
-        }
-    }
-
-    public function edit(string $id)
-    {
-
-        $permissions = [
-
-            'Dashboard',
-
-            'Role Permission',
-
-            'Permission',
-            'Create Permission',
-            'Edit Permission',
-            'Delete Permission',
-
-            "Role",
-            'Create Role',
-            'Edit Role',
-            'Delete Role',
-
-            'AssignRole',
-            'Create AssignRole',
-            'Edit AssignRole',
-            'Delete AssignRole',
-
-            'Category',
-            'Create Category',
-            'Edit Category',
-            'Delete Category',
-
-            'Author',
-            'Create Author',
-            'Edit Author',
-            'Delete Author',
-
-            'Publisher',
-            'Create Publisher',
-            'Edit Publisher',
-            'Delete Publisher',
-
-            'Book',
-            'Create Book',
-            'Edit Book',
-            'Delete Book',
-
-            'Online Book Borrow',
-            'Offline Book Borrow',
-            'Report',
-            'Review',
-            'Message',
-            'Policy',
-            'User',
-            'Profile',
-        ];
-
-        $groupby = [
-            'Dashboard',
-            'Role Permission',
             'Category',
             'Author',
             'Publisher',
@@ -220,7 +219,13 @@ class PermissionController extends Controller
     public function destroy(string $id)
     {
         $permission = Permission::findOrFail($id);
+
+        if (count($permission->roles) > 0) {
+            return response()->json(['status' => 'error', 'message' => 'You Cant delete this! It has Roles']);
+
+        }
+
         $permission->delete();
-        return redirect()->route('permissions');
+        return response()->json(['status' => 'success', 'message' => 'Permission Deleted Successfully']);
     }
 }

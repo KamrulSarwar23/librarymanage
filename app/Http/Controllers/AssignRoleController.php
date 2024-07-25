@@ -100,6 +100,6 @@ class AssignRoleController extends Controller
     {
         $role = User::findOrFail($id);
         $role->delete();
-        return redirect()->route('users');
+        return response()->json(['status' => 'success', 'message' => 'Role Permission Deleted Successfully']);
     }
 }

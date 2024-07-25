@@ -35,8 +35,8 @@
                                 <table class="table table-striped">
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Permissions</th> 
                                     <th>Role</th> 
-                                    <th>Permission</th> 
                                     <th>Created Date</th>
 
                                     @can('Edit AssignRole')
@@ -71,7 +71,7 @@
                                             {{-- @endcan --}}
 
                                             @can('Delete AssignRole')
-                                                <td><a class="btn btn-danger"
+                                                <td><a class="btn btn-danger delete-item"
                                                         href="{{ route('users.delete', $users->id) }}">Delete User</a></td>
                                             @endcan
 
