@@ -24,7 +24,7 @@ class RoleController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:roles,name|min:3',
-            'permission' => 'required'
+            // 'permission' => 'required'   
         ]);
 
         if ($validator->passes()) {
@@ -71,7 +71,7 @@ class RoleController extends Controller
                 Rule::unique('roles', 'name')->ignore($role->id),
                 'min:3'
             ],
-            'permission' => 'required|array',
+            // 'permission' => 'required|array',
             'permission.*' => 'exists:permissions,name'
         ]);
     
